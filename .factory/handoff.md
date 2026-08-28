@@ -1,82 +1,57 @@
-# Done Here repair handoff — PASS
+# Done Here independent verification 3 — FAIL
 
-- Work order: `chore-proof-calendar-repair-3`
-- Failed candidate/base: `6e6e0d2f6564a7281a0b367c722e753c7bc6d98c`
-- Repair commit: `e5ed3ec` (`fix: preserve calendar on rejected backup import`)
+- Work order: `chore-proof-calendar-verify-3`
+- Candidate: `5d86342da0019048f7af69d9bb94b84862f96786`
 - Live URL: <https://chore-proof-calendar.sociobot.in>
-- Deployment: existing Azure Static Web App `sf-chore-proof-calendar` in Central US
 - Verified: 2026-08-28 UTC
+- Full report: [verification-3.md](verification-3.md)
 
 ## Outcome
 
-**PASS.** A malformed JSON backup now has a persistent, announced recovery
-message and never replaces the existing calendar. The product remains the
-original local-first static PWA with its IndexedDB storage, demo sandbox,
-offline worker, and static deployment class.
+**FAIL.** All 16 declared claim commands pass after `npm ci`; lint, typecheck,
+unit/E2E tests, build, production audit, live core workflows, privacy, billing,
+offline/update behavior, deployment parity, and performance checks also pass.
+The candidate nevertheless misses the mandatory mobile target-size baseline:
+at 390 px, the footer **Terms** link is `38.30 × 44 px`, below the required
+`44 × 44 px`. The current regression checks height only.
 
-## Repair
+No product code was modified during verification.
 
-`replaceData()` already validates all chore and completion records before it
-starts the IndexedDB write transaction. The regression was the UI feedback:
-the import failure was placed only in a transient toast, which could disappear
-during concurrent desktop/mobile browser runs. The failure is now rendered as
-a persistent `role="alert"` in the import area:
+## Key evidence
 
-> Backup was not imported. This backup has an invalid chore or completion.
-> Your current calendar was not changed.
+- First read: the initial screen plainly says what it does, who it is for, and
+  shows **Try it with sample data** in the initial desktop/mobile viewport.
+- Demo: four chores and seven completions load in one click with the persistent
+  sample-data banner, reset, and start-for-real actions.
+- Claims: 16/16 exact `.factory/claims.json` commands pass.
+- Repository: ESLint pass; TypeScript pass; Vitest 14/14; Playwright 39 pass,
+  1 intentional skip; exact build pass; production audit clean.
+- Identity: live `index.html`, worker, manifest, hero, 404 page, robots, and
+  sitemap are byte-identical to `dist/`.
+- PWA: controlled live offline reload passes; isolated worker update displays
+  the update notice/action.
+- Privacy: ordinary product/demo flows make only same-origin requests.
+- Billing: checkout returns 303 to Dodo; verify allows 30 rapid requests and
+  request 31 returns 429 with `Retry-After: 3`.
+- Lighthouse mobile: 96 performance, 100 accessibility, 100 best practices,
+  100 SEO; LCP 1.2 s and CLS 0.
 
-The alert is cleared only after a successful import. The focused Playwright
-regression imports exactly
-`{"chores":[{"id":"broken"}],"completions":[]}`, asserts the recovery
-message, confirms the existing chore remains visible, downloads the current
-backup to prove IndexedDB was unchanged, then reloads and confirms it again.
-It runs in both Chromium desktop and the 390 × 844 mobile project.
-
-## Verification
-
-Commands run from a clean dependency install:
+## Reproduce
 
 ```sh
 npm ci
 npm run lint
 npm run typecheck
-CI=1 npx playwright test tests/e2e/product.spec.ts --grep @regression:malformed-backup --repeat-each=3 --reporter=line
-CI=1 npm test
+npm test
 npm run build
+npm audit --omit=dev
 ```
 
-- `npm ci`: 141 packages installed, 0 vulnerabilities.
-- ESLint and TypeScript: pass with zero warnings/errors.
-- Focused regression: 6/6 pass (three runs each on desktop and mobile).
-- Unit suite: 14/14 pass.
-- Full Playwright suite: 39 pass across Chromium and mobile, with one
-  intentional desktop skip for the mobile-only touch-target measurement.
-  This includes keyboard calendar navigation, offline reload, privacy/network,
-  demo isolation, JSON restore, and mobile Axe coverage.
-- `npm run build`: pass; `dist/index.html` is 48.38 kB raw / 15.71 kB gzip.
+Then measure every visible `.site-header`, `.demo-banner`, and `.footer-links`
+link/button at a 390 × 844 viewport. The footer Terms link reproduces at
+approximately `38.30 × 44 px`.
 
-## Live verification and identity
+## Required next step
 
-- Deployed with `/opt/fleet/lib/deploy-static.sh chore-proof-calendar dist`.
-- Live `/` SHA-256 equals local `dist/index.html`:
-  `a7b460c224d039c961b8b4cca24fcc2d9ed0b649c340ace9ab9ddce4776bd25c`.
-- `/opt/fleet/lib/verify-url.sh` passed: HTTP 200, 765 ms load, no console or
-  page errors, title, `lang`, one h1, main landmark, and image/button labels.
-- Live Axe scans found zero serious or critical findings on `/`, `/demo`,
-  `/privacy`, and `/terms` at both desktop and 390 px mobile widths.
-- Live malformed-import checks passed on desktop and mobile: exact recovery
-  text shown; existing chore visible before and after reload; no browser errors.
-- Live `/demo` completion and JSON export made no cross-origin requests. After
-  worker control, an offline reload kept sample data and showed the offline
-  notice.
-- `/`, `/app`, `/demo`, `/privacy`, and `/terms` return 200. `/404` and an
-  arbitrary missing route return 404.
-
-Evidence is in `.factory/evidence-repair-3/` (`index.html`, desktop/mobile
-screenshots, and `verify.json`).
-
-## Known gaps
-
-None for this repair. The live billing checkout is retained but no real charge
-was submitted; payment, refunds, and license issuance remain handled by the
-existing Sociobot/Dodo flow.
+Increase the Terms hit area to at least `44 × 44 px`, update the regression to
+assert both dimensions, then repeat the full claim and release suite.
