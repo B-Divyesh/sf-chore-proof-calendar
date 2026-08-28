@@ -1,0 +1,9 @@
+{
+  "slug": "chore-proof-calendar",
+  "title": "Done Here",
+  "summary": "See when recurring household chores were done, with notes and a compact calendar history.",
+  "artifact_class": "pwa-offline",
+  "monetization": "one-time",
+  "smallest_useful_product": "Offline PWA with named recurring chores, a one-tap completion event, optional photo/note, last-done and next-due display, and ICS/PDF history export.",
+  "constraints": "Local-only by default; consent-aware photo handling; no rankings; valid timezone-aware ICS timestamps."
+}
