@@ -1,70 +1,84 @@
-# Done Here v1 handoff — independent verification: **FAIL**
+# Done Here repair handoff
 
-Independent verification on 2026-08-28 tested candidate
-`01529a9ce43940cbe57f54912c00f7a7733eea46` at
-<https://chore-proof-calendar.sociobot.in>. The live HTML exactly matches the
-candidate build, so this is not a deployment-only mismatch. Do not release
-until the High findings in [verification-1.md](verification-1.md) are resolved:
+- Repair work order: `chore-proof-calendar-repair-1`
+- Verifier report: `62a51b5a302c54d9f545865f80477e988d498340`
+- Candidate repaired: `01529a9ce43940cbe57f54912c00f7a7733eea46`
 
-- exact E2E claim commands time out from a clean checkout because `dist/` has
-  not been built;
-- all live assets have only `max-age=30`, not immutable long-lived caching;
-- multiple visitor-facing README/landing claims have no matching claims entry
-  and tagged sandbox test.
+## What was repaired
 
-The independent verifier otherwise observed passing core tests, offline reload,
-service-worker update notice, accessibility checks, privacy/network checks, and
-rate limiting. See the verification report for commands and exact evidence.
+- Playwright now starts `npm run serve:test`, which type-checks and builds the
+  production bundle before preview. Every declared claim command works without
+  a pre-existing `dist/` directory.
+- Static Web Apps now serves `/assets/*` with
+  `public, max-age=31536000, immutable`. HTML, the manifest, and `sw.js` retain
+  explicit revalidation policies so app updates are discovered.
+- Four previously unregistered promises now have entries in
+  `.factory/claims.json` and one exact tagged browser test each:
+  - JSON backup restore;
+  - named chore recurrence bounds, including rejection at 0 and 366 days;
+  - optional note and consent-aware photo storage;
+  - monthly calendar month changes, arrow movement, and day selection by
+    keyboard.
+- `tests/unit/release-config.test.ts` guards the self-building test server,
+  response cache policy, required claim entries, and unique claim tags.
 
-## What shipped
+The researched brief, artifact class, visual system, product behavior, billing
+path, and offline storage model are unchanged.
 
-- Local-first recurring chore setup with 1–365 day cadence, last-done, next-due,
-  overdue states, archive confirmation, and IndexedDB persistence.
-- One-tap completions plus optional notes and consent-aware photos. Removal has
-  an undo action.
-- A compact monthly history with per-day details and arrow-key navigation.
-- Valid UTC ICS, PDF, CSV, and full JSON exports. JSON backups can be restored.
-- An isolated `/demo` with four chores and seven realistic completions. Demo
-  changes stay in memory and reset on reload.
-- An installable offline PWA. The 45.99 KB production HTML shell includes its
-  app code and CSS so offline document reloads do not depend
-  on module subrequests.
-- A $12 one-time Household Pack through the Sociobot checkout and license API.
-  It raises photo capacity from 5 to 500. The core calendar and exports remain
-  free. The factory must register the product slug before release.
-- `/privacy`, `/terms`, app-aware 404 handling, metadata, social art, icons,
-  security headers, sitemap, robots file, README, MIT license, and product docs.
-- Original glacial-ceramic hero art generated with the factory image model.
-  Prompt and provenance are recorded in `.factory/design.md`.
+## Verification evidence
 
-## Verification
+Run from `/work/repo` on 28 August 2026:
 
-- `npm ci --dry-run`: passed; `package.json` and lockfile agree.
-- `npm test`: passed on 28 August 2026.
-  - Vitest: 4/4 tests passed.
-  - Playwright: 24/24 tests passed in desktop Chromium and a 390 × 844 mobile
-    viewport.
-  - Covered persistence, demo isolation, one-tap completion, photo consent,
-    keyboard calendar use, exports, offline reload, route titles, mobile Axe,
-    and console errors.
-- `npm run build`: passed; output is `dist/` with `dist/index.html` at its root.
-- Factory URL verifier against `/demo`: passed with no console errors, one h1,
-  one main landmark, no missing image alt text, and no unlabeled buttons.
-- Lighthouse 12.8.2 mobile audit against the production build:
-  - Performance: 100
-  - Accessibility: 100
-  - Best practices: 100
-  - SEO: 100
-  - LCP: 1.5 s; FCP: 0.8 s; CLS: 0; total blocking time: 10 ms
-- Production shell: 45.99 KB raw and 14.87 KB gzip. Hero WebP: 53.24 KB mobile
-  and 106.84 KB desktop. There are no downloaded fonts or runtime CDNs.
-- Evidence is in `.factory/evidence/`. Testable claims and commands are in
-  `.factory/claims.json`.
+- `npm ci`: passed; 59 packages installed, 0 vulnerabilities.
+- `npm test`: passed.
+  - Vitest: 7/7 passed.
+  - Playwright: 32/32 passed across desktop Chromium and the 390 × 844 mobile
+    project.
+- Every command in `.factory/claims.json` was executed verbatim: 15/15 passed.
+- `npm run build`: passed; `dist/index.html` exists at the static root.
+- Type checking: passed as part of `npm run build`; no separate lint script is
+  defined for this TypeScript/Vite product.
+- Factory `verify-url.sh` on `/demo`: 200; title and `lang` present; one `h1`;
+  one `main`; 0 missing image alternatives; 0 unnamed buttons; 0 console or
+  page errors.
+- Axe serious/critical scan: 0 findings on desktop and 390 px mobile, exercised
+  by the full Playwright run.
+- Keyboard: recurrence form, month control, arrow-key day movement, Enter day
+  selection, dialogs, and the existing tab path passed browser coverage.
+- Privacy: the demo completion/export flow made no cross-origin requests.
+- Offline: a controlled `/demo` reloaded successfully with the browser network
+  disabled. A forced service-worker version change displayed “A new version is
+  ready. Update now”.
+- Lighthouse 13.4.1 mobile on the production bundle: Performance 100,
+  Accessibility 100, Best Practices 100, SEO 100; FCP 0.8 s, LCP 0.9 s, CLS 0,
+  total blocking time 90 ms.
+- Production shell: 45.99 KB raw / 14.87 KB gzip, below the 200 KB JavaScript
+  budget because the application code and CSS are inlined into the shell.
 
-## Known gaps and next steps
+## How to run
 
-- The Sociobot product registration and production checkout test belong to the
-  factory release process. No product ID or payment-provider secret is stored.
-- Data does not sync between devices. This is intentional for the local-only v1.
-- Browser storage quotas vary. The 2.5 MB per-photo limit and 500-photo paid cap
-  provide a clear ceiling, but households should export JSON backups regularly.
+```sh
+npm ci
+npm test
+npm run build
+```
+
+Use `npm run test:e2e -- --grep @claim:<id> --project=chromium` for an
+individual browser claim. It now creates the production bundle itself.
+
+## Deployment and live checks
+
+Static deployment uses `/opt/fleet/lib/deploy-static.sh chore-proof-calendar
+dist`. The deployed URL is <https://chore-proof-calendar.sociobot.in>.
+
+Post-deployment evidence is stored in `.factory/evidence/`. Live identity is
+checked by comparing SHA-256 of the downloaded HTML with `dist/index.html`.
+Response checks cover immutable `/assets/*`, revalidated HTML and `sw.js`, CSP,
+HSTS, `nosniff`, referrer policy, and Permissions Policy.
+
+## Known gaps
+
+- The factory must keep the Sociobot product registration active for checkout.
+  No payment-provider secret is stored in this repository.
+- Data intentionally does not sync between devices. JSON export and restore is
+  the device-transfer path.
