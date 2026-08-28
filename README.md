@@ -14,7 +14,7 @@ Try the isolated demo: <https://chore-proof-calendar.sociobot.in/demo>
 ## Features
 
 - Named chores with a recurrence from 1 to 365 days
-- One-tap completion with immediate last-done and next-due dates
+- One-tap completion with immediate last-done and calendar-day due dates
 - Optional notes and consent-aware photos
 - Monthly completion calendar with keyboard navigation
 - ICS, PDF, CSV, and JSON export, plus JSON restore
@@ -27,7 +27,7 @@ The paid link uses the Sociobot billing API.
 
 ## Run locally
 
-Requires Node.js 20 or newer.
+Requires Node.js 20.19 or newer.
 
 ```sh
 npm install

@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const readJson = (path: string) => JSON.parse(readFileSync(path, 'utf8'));
@@ -21,12 +22,24 @@ describe('release configuration', () => {
     expect(routes.get('/*')?.['Cache-Control']).toContain('must-revalidate');
   });
 
-  it('registers each repaired promise with exactly one tagged test', () => {
+  it('serves known SPA routes explicitly and preserves real 404 responses', () => {
+    const config = readJson('public/staticwebapp.config.json');
+    expect(config.navigationFallback).toBeUndefined();
+    for (const path of ['/', '/app', '/demo', '/privacy', '/terms']) {
+      expect(config.routes).toContainEqual(expect.objectContaining({ route: path, rewrite: '/index.html' }));
+    }
+    expect(config.responseOverrides['404']).toEqual({ rewrite: '/not-found.html' });
+    expect(existsSync('public/not-found.html')).toBe(true);
+    expect(existsSync('public/404.html')).toBe(false);
+  });
+
+  it('registers every product promise with exactly one tagged test', () => {
     const claims = readJson('.factory/claims.json') as Array<{ id: string; test: string }>;
-    const e2e = readFileSync('tests/e2e/claims.spec.ts', 'utf8');
-    for (const id of ['json-restore', 'recurrence-bounds', 'completion-proof', 'keyboard-calendar']) {
-      expect(claims.find((claim) => claim.id === id)?.test).toContain(`@claim:${id}`);
-      expect(e2e.match(new RegExp(`@claim:${id}`, 'g'))).toHaveLength(1);
+    const tests = [readFileSync('tests/e2e/claims.spec.ts', 'utf8'), readFileSync('tests/unit/exports.test.ts', 'utf8')].join('\n');
+    expect(new Set(claims.map((claim) => claim.id)).size).toBe(claims.length);
+    for (const claim of claims) {
+      expect(claim.test).toContain(`@claim:${claim.id}`);
+      expect(tests.match(new RegExp(`@claim:${claim.id}`, 'g'))).toHaveLength(1);
     }
   });
 });

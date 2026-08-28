@@ -26,7 +26,11 @@ export function buildCsv(data: AppData): string {
   return ['chore,completed_at,note,has_photo', ...data.completions.map((item) => [q(byId.get(item.choreId)?.name ?? 'Unknown chore'), q(item.completedAt), q(item.note ?? ''), item.photo ? 'yes' : 'no'].join(','))].join('\n');
 }
 
-function pdfEscape(value: string) { return value.replace(/[^\x20-\x7E]/g, '?').replace(/([()\\])/g, '\\$1'); }
+export function pdfTextHex(value: string): string {
+  let hex = '';
+  for (let index = 0; index < value.length; index += 1) hex += value.charCodeAt(index).toString(16).padStart(4, '0');
+  return hex.toUpperCase();
+}
 
 export function buildPdf(data: AppData): ArrayBuffer {
   const byId = new Map(data.chores.map((chore) => [chore.id, chore]));
@@ -36,12 +40,16 @@ export function buildPdf(data: AppData): ArrayBuffer {
   for (let i = 0; i < all.length; i += 42) pages.push(all.slice(i, i + 42));
   const objects: string[] = [];
   const add = (value: string) => (objects.push(value), objects.length);
-  const font = add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+  // UniGB-UCS2-H preserves the user's Unicode text instead of replacing it
+  // with ASCII question marks. STSong-Light is one of PDF's predefined CJK
+  // fonts, so the history stays selectable without bundling a large web font.
+  const cidFont = add('<< /Type /Font /Subtype /CIDFontType0 /BaseFont /STSong-Light /CIDSystemInfo << /Registry (Adobe) /Ordering (GB1) /Supplement 4 >> /DW 1000 >>');
+  const font = add(`<< /Type /Font /Subtype /Type0 /BaseFont /STSong-Light /Encoding /UniGB-UCS2-H /DescendantFonts [${cidFont} 0 R] >>`);
   const pageIds: number[] = [];
   const contentIds: number[] = [];
   pages.forEach((page, index) => {
-    const commands = [`BT /F1 18 Tf 54 750 Td (${pdfEscape('Done Here — completion history')}) Tj`, `/F1 10 Tf 0 -28 Td (${pdfEscape(`Exported ${new Date().toISOString().slice(0, 10)} · page ${index + 1}`)}) Tj`];
-    page.forEach((row) => commands.push(`0 -16 Td (${pdfEscape(row.slice(0, 92))}) Tj`));
+    const commands = [`BT /F1 18 Tf 54 750 Td <${pdfTextHex('Done Here — completion history')}> Tj`, `/F1 10 Tf 0 -28 Td <${pdfTextHex(`Exported ${new Date().toISOString().slice(0, 10)} · page ${index + 1}`)}> Tj`];
+    page.forEach((row) => commands.push(`0 -16 Td <${pdfTextHex(row.slice(0, 92))}> Tj`));
     commands.push('ET');
     const stream = commands.join('\n');
     contentIds.push(add(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`));

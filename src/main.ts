@@ -3,6 +3,7 @@ import { buildCsv, buildIcs, buildPdf, download } from './exports';
 import { loadData, replaceData, saveData } from './storage';
 import { photoLimit } from './policy';
 import { SAMPLE_DATA, uid, type AppData, type Chore, type Completion } from './types';
+import { dueInfo } from './dates';
 
 const PRODUCT = 'chore-proof-calendar';
 const LICENSE_KEY = `sb_license:${PRODUCT}`;
@@ -15,7 +16,6 @@ let storageError = '';
 let selectedDate = new Date().toISOString().slice(0, 10);
 let calendarMonth = new Date(`${selectedDate}T12:00:00`);
 let lastRemoved: Completion | null = null;
-let installPrompt: Event | null = null;
 let updateReady = false;
 let licenseActive = false;
 
@@ -27,25 +27,6 @@ const activeData = () => isDemo ? demoData : data;
 function localDate(iso: string) {
   const date = new Date(iso);
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-}
-
-function addDays(iso: string, days: number) {
-  const date = new Date(iso);
-  date.setDate(date.getDate() + days);
-  return date;
-}
-
-function lastFor(choreId: string) {
-  return activeData().completions.filter((item) => item.choreId === choreId).sort((a, b) => b.completedAt.localeCompare(a.completedAt))[0];
-}
-
-function dueInfo(chore: Chore) {
-  const last = lastFor(chore.id);
-  const due = last ? addDays(last.completedAt, chore.intervalDays) : new Date(chore.createdAt);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const diff = Math.ceil((due.getTime() - today.getTime()) / 86_400_000);
-  return { last, due, diff, label: diff < 0 ? `${Math.abs(diff)} day${Math.abs(diff) === 1 ? '' : 's'} overdue` : diff === 0 ? 'Due today' : `Due in ${diff} day${diff === 1 ? '' : 's'}` };
 }
 
 async function persist() {
@@ -70,7 +51,7 @@ function shell(content: string, title: string, description: string) {
     ${!navigator.onLine ? '<div class="offline-strip" role="status">Offline. Your calendar still works here.</div>' : ''}
     <main id="main" tabindex="-1">${content}</main>
     <div id="route-status" class="sr-only" aria-live="polite">${esc(title)}</div>
-    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://param.social" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.0</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
+    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.1</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
     <div class="toast-region" aria-live="polite" aria-atomic="true"></div>`;
   document.querySelector('#reset-demo')?.addEventListener('click', () => { demoData = structuredClone(SAMPLE_DATA); toast('Sample data reset.'); render(); });
 }
@@ -113,7 +94,7 @@ function paidSection() {
 
 function appPage() {
   const d = activeData();
-  const sorted = [...d.chores].filter((c) => !c.archived).sort((a, b) => dueInfo(a).due.getTime() - dueInfo(b).due.getTime());
+  const sorted = [...d.chores].filter((c) => !c.archived).sort((a, b) => dueInfo(a, d.completions).due.getTime() - dueInfo(b, d.completions).due.getTime());
   shell(`
     <section class="app-head"><div><p class="eyebrow">Your household shelf</p><h1>Keep a record of every chore</h1><p>Mark work once. The history stays ready when memory gets fuzzy.</p></div><button class="button primary" id="add-chore">Add a chore</button></section>
     ${storageError ? `<div class="error-panel" role="alert"><strong>Your calendar could not open.</strong><p>${esc(storageError)}</p></div>` : ''}
@@ -131,7 +112,7 @@ function appPage() {
 }
 
 function choreCard(chore: Chore) {
-  const info = dueInfo(chore);
+  const info = dueInfo(chore, activeData().completions);
   const state = info.diff < 0 ? 'overdue' : info.diff === 0 ? 'today' : 'upcoming';
   return `<li class="chore-card"><div class="chore-main"><span class="due-stamp ${state}">${esc(info.label)}</span><h3>${esc(chore.name)}</h3><p>${info.last ? `Last done <time datetime="${esc(info.last.completedAt)}">${fmtDateTime(info.last.completedAt)}</time>` : 'No completion yet'}</p><p>Every ${chore.intervalDays} day${chore.intervalDays === 1 ? '' : 's'} · next ${fmtDate(info.due.toISOString())}</p></div><div class="chore-actions"><button class="round-action" data-done="${chore.id}"><span aria-hidden="true">✓</span>Mark done</button><button class="text-button" data-proof="${chore.id}">Add note or photo</button><button class="text-button danger" data-archive="${chore.id}">Archive</button></div></li>`;
 }
@@ -215,6 +196,11 @@ async function markDone(choreId: string) {
 }
 
 async function fileAsDataUrl(file: File): Promise<string> {
+  const header = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+  const isJpeg = file.type === 'image/jpeg' && header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff;
+  const isPng = file.type === 'image/png' && [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a].every((byte, index) => header[index] === byte);
+  const isWebp = file.type === 'image/webp' && String.fromCharCode(...header.slice(0, 4)) === 'RIFF' && String.fromCharCode(...header.slice(8, 12)) === 'WEBP';
+  if (!isJpeg && !isPng && !isWebp) throw new Error('This file is not a valid JPEG, PNG, or WebP photo. Choose a supported image.');
   if (file.size > 2_500_000) throw new Error('This photo is over 2.5 MB. Choose a smaller photo and try again.');
   return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result)); reader.onerror = () => reject(new Error('This photo could not be read. Choose another file.')); reader.readAsDataURL(file); });
 }
@@ -249,8 +235,8 @@ async function importJson(event: Event) {
   const input = event.currentTarget as HTMLInputElement;
   const file = input.files?.[0];
   if (!file) return;
-  try { const parsed = JSON.parse(await file.text()) as AppData; await replaceData(parsed); data = await loadData(); render(); toast('Backup imported.'); }
-  catch (cause) { toast(cause instanceof Error ? cause.message : 'This file could not be imported. Choose a Done Here JSON backup.'); }
+  try { const parsed: unknown = JSON.parse(await file.text()); await replaceData(parsed); data = await loadData(); render(); toast('Backup imported.'); }
+  catch (cause) { toast(cause instanceof Error ? cause.message : 'This file could not be imported. Choose a Done Here JSON backup.', undefined, undefined, 0); }
 }
 
 function bindPaid() {
@@ -283,11 +269,11 @@ async function initLicense() {
   if (token && (!cached || Date.now() - cached.checkedAt > 86_400_000) && !isDemo) void verifyLicense(token);
 }
 
-function toast(message: string, action?: string, callback?: () => void | Promise<void>) {
+function toast(message: string, action?: string, callback?: () => void | Promise<void>, duration = 7_000) {
   const region = document.querySelector('.toast-region'); if (!region) return;
   region.innerHTML = `<div class="toast"><span>${esc(message)}</span>${action ? `<button class="text-button">${esc(action)}</button>` : ''}</div>`;
   if (action && callback) region.querySelector('button')?.addEventListener('click', () => { void callback(); region.innerHTML = ''; });
-  setTimeout(() => { if (region.textContent?.includes(message)) region.innerHTML = ''; }, 7_000);
+  if (duration > 0) setTimeout(() => { if (region.textContent?.includes(message)) region.innerHTML = ''; }, duration);
 }
 
 function render(focus = false) {
@@ -311,8 +297,6 @@ function bindNavigation() {
 window.addEventListener('popstate', () => render(true));
 window.addEventListener('online', () => render());
 window.addEventListener('offline', () => render());
-window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); installPrompt = event; });
-
 async function boot() {
   if (new URLSearchParams(location.search).get('demo') === '1' && location.pathname === '/') history.replaceState({}, '', '/demo');
   isDemo = location.pathname === '/demo';

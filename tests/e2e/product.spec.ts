@@ -21,6 +21,55 @@ test('photo proof requires consent', async ({ page }) => {
   await expect(page.getByText('Confirm photo consent before saving this photo.')).toBeVisible();
 });
 
+test('photo proof rejects unsupported files and keeps the dialog open', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByRole('button', { name: 'Add note or photo' }).first().click();
+  await page.getByLabel('Photo optional').setInputFiles({ name: 'not-an-image.txt', mimeType: 'text/plain', buffer: Buffer.from('not an image') });
+  await page.getByLabel('Anyone shown in this photo agreed to store it here.').check();
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  await expect(page.getByText('This file is not a valid JPEG, PNG, or WebP photo. Choose a supported image.')).toBeVisible();
+  await expect(page.locator('#proof-dialog')).toHaveAttribute('open', '');
+
+  await page.getByLabel('Photo optional').setInputFiles({ name: 'fake.png', mimeType: 'image/png', buffer: Buffer.from('not an image') });
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  await expect(page.getByText('This file is not a valid JPEG, PNG, or WebP photo. Choose a supported image.')).toBeVisible();
+});
+
+test('malformed backups are rejected without changing persisted data', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Keep this chore');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+
+  await page.getByLabel('Import JSON').setInputFiles({
+    name: 'broken.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from('{"chores":[{"id":"broken"}],"completions":[]}')
+  });
+  await expect(page.getByText('This backup has an invalid chore or completion. Your current calendar was not changed.')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Keep this chore' })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Keep a record of every chore');
+  await expect(page.getByRole('heading', { name: 'Keep this chore' })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('mobile navigation, demo, and footer controls meet the 44px target', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'mobile measurement');
+  await page.goto('/demo');
+  const controls = page.locator('.site-header a, .demo-banner a, .demo-banner button, .footer-links a');
+  let measured = 0;
+  for (let index = 0; index < await controls.count(); index += 1) {
+    const box = await controls.nth(index).boundingBox();
+    if (!box) continue;
+    measured += 1;
+    expect(box.height, await controls.nth(index).textContent() ?? `control ${index}`).toBeGreaterThanOrEqual(44);
+  }
+  expect(measured).toBeGreaterThan(0);
+});
+
 test('calendar arrow keys move focus between days', async ({ page }) => {
   await page.goto('/demo');
   const selected = page.locator('.calendar-day.selected');

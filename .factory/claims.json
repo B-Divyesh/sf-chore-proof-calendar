@@ -70,6 +70,13 @@
     "sandbox": "fresh /demo; reject 0 and 366 days, then create named chores at both supported limits"
   },
   {
+    "id": "due-status",
+    "claim": "Each chore shows its latest completion and next due date",
+    "where": "landing preview, app chore card, and README",
+    "test": "npm run test:e2e -- --grep @claim:due-status --project=chromium",
+    "sandbox": "fresh /app at a fixed late-afternoon time; create a daily chore and assert matching relative and calendar dates before and after completion"
+  },
+  {
     "id": "completion-proof",
     "claim": "Adds optional notes and consent-aware photos to completions",
     "where": "landing how-it-works section, app proof form, and README",
@@ -95,7 +102,7 @@
     "claim": "The Household Pack costs $12 once through Sociobot",
     "where": "landing and app paid tier",
     "test": "npm run test:e2e -- --grep @claim:paid-photo-cap --project=chromium",
-    "sandbox": "fresh landing page; assert exact price, limit copy, and checkout URL"
+    "sandbox": "fresh landing page; assert exact price and follow the live Sociobot endpoint to a Dodo-hosted checkout"
   },
   {
     "id": "accessible-baseline",

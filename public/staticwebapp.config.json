@@ -13,12 +13,31 @@
       "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
     },
     {
+      "route": "/",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/app",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/demo",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/privacy",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/terms",
+      "rewrite": "/index.html"
+    },
+    {
       "route": "/*",
       "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
     }
   ],
-  "navigationFallback": { "rewrite": "/index.html", "exclude": ["/assets/*", "/*.xml", "/*.txt", "/*.webmanifest", "/sw.js"] },
-  "responseOverrides": { "404": { "rewrite": "/404.html" } },
+  "responseOverrides": { "404": { "rewrite": "/not-found.html" } },
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
     "X-Content-Type-Options": "nosniff",

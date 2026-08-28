@@ -1,5 +1,5 @@
-const VERSION = 'done-here-v2';
-const SHELL = ['/', '/app', '/demo', '/privacy', '/terms', '/404', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/assets/hero-ceramics-960.webp', '/assets/hero-ceramics-1440.webp', '/assets/done-here-og.jpg'];
+const VERSION = 'done-here-v3';
+const SHELL = ['/', '/app', '/demo', '/privacy', '/terms', '/index.html', '/not-found.html', '/manifest.webmanifest', '/favicon.svg', '/assets/hero-ceramics-960.webp', '/assets/hero-ceramics-1440.webp', '/assets/done-here-og.jpg'];
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(VERSION);

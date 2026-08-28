@@ -19,7 +19,7 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; background: var(--ice-50); font-size: 16px; line-height: 1.55; }
 body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .16; background-image: radial-gradient(#76908e 0.55px, transparent .6px); background-size: 7px 7px; z-index: -1; }
-a { color: var(--glaze-800); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a { min-height: 44px; display: inline-flex; align-items: center; color: var(--glaze-800); text-decoration-thickness: 1px; text-underline-offset: 4px; }
 button, input, textarea { font: inherit; }
 button, .button { min-height: 48px; }
 button { color: inherit; }
@@ -81,6 +81,7 @@ p { max-width: 68ch; }
 .danger { color: var(--brick-700); }
 .demo-banner, .offline-strip { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 8px 16px; background: var(--celadon-200); color: var(--glaze-800); font-size: 14px; }
 .demo-banner span { display: flex; gap: 18px; align-items: center; }
+.demo-banner a { padding-block: 8px; }
 .offline-strip { background: var(--ochre-600); color: white; }
 .app-head { width: min(1100px, calc(100% - 32px)); margin: 48px auto 56px; display: flex; justify-content: space-between; align-items: end; gap: 32px; }
 .app-head h1 { font-size: clamp(40px, 5vw, 64px); }
@@ -154,7 +155,7 @@ textarea { resize: vertical; }
 footer { width: min(1180px, calc(100% - 32px)); margin: 72px auto 0; padding: 40px 0 max(40px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1fr auto; gap: 20px; border-top: 1px solid var(--line); color: var(--slate-600); font-size: 13px; }
 .wordmark-small { font-family: Georgia, serif; color: var(--ink-900); font-weight: 800; font-size: 18px; }
 footer p { margin: 5px 0; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 18px; align-items: start; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: start; }
 .asset-note { grid-column: 1 / -1; }
 .toast-region { position: fixed; right: 20px; bottom: max(20px, env(safe-area-inset-bottom)); z-index: 50; }
 .toast { display: flex; align-items: center; gap: 20px; max-width: 380px; padding: 13px 18px; border-radius: 17px 6px 18px 8px; background: var(--ink-900); color: white; box-shadow: var(--shadow); }

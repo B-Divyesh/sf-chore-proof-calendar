@@ -26,7 +26,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v2');
+    const cache = await caches.open('done-here-v3');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -118,6 +118,22 @@ test('@claim:recurrence-bounds accepts named chores from 1 through 365 days', as
   await expect(annual).toContainText('Every 365 days');
 });
 
+test('@claim:due-status shows matching next dates and calendar-day labels', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-08-28T16:00:45.000Z') });
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Daily sink wipe');
+  await page.getByLabel('Due every').fill('1');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const card = page.locator('.chore-card').filter({ hasText: 'Daily sink wipe' });
+  await expect(card).toContainText('Due today');
+  await expect(card).toContainText('next Aug 28, 2026');
+
+  await card.getByRole('button', { name: 'Mark done' }).click();
+  await expect(card).toContainText('Due in 1 day');
+  await expect(card).toContainText('next Aug 29, 2026');
+});
+
 test('@claim:completion-proof saves an optional note and consented photo', async ({ page }) => {
   await page.goto('/demo');
   await page.getByRole('button', { name: 'Add note or photo' }).first().click();
@@ -150,11 +166,15 @@ test('@claim:keyboard-calendar changes months and selects days from the keyboard
   await expect(page.locator('#day-title')).toContainText('Sep 11, 2026');
 });
 
-test('@claim:paid-photo-cap states the price and uses the Sociobot checkout', async ({ page }) => {
+test('@claim:paid-photo-cap reaches a live Sociobot checkout for the stated price', async ({ page, request }) => {
   await page.goto('/');
   const buy = page.getByRole('link', { name: 'Buy Household Pack — $12' });
-  await expect(buy).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout');
+  const checkoutUrl = 'https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout';
+  await expect(buy).toHaveAttribute('href', checkoutUrl);
   await expect(page.getByText('Pay $12 once to store up to 500 photos.')).toBeVisible();
+  const response = await request.get(checkoutUrl, { maxRedirects: 0 });
+  expect(response.status()).toBe(303);
+  expect(response.headers().location).toMatch(/^https:\/\/checkout\.dodopayments\.com\//);
 });
 
 test('@claim:accessible-baseline has no serious Axe findings on mobile demo', async ({ page }) => {
