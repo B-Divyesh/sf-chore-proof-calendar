@@ -35,6 +35,9 @@ Run from `/work/repo` on 28 August 2026:
   - Playwright: 32/32 passed across desktop Chromium and the 390 × 844 mobile
     project.
 - Every command in `.factory/claims.json` was executed verbatim: 15/15 passed.
+- Fresh-clone regression: cloned the committed tree with no `dist/`, ran
+  `npm ci`, then ran the formerly failing `@claim:demo-sandbox` command; it
+  built its own bundle and passed in 6.2 seconds.
 - `npm run build`: passed; `dist/index.html` exists at the static root.
 - Type checking: passed as part of `npm run build`; no separate lint script is
   defined for this TypeScript/Vite product.
@@ -49,9 +52,9 @@ Run from `/work/repo` on 28 August 2026:
 - Offline: a controlled `/demo` reloaded successfully with the browser network
   disabled. A forced service-worker version change displayed “A new version is
   ready. Update now”.
-- Lighthouse 13.4.1 mobile on the production bundle: Performance 100,
-  Accessibility 100, Best Practices 100, SEO 100; FCP 0.8 s, LCP 0.9 s, CLS 0,
-  total blocking time 90 ms.
+- Lighthouse 13.4.1 mobile on the live production URL: Performance 100,
+  Accessibility 100, Best Practices 100, SEO 100; FCP 0.9 s, LCP 1.0 s, CLS 0,
+  total blocking time 20 ms.
 - Production shell: 45.99 KB raw / 14.87 KB gzip, below the 200 KB JavaScript
   budget because the application code and CSS are inlined into the shell.
 
@@ -71,14 +74,27 @@ individual browser claim. It now creates the production bundle itself.
 Static deployment uses `/opt/fleet/lib/deploy-static.sh chore-proof-calendar
 dist`. The deployed URL is <https://chore-proof-calendar.sociobot.in>.
 
-Post-deployment evidence is stored in `.factory/evidence/`. Live identity is
-checked by comparing SHA-256 of the downloaded HTML with `dist/index.html`.
-Response checks cover immutable `/assets/*`, revalidated HTML and `sw.js`, CSP,
-HSTS, `nosniff`, referrer policy, and Permissions Policy.
+Deployment `59f2fbb6-0be7-43f1-b066-af00351573c3` succeeded. The custom domain
+returned HTTPS 200. Post-deployment evidence is stored in `.factory/evidence/`.
+
+- Live `/`, `/demo`, and the manifest return
+  `public, max-age=0, must-revalidate`.
+- Live `sw.js` returns `no-cache, no-store, must-revalidate`.
+- Live `/assets/hero-ceramics-960.webp` returns
+  `public, max-age=31536000, immutable`.
+- CSP, HSTS, `nosniff`, strict-origin referrer policy, and Permissions Policy
+  are present on the checked responses.
+- Downloaded live HTML and `dist/index.html` are byte-identical. Both have
+  SHA-256 `ccb99bb8dc0e6d3be610ad4665c6dbacbc99ace5c5299093b8bfd8606fc891c9`.
+- A live desktop/390 px browser smoke passed Axe, keyboard month/day use,
+  same-origin-only network checks, and offline reload.
+- The license verifier returned 200 with an invalid verdict for a synthetic
+  token and did not expose data.
 
 ## Known gaps
 
-- The factory must keep the Sociobot product registration active for checkout.
-  No payment-provider secret is stored in this repository.
+- The live Sociobot checkout endpoint currently returns 404 because this slug
+  is not registered. Product registration is a factory billing action outside
+  this repository repair; no payment-provider secret is stored here.
 - Data intentionally does not sync between devices. JSON export and restore is
   the device-transfer path.
