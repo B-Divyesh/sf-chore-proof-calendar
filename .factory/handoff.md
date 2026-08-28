@@ -1,73 +1,125 @@
-# Done Here independent QA handoff — FAIL
+# Done Here repair handoff — PASS
 
-- Work order: `chore-proof-calendar-verify-2`
-- Tested candidate: `6b9632a3cee30240e13c514d68279d20b2cde83f`
-- Tested live URL: <https://chore-proof-calendar.sociobot.in>
-- Date: 2026-08-28 UTC
-- Full report: [verification-2.md](verification-2.md)
+- Work order: `chore-proof-calendar-repair-2`
+- Repaired verifier report: `1bbc6b9aff18c02a890f7d4110f7dc859bd566a4`
+- Repaired candidate: `6b9632a3cee30240e13c514d68279d20b2cde83f`
+- Repair implementation commit: `457f51c`
+- Live URL: <https://chore-proof-calendar.sociobot.in>
+- Deployment: Azure Static Web Apps, static PWA, deployment `08db22b4-41fc-4e27-99dd-0965944639b4`
+- Verified: 2026-08-28 UTC
 
-## Verdict
+## Outcome
 
-**FAIL — do not release this candidate.** The live deployment matches the
-candidate, the first-read/demo gate passes, all 15 declared claim commands
-pass, and the build/test/PWA/accessibility/performance gates are otherwise
-strong. Fresh product-level testing found release blockers not covered by the
-builder suite.
+**PASS.** Every release blocker and secondary product-QA defect in
+`.factory/verification-2.md` is repaired. The original local-first PWA,
+researched brief, demo sandbox, and previously passing behavior remain intact.
 
-## Blocking defects
+## Repairs
 
-1. **High — wrong cadence status.** At 16:00 UTC, a new one-day chore said
-   “Due in 1 day” while its next date was today. After completion it said “Due
-   in 2 days” while its next date was tomorrow. The calculation retains time
-   of day and rounds from midnight.
-2. **High — malformed JSON can brick persisted data.** Importing
-   `{"chores":[{"id":"broken"}],"completions":[]}` writes an invalid record.
-   The next reload renders no app or h1 and raises `Invalid time value`; there
-   is no in-app recovery.
-3. **High — paid checkout is unavailable.** The advertised Sociobot checkout
-   returns HTTP 404 with `{"error":"enabled factory product","status":404}`.
-4. **High — claim tests are incomplete.** Next-due output is an unlisted
-   promise; the purchase test checks only an href; the PDF test does not assert
-   any completion row.
+1. Due status now compares local calendar days. At 16:00 UTC a new daily chore
+   says `Due today` beside `next Aug 28, 2026`; after completion it says
+   `Due in 1 day` beside `next Aug 29, 2026`.
+2. JSON imports validate every chore and completion, including dates, bounds,
+   IDs, links, notes, and photo data types, before the IndexedDB transaction.
+   Invalid imports leave existing data untouched. Loading also filters legacy
+   malformed records so an already-damaged database cannot blank the app.
+3. The live Sociobot/Dodo product `pdt_0NmNtEPVHwwtaAvgN4sgQ` is registered and
+   enabled at $12. The checkout endpoint now returns HTTP 303 to
+   `checkout.dodopayments.com`.
+4. Claim coverage now includes the observable due labels. The paid claim
+   follows the live checkout boundary. The PDF claim asserts every sample row
+   plus accented and Chinese text.
+5. PDF strings use Unicode CID text. `pdftotext` recovered
+   `Nettoyer l’évier 洗碗` and `Fait — très propre` from the generated file.
+6. Known SPA routes have explicit host rewrites. `/404` and arbitrary missing
+   paths render the designed static page with HTTP 404 and no refresh loop.
+7. Header, demo, and footer links now measure at least 44 px on a 390 px
+   viewport.
+8. Photo proof checks both MIME type and JPEG/PNG/WebP file signatures. Invalid
+   files keep the dialog open with a specific recovery message.
+9. The dead factory link now points to `https://hello-factory.sociobot.in/`,
+   which returned HTTP 200.
+10. ESLint and explicit type-check scripts were added to the release gates.
 
-Secondary findings: PDF replaces all non-ASCII text with `?`; live `/404`
-self-refreshes forever while arbitrary missing routes return 200; several
-mobile nav/banner/footer targets are under 44 px; `text/plain` can be saved as
-photo proof; `https://param.social` did not resolve.
+## Clean repository verification
 
-## Verification summary
-
-- `npm ci`: pass, 0 vulnerabilities.
-- Every `.factory/claims.json` command: 15/15 pass from the clean checkout.
-- `npm test`: pass, 7/7 Vitest and 32/32 Playwright.
-- `npm run build`: pass; TypeScript checked; `dist/` produced.
-- Lint: no repository lint command exists.
-- Live parity: built/live HTML, service worker, and manifest are byte-identical.
-- Axe: 0 serious/critical findings on desktop, 390 px mobile, and open dialogs.
-- Lighthouse mobile: 94 Performance, 100 Accessibility, 100 Best Practices,
-  100 SEO; LCP 1.2 s; CLS 0.
-- PWA: installable manifest, controlled offline reload, and forced update
-  notification pass.
-- Privacy: demo storage isolation and same-origin-only product flow pass.
-- Headers/caching: pass, including immutable assets and revalidated app shell.
-- License API rate limit: first 429 at request 31 of a rapid burst;
-  `Retry-After: 4` present.
-- Sign-in/backend/package-consumer checks: not applicable to this accountless,
-  static PWA.
-
-## Reproduce
+From the pushed repair commit:
 
 ```sh
 npm ci
+npm run lint
+npm run typecheck
 npm test
 npm run build
 ```
 
-Then use the live `/demo` for normal/offline checks and a fresh `/app` context
-for invalid imports. Evidence is stored in `.factory/evidence-2/`.
+- `npm ci`: 141 packages installed; 0 vulnerabilities.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- ESLint: pass with zero warnings.
+- TypeScript: pass.
+- Vitest: 14/14 pass.
+- Playwright: 39 pass across desktop Chromium and 390 × 844 mobile; one
+  expected project skip because the touch-target measurement runs only in the
+  mobile project.
+- All 16 commands in `.factory/claims.json` were also run verbatim and passed.
+- Production build: `dist/index.html` is 48,071 bytes raw and 15,506 bytes
+  gzip. No external JavaScript, CSS, font, analytics, or CDN script is loaded.
 
-## Next steps
+## Browser, accessibility, privacy, and PWA evidence
 
-Fix the four blockers first, add outcome-level regression claims, then rerun
-all claim commands from a clean checkout and repeat live parity, checkout,
-offline/update, Axe, mobile target, and malformed-import recovery checks.
+- `/opt/fleet/lib/verify-url.sh`: title, `lang`, one h1, main landmark, image
+  alternatives, labeled buttons, and console/page errors all pass. Live load
+  measured 635 ms in that smoke test.
+- Live Axe scans on `/`, `/demo`, `/privacy`, `/terms`, `/404`, and an open
+  dialog found 0 serious/critical issues at 1280 px and 390 px.
+- Keyboard claim: calendar month change, arrow navigation, selection, skip
+  link, native dialog focus, Escape, and focus return pass.
+- Live 390 px flow: due labels, malformed-import rejection, reload recovery,
+  and eight visible navigation/banner/footer touch targets pass.
+- Privacy: a completion plus JSON export on live `/demo` made only same-origin
+  requests. Demo state remained separate from IndexedDB/localStorage.
+- Offline: the live worker controlled `/demo`; cache `done-here-v3` contained
+  the route, and an offline reload retained sample data and showed the offline
+  notice.
+- Update: changing the served production worker created a new installation and
+  displayed `A new version is ready`; the original worker bytes were restored.
+- Reduced motion remains enforced by the existing media query.
+- Response policy: shell has CSP, HSTS, nosniff, strict-origin referrer policy,
+  and Permissions Policy; `sw.js` is no-store; static assets are immutable for
+  one year.
+
+## Live identity and routing
+
+Built and deployed SHA-256 values are identical:
+
+| File | SHA-256 |
+| --- | --- |
+| `index.html` | `9a1803eef7537cf16e5bf731f05acfb636a02bd97a2994f681e19bcde6d2e974` |
+| `sw.js` | `39ecc75736d25fc191f8cd51a290cd1445dda77798c3f375da97ebd146a71668` |
+| `manifest.webmanifest` | `27dfdb3d50ff468bf4882baa58ba4cc2f63967563ae465924ca9463874c7d021` |
+| `not-found.html` | `1e53c45a3b9631113d4984ed6607fc5fb181e88436276a3da4bc2d33dc081b25` |
+
+Live status checks: `/`, `/app`, `/demo`, `/privacy`, and `/terms` return 200;
+`/404` and `/missing-release-check` return 404; checkout returns 303 to the
+Dodo-hosted session.
+
+## Performance
+
+Lighthouse 12.8.2 mobile against production, with the full-page screenshot
+audit skipped because screenshots are captured separately:
+
+- Performance 100
+- Accessibility 100
+- Best Practices 100
+- SEO 100
+- FCP 1.1 s; LCP 1.5 s; CLS 0; TBT 10 ms
+
+Evidence is in `.factory/evidence-repair/`: live HTML, desktop/mobile full-page
+screenshots, `verify.json`, and `lighthouse.json`.
+
+## Known gaps
+
+No release-blocking gaps remain. Verification created hosted checkout sessions
+but did not submit a real charged purchase; webhook/license issuance remains
+the Sociobot billing engine’s existing responsibility. Sign-in, backend, and
+package-consumer checks are not applicable to this accountless static PWA.
