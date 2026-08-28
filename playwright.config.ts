@@ -9,7 +9,7 @@ export default defineConfig({
     screenshot: 'only-on-failure'
   },
   webServer: {
-    command: 'npm run preview',
+    command: 'npm run serve:test',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: true
   },

@@ -61,6 +61,95 @@ test('@claim:json-export downloads the full sample backup', async ({ page }) => 
   expect(parsed.completions).toHaveLength(7);
 });
 
+test('@claim:json-restore restores every record from a sample backup', async ({ page }) => {
+  await page.goto('/demo');
+  const exported = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export JSON' }).click();
+  const stream = await (await exported).createReadStream();
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream!) chunks.push(Buffer.from(chunk));
+  const backup = Buffer.concat(chunks);
+
+  await page.getByRole('link', { name: 'Start for real' }).click();
+  await expect(page).toHaveURL(/\/app$/);
+  await page.getByLabel('Import JSON').setInputFiles({
+    name: 'done-here-sample.json',
+    mimeType: 'application/json',
+    buffer: backup
+  });
+  await expect(page.getByText('Backup imported.')).toBeVisible();
+  await expect(page.locator('.chore-card')).toHaveCount(4);
+
+  const restoredExport = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export JSON' }).click();
+  const restoredStream = await (await restoredExport).createReadStream();
+  let restoredBody = '';
+  for await (const chunk of restoredStream!) restoredBody += chunk.toString();
+  const restored = JSON.parse(restoredBody);
+  expect(restored.chores).toHaveLength(4);
+  expect(restored.completions).toHaveLength(7);
+});
+
+test('@claim:recurrence-bounds accepts named chores from 1 through 365 days', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Daily kitchen check');
+  const interval = page.getByLabel('Due every');
+
+  await interval.fill('0');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  expect(await interval.evaluate((input: HTMLInputElement) => input.validity.rangeUnderflow)).toBe(true);
+
+  await interval.fill('1');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const daily = page.locator('.chore-card').filter({ hasText: 'Daily kitchen check' });
+  await expect(daily).toContainText('Every 1 day');
+
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Annual cupboard check');
+  const annualInterval = page.getByLabel('Due every');
+  await annualInterval.fill('366');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  expect(await annualInterval.evaluate((input: HTMLInputElement) => input.validity.rangeOverflow)).toBe(true);
+
+  await annualInterval.fill('365');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const annual = page.locator('.chore-card').filter({ hasText: 'Annual cupboard check' });
+  await expect(annual).toContainText('Every 365 days');
+});
+
+test('@claim:completion-proof saves an optional note and consented photo', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByRole('button', { name: 'Add note or photo' }).first().click();
+  await page.getByLabel('Note optional').fill('Filter rinsed and left to dry.');
+  await page.getByLabel('Photo optional').setInputFiles({
+    name: 'filter.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64')
+  });
+  await page.getByLabel('Anyone shown in this photo agreed to store it here.').check();
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  const history = page.locator('.day-history');
+  await expect(history).toContainText('Filter rinsed and left to dry.');
+  await expect(history.getByRole('img', { name: 'Photo saved with this completion' })).toBeVisible();
+});
+
+test('@claim:keyboard-calendar changes months and selects days from the keyboard', async ({ page }) => {
+  await page.goto('/demo');
+  await expect(page.locator('.calendar-head strong')).toHaveText('August 2026');
+  await page.getByRole('button', { name: 'Next month' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.calendar-head strong')).toHaveText('September 2026');
+
+  const dayTen = page.locator('[data-date="2026-09-10"]');
+  await dayTen.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('[data-date="2026-09-11"]')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('[data-date="2026-09-11"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#day-title')).toContainText('Sep 11, 2026');
+});
+
 test('@claim:paid-photo-cap states the price and uses the Sociobot checkout', async ({ page }) => {
   await page.goto('/');
   const buy = page.getByRole('link', { name: 'Buy Household Pack — $12' });

@@ -56,6 +56,34 @@
     "sandbox": "fresh /demo; download and parse the sample backup"
   },
   {
+    "id": "json-restore",
+    "claim": "Restores a full JSON backup",
+    "where": "app export toolbar and README",
+    "test": "npm run test:e2e -- --grep @claim:json-restore --project=chromium",
+    "sandbox": "fresh /demo; export the bundled sample, start for real, import it, and assert all records are restored"
+  },
+  {
+    "id": "recurrence-bounds",
+    "claim": "Creates named chores with a recurrence from 1 to 365 days",
+    "where": "app chore form and README",
+    "test": "npm run test:e2e -- --grep @claim:recurrence-bounds --project=chromium",
+    "sandbox": "fresh /demo; reject 0 and 366 days, then create named chores at both supported limits"
+  },
+  {
+    "id": "completion-proof",
+    "claim": "Adds optional notes and consent-aware photos to completions",
+    "where": "landing how-it-works section, app proof form, and README",
+    "test": "npm run test:e2e -- --grep @claim:completion-proof --project=chromium",
+    "sandbox": "fresh /demo; add a note and photo with consent, then assert both appear in the dated history"
+  },
+  {
+    "id": "keyboard-calendar",
+    "claim": "Provides a monthly completion calendar with keyboard navigation",
+    "where": "app calendar and README",
+    "test": "npm run test:e2e -- --grep @claim:keyboard-calendar --project=chromium",
+    "sandbox": "fresh /demo; change month and move/select a day using only keyboard input"
+  },
+  {
     "id": "photo-tier",
     "claim": "The free photo limit is 5 and the paid limit is 500",
     "where": "landing and paid tier",
