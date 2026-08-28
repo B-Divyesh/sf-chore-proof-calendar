@@ -13,6 +13,7 @@ let data: AppData = { chores: [], completions: [] };
 let demoData: AppData = structuredClone(SAMPLE_DATA);
 let isDemo = false;
 let storageError = '';
+let importError = '';
 let selectedDate = new Date().toISOString().slice(0, 10);
 let calendarMonth = new Date(`${selectedDate}T12:00:00`);
 let lastRemoved: Completion | null = null;
@@ -103,7 +104,7 @@ function appPage() {
       ${sorted.length ? `<ul class="chore-list">${sorted.map(choreCard).join('')}</ul>` : `<div class="empty-state"><span class="empty-seal" aria-hidden="true">○</span><h3>No chores yet</h3><p>Your recurring chores will appear here with last-done and next-due dates.</p><button class="button primary" id="empty-add">Add your first chore</button></div>`}
     </section>
     ${calendarSection()}
-    <section class="export-section" aria-labelledby="export-title"><div><p class="eyebrow">Take your record</p><h2 id="export-title">Export your history</h2><p>Calendar, document, spreadsheet, and full backup formats are included.</p></div><div class="export-actions"><button class="button secondary" data-export="ics">Export ICS</button><button class="button secondary" data-export="pdf">Export PDF</button><button class="button secondary" data-export="csv">Export CSV</button><button class="button secondary" data-export="json">Export JSON</button><label class="button ghost" for="import-json">Import JSON</label><input class="sr-only" id="import-json" type="file" accept="application/json"></div></section>
+    <section class="export-section" aria-labelledby="export-title"><div><p class="eyebrow">Take your record</p><h2 id="export-title">Export your history</h2><p>Calendar, document, spreadsheet, and full backup formats are included.</p></div><div class="export-actions">${importError ? `<div class="import-error" role="alert"><strong>Backup was not imported.</strong><p>${esc(importError)}</p></div>` : ''}<button class="button secondary" data-export="ics">Export ICS</button><button class="button secondary" data-export="pdf">Export PDF</button><button class="button secondary" data-export="csv">Export CSV</button><button class="button secondary" data-export="json">Export JSON</button><label class="button ghost" for="import-json">Import JSON</label><input class="sr-only" id="import-json" type="file" accept="application/json"></div></section>
     ${paidSection()}
     <dialog id="chore-dialog"><form method="dialog" id="chore-form"><div class="dialog-head"><div><p class="eyebrow">Recurring chore</p><h2>Add a chore</h2></div><button class="icon-button" value="cancel" aria-label="Close dialog">×</button></div><label for="chore-name">Chore name</label><input id="chore-name" name="name" maxlength="80" required><label for="chore-days">Due every</label><div class="number-field"><input id="chore-days" name="days" type="number" min="1" max="365" value="7" required><span>days</span></div><p class="form-error" id="chore-error" role="alert"></p><div class="dialog-actions"><button class="button ghost" value="cancel">Cancel</button><button class="button primary" value="default" id="save-chore">Save chore</button></div></form></dialog>
     <dialog id="proof-dialog"><form method="dialog" id="proof-form"><div class="dialog-head"><div><p class="eyebrow">Completion proof</p><h2>Add a note or photo</h2></div><button class="icon-button" value="cancel" aria-label="Close dialog">×</button></div><input type="hidden" name="choreId" id="proof-chore"><label for="proof-note">Note <span>optional</span></label><textarea id="proof-note" name="note" maxlength="300" rows="3"></textarea><label for="proof-photo">Photo <span>optional</span></label><input id="proof-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp"><p class="form-help">Photos stay in this browser and appear in exported JSON.</p><label class="check-row"><input id="photo-consent" type="checkbox"><span>Anyone shown in this photo agreed to store it here.</span></label><p class="form-error" id="proof-error" role="alert"></p><div class="dialog-actions"><button class="button ghost" value="cancel">Cancel</button><button class="button primary" value="default" id="save-proof">Mark done with proof</button></div></form></dialog>
@@ -235,8 +236,20 @@ async function importJson(event: Event) {
   const input = event.currentTarget as HTMLInputElement;
   const file = input.files?.[0];
   if (!file) return;
-  try { const parsed: unknown = JSON.parse(await file.text()); await replaceData(parsed); data = await loadData(); render(); toast('Backup imported.'); }
-  catch (cause) { toast(cause instanceof Error ? cause.message : 'This file could not be imported. Choose a Done Here JSON backup.', undefined, undefined, 0); }
+  try {
+    const parsed: unknown = JSON.parse(await file.text());
+    // replaceData validates every record before it opens a write transaction.
+    await replaceData(parsed);
+    data = await loadData();
+    importError = '';
+    render();
+    toast('Backup imported.');
+  } catch (cause) {
+    importError = cause instanceof Error ? cause.message : 'This file could not be imported. Choose a Done Here JSON backup.';
+    // Keep the recovery message in the document instead of a short-lived toast.
+    // A rejected backup must leave both the in-memory and IndexedDB calendars alone.
+    render();
+  }
 }
 
 function bindPaid() {

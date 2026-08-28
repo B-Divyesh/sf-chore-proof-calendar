@@ -128,6 +128,9 @@ p { max-width: 68ch; }
 .empty-day span { font-size: 30px; }
 .export-section { padding-top: 48px; border-top: 1px solid var(--line); }
 .export-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.import-error { width: 100%; padding: 14px 16px; border-left: 5px solid var(--brick-700); background: #fff3f0; color: var(--ink-900); }
+.import-error p { margin: 4px 0 0; }
+.import-error strong { color: var(--brick-700); }
 .error-panel, .update-panel { width: min(1100px, calc(100% - 32px)); margin: 0 auto 24px; padding: 16px 20px; border-left: 5px solid var(--brick-700); background: #fff3f0; }
 .update-panel { border-color: var(--glaze-600); background: var(--celadon-200); }
 dialog { width: min(520px, calc(100% - 32px)); padding: 0; border: 1px solid var(--line); border-radius: 32px 12px 36px 16px; background: var(--clay-0); box-shadow: 0 30px 100px rgba(23,43,45,.3); }

@@ -35,7 +35,7 @@ test('photo proof rejects unsupported files and keeps the dialog open', async ({
   await expect(page.getByText('This file is not a valid JPEG, PNG, or WebP photo. Choose a supported image.')).toBeVisible();
 });
 
-test('malformed backups are rejected without changing persisted data', async ({ page }) => {
+test('@regression:malformed-backup rejects every record before preserving the current calendar', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/app');
@@ -48,8 +48,17 @@ test('malformed backups are rejected without changing persisted data', async ({ 
     mimeType: 'application/json',
     buffer: Buffer.from('{"chores":[{"id":"broken"}],"completions":[]}')
   });
-  await expect(page.getByText('This backup has an invalid chore or completion. Your current calendar was not changed.')).toBeVisible();
+  const recovery = page.getByRole('alert').filter({ hasText: 'Backup was not imported.' });
+  await expect(recovery).toContainText('This backup has an invalid chore or completion. Your current calendar was not changed.');
   await expect(page.getByRole('heading', { name: 'Keep this chore' })).toBeVisible();
+
+  const rejectedExport = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export JSON' }).click();
+  const rejectedStream = await (await rejectedExport).createReadStream();
+  let rejectedBody = '';
+  for await (const chunk of rejectedStream!) rejectedBody += chunk.toString();
+  expect(JSON.parse(rejectedBody)).toMatchObject({ chores: [expect.objectContaining({ name: 'Keep this chore' })], completions: [] });
+
   await page.reload();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Keep a record of every chore');
   await expect(page.getByRole('heading', { name: 'Keep this chore' })).toBeVisible();
