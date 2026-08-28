@@ -1,0 +1,79 @@
+[
+  {
+    "id": "demo-sandbox",
+    "claim": "Demo — sample data, nothing is saved",
+    "where": "demo banner",
+    "test": "npm run test:e2e -- --grep @claim:demo-sandbox --project=chromium",
+    "sandbox": "fresh browser context at /demo; mutate, reload, and inspect storage"
+  },
+  {
+    "id": "one-tap-completion",
+    "claim": "Save the completion time in one tap",
+    "where": "landing how-it-works section and app",
+    "test": "npm run test:e2e -- --grep @claim:one-tap-completion --project=chromium",
+    "sandbox": "fresh /demo sample; click Mark done once and assert dated history"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Works after the first visit without internet",
+    "where": "landing facts and README",
+    "test": "npm run test:e2e -- --grep @claim:offline-reload --project=chromium",
+    "sandbox": "fresh /demo; wait for service worker, set context offline, reload"
+  },
+  {
+    "id": "local-data",
+    "claim": "Chore records stay in this browser",
+    "where": "landing facts, privacy, and README",
+    "test": "npm run test:e2e -- --grep @claim:local-data --project=chromium",
+    "sandbox": "fresh /demo; intercept a completion and JSON export; assert only same-origin requests"
+  },
+  {
+    "id": "ics-export",
+    "claim": "Exports completion history as timezone-aware ICS",
+    "where": "app export toolbar and README",
+    "test": "npm run test:unit -- --testNamePattern=@claim:ics-export",
+    "sandbox": "bundled sample data; parse event count and UTC timestamps"
+  },
+  {
+    "id": "pdf-export",
+    "claim": "Exports completion history as PDF",
+    "where": "app export toolbar and README",
+    "test": "npm run test:unit -- --testNamePattern=@claim:pdf-export",
+    "sandbox": "bundled sample data; assert PDF header, content, and terminator"
+  },
+  {
+    "id": "csv-export",
+    "claim": "Exports completion history as CSV",
+    "where": "app export toolbar and README",
+    "test": "npm run test:unit -- --testNamePattern=@claim:csv-export",
+    "sandbox": "bundled sample data; assert header and one row per completion"
+  },
+  {
+    "id": "json-export",
+    "claim": "Exports a full JSON backup",
+    "where": "app export toolbar and README",
+    "test": "npm run test:e2e -- --grep @claim:json-export --project=chromium",
+    "sandbox": "fresh /demo; download and parse the sample backup"
+  },
+  {
+    "id": "photo-tier",
+    "claim": "The free photo limit is 5 and the paid limit is 500",
+    "where": "landing and paid tier",
+    "test": "npm run test:unit -- --testNamePattern=@claim:photo-tier",
+    "sandbox": "unit policy check for both license states"
+  },
+  {
+    "id": "paid-photo-cap",
+    "claim": "The Household Pack costs $12 once through Sociobot",
+    "where": "landing and app paid tier",
+    "test": "npm run test:e2e -- --grep @claim:paid-photo-cap --project=chromium",
+    "sandbox": "fresh landing page; assert exact price, limit copy, and checkout URL"
+  },
+  {
+    "id": "accessible-baseline",
+    "claim": "The app supports its accessible page structure and controls",
+    "where": "quality documentation",
+    "test": "npm run test:e2e -- --grep @claim:accessible-baseline --project=mobile",
+    "sandbox": "fresh mobile /demo; Axe serious/critical scan plus one h1 and main"
+  }
+]

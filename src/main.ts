@@ -1,6 +1,7 @@
 import './styles.css';
 import { buildCsv, buildIcs, buildPdf, download } from './exports';
 import { loadData, replaceData, saveData } from './storage';
+import { photoLimit } from './policy';
 import { SAMPLE_DATA, uid, type AppData, type Chore, type Completion } from './types';
 
 const PRODUCT = 'chore-proof-calendar';
@@ -90,7 +91,7 @@ function homePage() {
         <ul class="plain-facts">
           <li>Works after the first visit without internet.</li>
           <li>Chore records stay in this browser.</li>
-          <li>$12 once for unlimited photos. The core calendar is free.</li>
+          <li>$12 once raises photo storage from 5 to 500. The calendar is free.</li>
         </ul>
       </div>
       <figure class="hero-art"><picture><source media="(max-width: 700px)" srcset="/assets/hero-ceramics-960.webp"><img src="/assets/hero-ceramics-1440.webp" width="1440" height="960" fetchpriority="high" alt="Five handmade ceramic tiles form a weekly record with one teal completion mark."></picture><figcaption>Each completion leaves a dated mark you can return to.</figcaption></figure>
@@ -107,7 +108,7 @@ function homePage() {
 }
 
 function paidSection() {
-  return `<section class="paid" aria-labelledby="paid-title"><div><p class="eyebrow">Household Pack</p><h2 id="paid-title">Keep unlimited photo proof</h2><p>Pay $12 once. Keep more than five completion photos and use future photo layouts. Chores, notes, and every export stay free.</p></div><div class="paid-actions">${licenseActive ? '<span class="license-good">Household Pack active</span>' : `<a class="button secondary" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy Household Pack — $12</a>`}<button class="text-button" id="show-license">Have a license? Paste it</button><form id="license-form" class="license-form" hidden><label for="license">License</label><div><input id="license" name="license" autocomplete="off" required><button class="button small" type="submit">Verify license</button></div><p class="form-help">Verification sends only this token to Sociobot.</p></form><p id="license-status" role="status"></p></div></section>`;
+  return `<section class="paid" aria-labelledby="paid-title"><div><p class="eyebrow">Household Pack</p><h2 id="paid-title">Keep up to 500 photo proofs</h2><p>Pay $12 once to store up to 500 photos. Chores, notes, and every export stay free.</p></div><div class="paid-actions">${licenseActive ? '<span class="license-good">Household Pack active</span>' : `<a class="button secondary" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy Household Pack — $12</a>`}<button class="text-button" id="show-license">Have a license? Paste it</button><form id="license-form" class="license-form" hidden><label for="license">License</label><div><input id="license" name="license" autocomplete="off" required><button class="button small" type="submit">Verify license</button></div><p class="form-help">Verification sends only this token to Sociobot.</p></form><p id="license-status" role="status"></p></div></section>`;
 }
 
 function appPage() {
@@ -151,7 +152,7 @@ function calendarSection() {
   }
   const selected = activeData().completions.filter((item) => localDate(item.completedAt) === selectedDate).sort((a, b) => b.completedAt.localeCompare(a.completedAt));
   const names = new Map(activeData().chores.map((chore) => [chore.id, chore.name]));
-  return `<section class="calendar-section" aria-labelledby="calendar-title"><div class="calendar-panel"><div class="calendar-head"><div><p class="eyebrow">Pressed in time</p><h2 id="calendar-title">Completion calendar</h2></div><div><button class="icon-button" id="prev-month" aria-label="Previous month">←</button><strong>${calendarMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</strong><button class="icon-button" id="next-month" aria-label="Next month">→</button></div></div><div class="weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" role="grid" aria-label="Completion calendar">${cells.join('')}</div><p class="calendar-help">Use arrow keys to move between days.</p></div><aside class="day-history" aria-labelledby="day-title"><p class="eyebrow">Selected day</p><h3 id="day-title">${fmtDate(`${selectedDate}T12:00:00`)}</h3>${selected.length ? `<ol>${selected.map((item) => `<li><span class="mini-stamp" aria-hidden="true">✓</span><div><strong>${esc(names.get(item.choreId) ?? 'Archived chore')}</strong><time datetime="${esc(item.completedAt)}">${new Date(item.completedAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</time>${item.note ? `<p>${esc(item.note)}</p>` : ''}${item.photo ? `<img src="${esc(item.photo)}" alt="Photo saved with this completion" loading="lazy">` : ''}<button class="text-button danger" data-remove="${item.id}">Remove completion</button></div></li>`).join('')}</ol>` : '<div class="empty-day"><span aria-hidden="true">○</span><p>No completions on this day. Mark a chore done to place it here.</p></div>'}</aside></section>`;
+  return `<section class="calendar-section" aria-labelledby="calendar-title"><div class="calendar-panel"><div class="calendar-head"><div><p class="eyebrow">Pressed in time</p><h2 id="calendar-title">Completion calendar</h2></div><div><button class="icon-button" id="prev-month" aria-label="Previous month">←</button><strong>${calendarMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</strong><button class="icon-button" id="next-month" aria-label="Next month">→</button></div></div><div class="weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" aria-label="Completion calendar">${cells.join('')}</div><p class="calendar-help">Use arrow keys to move between days.</p></div><aside class="day-history" aria-labelledby="day-title"><p class="eyebrow">Selected day</p><h3 id="day-title">${fmtDate(`${selectedDate}T12:00:00`)}</h3>${selected.length ? `<ol>${selected.map((item) => `<li><span class="mini-stamp" aria-hidden="true">✓</span><div><strong>${esc(names.get(item.choreId) ?? 'Archived chore')}</strong><time datetime="${esc(item.completedAt)}">${new Date(item.completedAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</time>${item.note ? `<p>${esc(item.note)}</p>` : ''}${item.photo ? `<img src="${esc(item.photo)}" alt="Photo saved with this completion" loading="lazy">` : ''}<button class="text-button danger" data-remove="${item.id}">Remove completion</button></div></li>`).join('')}</ol>` : '<div class="empty-day"><span aria-hidden="true">○</span><p>No completions on this day. Mark a chore done to place it here.</p></div>'}</aside></section>`;
 }
 
 function legalPage(kind: 'privacy' | 'terms') {
@@ -226,7 +227,7 @@ async function saveProof(event: Event) {
   const error = document.querySelector('#proof-error')!;
   if (file && !consent.checked) { error.textContent = 'Confirm photo consent before saving this photo.'; return; }
   const photoCount = activeData().completions.filter((item) => item.photo).length;
-  if (file && photoCount >= 5 && !licenseActive && !isDemo) { error.textContent = 'The free photo limit is five. Buy or restore the Household Pack to add more.'; return; }
+  if (file && photoCount >= photoLimit(licenseActive) && !isDemo) { error.textContent = licenseActive ? 'The 500-photo limit is full. Export a backup, then remove older photos.' : 'The free photo limit is five. Buy or restore the Household Pack to add more.'; return; }
   try {
     const formData = new FormData(form);
     const item: Completion = { id: uid(), choreId: String(formData.get('choreId')), completedAt: new Date().toISOString(), note: String(formData.get('note') ?? '').trim(), photo: file ? await fileAsDataUrl(file) : undefined };
@@ -315,6 +316,10 @@ window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault
 async function boot() {
   if (new URLSearchParams(location.search).get('demo') === '1' && location.pathname === '/') history.replaceState({}, '', '/demo');
   isDemo = location.pathname === '/demo';
+  if (isDemo) {
+    selectedDate = demoData.completions.map((item) => localDate(item.completedAt)).sort().at(-1) ?? selectedDate;
+    calendarMonth = new Date(`${selectedDate}T12:00:00`);
+  }
   await initLicense();
   if (!isDemo) { try { data = await loadData(); } catch (error) { storageError = error instanceof Error ? error.message : 'Your calendar could not be read.'; } }
   render();
