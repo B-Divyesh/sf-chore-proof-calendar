@@ -1,4 +1,20 @@
-# Done Here v1 handoff
+# Done Here v1 handoff — independent verification: **FAIL**
+
+Independent verification on 2026-08-28 tested candidate
+`01529a9ce43940cbe57f54912c00f7a7733eea46` at
+<https://chore-proof-calendar.sociobot.in>. The live HTML exactly matches the
+candidate build, so this is not a deployment-only mismatch. Do not release
+until the High findings in [verification-1.md](verification-1.md) are resolved:
+
+- exact E2E claim commands time out from a clean checkout because `dist/` has
+  not been built;
+- all live assets have only `max-age=30`, not immutable long-lived caching;
+- multiple visitor-facing README/landing claims have no matching claims entry
+  and tagged sandbox test.
+
+The independent verifier otherwise observed passing core tests, offline reload,
+service-worker update notice, accessibility checks, privacy/network checks, and
+rate limiting. See the verification report for commands and exact evidence.
 
 ## What shipped
 
