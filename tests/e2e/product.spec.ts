@@ -65,7 +65,7 @@ test('@regression:malformed-backup rejects every record before preserving the cu
   expect(errors).toEqual([]);
 });
 
-test('mobile navigation, demo, and footer controls meet the 44px target', async ({ page }, testInfo) => {
+test('@regression:mobile-target-size mobile navigation, demo, and footer controls meet the 44px target', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'mobile measurement');
   await page.goto('/demo');
   const controls = page.locator('.site-header a, .demo-banner a, .demo-banner button, .footer-links a');
@@ -74,7 +74,9 @@ test('mobile navigation, demo, and footer controls meet the 44px target', async 
     const box = await controls.nth(index).boundingBox();
     if (!box) continue;
     measured += 1;
-    expect(box.height, await controls.nth(index).textContent() ?? `control ${index}`).toBeGreaterThanOrEqual(44);
+    const controlName = await controls.nth(index).textContent() ?? `control ${index}`;
+    expect(box.width, `${controlName} width`).toBeGreaterThanOrEqual(44);
+    expect(box.height, `${controlName} height`).toBeGreaterThanOrEqual(44);
   }
   expect(measured).toBeGreaterThan(0);
 });

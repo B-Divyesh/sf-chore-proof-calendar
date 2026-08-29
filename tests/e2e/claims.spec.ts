@@ -26,7 +26,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v3');
+    const cache = await caches.open('done-here-v4');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
