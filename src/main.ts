@@ -19,6 +19,7 @@ let calendarMonth = new Date(`${selectedDate}T12:00:00`);
 let lastRemoved: Completion | null = null;
 let updateReady = false;
 let licenseActive = false;
+let licenseNotice = '';
 
 const esc = (value: unknown) => String(value ?? '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]!);
 const fmtDate = (iso: string) => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(new Date(iso));
@@ -53,7 +54,7 @@ function shell(content: string, title: string, description: string) {
     ${!navigator.onLine ? '<div class="offline-strip" role="status">Offline. Your calendar still works here.</div>' : ''}
     <main id="main" tabindex="-1">${content}</main>
     <div id="route-status" class="sr-only" aria-live="polite">${esc(title)}</div>
-    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.1</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
+    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.2</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
     <div class="toast-region" aria-live="polite" aria-atomic="true"></div>`;
   document.querySelector('#reset-demo')?.addEventListener('click', () => { demoData = structuredClone(SAMPLE_DATA); toast('Sample data reset.'); render(); });
 }
@@ -97,7 +98,7 @@ function paidSection() {
   const restore = isDemo
     ? '<a class="text-button" href="/app" data-link>Restore a license in your calendar</a>'
     : '<button class="text-button" id="show-license">Have a license? Paste it</button><form id="license-form" class="license-form" hidden><label for="license">License</label><div><input id="license" name="license" autocomplete="off" required><button class="button small" type="submit">Verify license</button></div><p class="form-help">Verification sends only this token to Sociobot.</p></form><p id="license-status" role="status"></p>';
-  return `<section class="paid" aria-labelledby="paid-title"><div><p class="eyebrow">Household Pack</p><h2 id="paid-title">Keep up to 500 photo proofs</h2><p>Pay $12 once to store up to 500 photos. Chores, notes, and every export stay free.</p></div><div class="paid-actions">${purchase}${restore}</div></section>`;
+  return `<section class="paid" aria-labelledby="paid-title"><div><p class="eyebrow">Household Pack</p><h2 id="paid-title">Keep up to 500 photo proofs</h2><p>Pay $12 once to store up to 500 photos. Chores, notes, and every export stay free.</p></div><div class="paid-actions">${purchase}${licenseNotice ? `<p class="license-notice" role="status">${esc(licenseNotice)}</p>` : ''}${restore}</div></section>`;
 }
 
 function appPage() {
@@ -274,11 +275,14 @@ async function verifyLicense(token: string, report = false) {
   if (report && status) status.textContent = 'Checking this license…';
   try {
     const response = await fetch(`https://api.sociobot.in/api/v1/products/${PRODUCT}/verify?license=${encodeURIComponent(token)}`);
-    const result = await response.json() as { valid: boolean };
+    const result = await response.json() as { valid: boolean; reason?: string };
     if (isDemo) return;
     licenseActive = result.valid;
-    localStorage.setItem(VERDICT_KEY, JSON.stringify({ valid: result.valid, checkedAt: Date.now() }));
-    if (report) { if (status) status.textContent = result.valid ? 'Household Pack is active.' : 'This license is not active. Check the token or buy a new license.'; if (result.valid) setTimeout(render, 500); }
+    licenseNotice = !result.valid && ['expired', 'revoked'].includes(result.reason ?? '') ? 'This license is no longer active.' : '';
+    localStorage.setItem(VERDICT_KEY, JSON.stringify({ valid: result.valid, reason: result.reason, checkedAt: Date.now() }));
+    if (report && status) status.textContent = result.valid ? 'Household Pack is active.' : 'This license is not active. Check the token or buy a new license.';
+    if (result.valid && report) setTimeout(render, 500);
+    if (licenseNotice) render();
   } catch { if (report && status) status.textContent = 'The license service could not be reached. Check your connection and try again.'; }
 }
 
@@ -288,8 +292,9 @@ async function initLicense() {
   const incoming = url.searchParams.get('license');
   if (incoming) { localStorage.setItem(LICENSE_KEY, incoming); localStorage.removeItem(VERDICT_KEY); url.searchParams.delete('license'); history.replaceState({}, '', url.pathname + url.search + url.hash); }
   const token = localStorage.getItem(LICENSE_KEY);
-  const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) || 'null') as { valid: boolean; checkedAt: number } | null;
+  const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) || 'null') as { valid: boolean; reason?: string; checkedAt: number } | null;
   licenseActive = Boolean(cached?.valid);
+  licenseNotice = !cached?.valid && ['expired', 'revoked'].includes(cached?.reason ?? '') ? 'This license is no longer active.' : '';
   if (token && (!cached || Date.now() - cached.checkedAt > 86_400_000) && !isDemo) void verifyLicense(token);
 }
 
@@ -303,7 +308,7 @@ function toast(message: string, action?: string, callback?: () => void | Promise
 function render(focus = false) {
   const wasDemo = isDemo;
   isDemo = isDemoRoute();
-  if (isDemo) licenseActive = false;
+  if (isDemo) { licenseActive = false; licenseNotice = ''; }
   else if (wasDemo) void initLicense();
   if (location.pathname === '/') homePage();
   else if (location.pathname === '/app' || isDemo) appPage();

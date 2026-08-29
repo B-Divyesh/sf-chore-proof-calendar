@@ -73,6 +73,7 @@ p { max-width: 68ch; }
 .paid { padding: 40px; background: var(--celadon-200); border-radius: 42px 14px 48px 18px; box-shadow: inset 0 0 0 1px rgba(23,63,73,.12); }
 .paid h2 { font-size: clamp(28px, 4vw, 42px); }
 .paid-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.license-notice { margin: 0; color: var(--brick-700); font-weight: 700; }
 .license-form { width: 100%; padding-top: 8px; }
 .license-form > div { display: flex; gap: 8px; }
 .license-form input { min-width: 0; flex: 1; }
@@ -96,7 +97,7 @@ p { max-width: 68ch; }
 .due-stamp { display: inline-block; padding: 5px 10px; border: 1px solid currentColor; border-radius: 12px 4px 13px 5px; color: var(--glaze-800); font-size: 12px; font-weight: 800; }
 .due-stamp.overdue { color: var(--brick-700); }
 .due-stamp.today { color: var(--ochre-600); }
-.chore-actions { display: grid; grid-template-columns: auto auto; align-items: center; gap: 4px 16px; text-align: center; }
+.chore-actions { display: grid; grid-template-columns: auto auto; align-items: center; gap: 8px 16px; text-align: center; }
 .chore-actions .danger { grid-column: 2; }
 .round-action { grid-row: span 2; width: 92px; height: 92px; border: 0; border-radius: 50%; background: var(--glaze-600); color: white; font-weight: 800; cursor: pointer; box-shadow: inset 0 0 0 3px rgba(255,255,255,.25), 0 8px 18px rgba(23,63,73,.18); transition: transform 220ms cubic-bezier(.2,.8,.2,1); }
 .round-action span { display: block; font-size: 24px; line-height: 1; }

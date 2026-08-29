@@ -42,6 +42,27 @@
     "sandbox": "fresh /demo; intercept a completion and JSON export; assert only same-origin requests"
   },
   {
+    "id": "runtime-privacy",
+    "claim": "No analytics, remote fonts, or third-party runtime scripts are included",
+    "where": "README",
+    "test": "npm run test:e2e -- --grep @claim:runtime-privacy --project=chromium",
+    "sandbox": "fresh /demo; complete and export a chore while recording every runtime request and resource type"
+  },
+  {
+    "id": "license-token-only",
+    "claim": "License verification sends only the pasted token to Sociobot",
+    "where": "license form, privacy page, and README",
+    "test": "npm run test:e2e -- --grep @claim:license-token-only --project=chromium",
+    "sandbox": "fresh /app; intercept verification and assert one token query field, GET method, empty body, and the Sociobot origin"
+  },
+  {
+    "id": "refunded-license",
+    "claim": "A refunded license stops working",
+    "where": "terms page",
+    "test": "npm run test:e2e -- --grep @claim:refunded-license --project=chromium",
+    "sandbox": "fresh /app with a stale valid cache; return a revoked verdict and assert paid state and the sixth photo relock"
+  },
+  {
     "id": "ics-export",
     "claim": "Exports completion history as timezone-aware ICS",
     "where": "app export toolbar and README",

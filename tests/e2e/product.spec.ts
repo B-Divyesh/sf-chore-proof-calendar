@@ -84,6 +84,18 @@ test('@regression:mobile-target-size every visible mobile control meets the 44px
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(await page.evaluate(() => document.documentElement.clientWidth));
 });
 
+test('@regression:mobile-target-separation adjacent mobile chore actions are at least 8px apart', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'mobile measurement');
+  await page.goto('/demo');
+  const gaps = await page.locator('.chore-card').evaluateAll((cards) => cards.map((card) => {
+    const proof = card.querySelector<HTMLElement>('[data-proof]')!.getBoundingClientRect();
+    const archive = card.querySelector<HTMLElement>('[data-archive]')!.getBoundingClientRect();
+    return { name: card.querySelector('h3')?.textContent ?? 'chore', gap: archive.top - proof.bottom };
+  }));
+  expect(gaps).toHaveLength(4);
+  for (const { name, gap } of gaps) expect(gap, `${name}: Add note or photo to Archive`).toBeGreaterThanOrEqual(8);
+});
+
 test('calendar arrow keys move focus between days', async ({ page }) => {
   await page.goto('/demo');
   const selected = page.locator('.calendar-day.selected');

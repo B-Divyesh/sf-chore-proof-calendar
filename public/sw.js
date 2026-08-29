@@ -1,4 +1,4 @@
-const VERSION = 'done-here-v5';
+const VERSION = 'done-here-v6';
 const SHELL = ['/', '/app', '/demo', '/privacy', '/terms', '/index.html', '/not-found.html', '/manifest.webmanifest', '/favicon.svg', '/assets/hero-ceramics-960.webp', '/assets/hero-ceramics-1440.webp', '/assets/done-here-og.jpg'];
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {

@@ -56,7 +56,12 @@ describe('release configuration', () => {
       { file: 'src/main.ts', copy: 'Done Here does not rank people, assign points, or watch children.', claims: ['no-household-ranking'] },
       { file: 'src/main.ts', copy: 'The calendar is free.', claims: ['free-core'] },
       { file: 'src/main.ts', copy: 'Chores, notes, and every export stay free.', claims: ['free-core'] },
-      { file: 'README.md', copy: 'Free core calendar with five photos', claims: ['free-core', 'photo-tier'] }
+      { file: 'README.md', copy: 'Free core calendar with five photos', claims: ['free-core', 'photo-tier'] },
+      { file: 'README.md', copy: 'No analytics, remote fonts, or third-party runtime scripts', claims: ['runtime-privacy'] },
+      { file: 'README.md', copy: 'License verification sends only the pasted token to Sociobot.', claims: ['license-token-only'] },
+      { file: 'src/main.ts', copy: 'Verification sends only this token to Sociobot.', claims: ['license-token-only'] },
+      { file: 'src/main.ts', copy: 'License verification sends your license token to Sociobot.', claims: ['license-token-only'] },
+      { file: 'src/main.ts', copy: 'A refunded license stops working.', claims: ['refunded-license'] }
     ];
     for (const promise of publicPromises) {
       expect(readFileSync(promise.file, 'utf8'), `${promise.file}: ${promise.copy}`).toContain(promise.copy);

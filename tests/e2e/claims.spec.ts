@@ -45,7 +45,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v5');
+    const cache = await caches.open('done-here-v6');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -69,7 +69,7 @@ test('@claim:installable-pwa provides a valid standalone manifest and controlled
     display: string;
     icons: Array<{ src: string; sizes: string; purpose: string }>;
   };
-  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=5', display: 'standalone' });
+  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=6', display: 'standalone' });
   expect(manifest.icons).toEqual(expect.arrayContaining([
     expect.objectContaining({ sizes: '192x192', purpose: expect.stringContaining('maskable') }),
     expect.objectContaining({ sizes: '512x512', purpose: expect.stringContaining('maskable') })
@@ -116,6 +116,80 @@ test('@claim:local-data sends no chore data away during the demo flow', async ({
   await page.getByRole('button', { name: 'Export JSON' }).click();
   await download;
   expect(remote).toEqual([]);
+});
+
+test('@claim:runtime-privacy loads no analytics, remote fonts, or third-party runtime scripts', async ({ page }) => {
+  const requests: Array<{ type: string; url: string }> = [];
+  page.on('request', (request) => requests.push({ type: request.resourceType(), url: request.url() }));
+
+  await page.goto('/demo');
+  await page.getByRole('button', { name: 'Mark done' }).first().click();
+  const pending = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export JSON' }).click();
+  await pending;
+
+  expect(requests.filter(({ url }) => new URL(url).origin !== 'http://127.0.0.1:4173')).toEqual([]);
+  expect(requests.filter(({ type }) => type === 'font')).toEqual([]);
+  expect(requests.map(({ url }) => url).join('\n')).not.toMatch(/analytics|telemetry|tracking|collect|beacon/i);
+});
+
+test('@claim:license-token-only sends only the pasted token to Sociobot verification', async ({ page }) => {
+  const token = 'sbk_test token/&?';
+  const remoteRequests: Array<{ method: string; postData: string | null; url: string }> = [];
+  await page.route('https://api.sociobot.in/**', async (route) => {
+    const request = route.request();
+    remoteRequests.push({ method: request.method(), postData: request.postData(), url: request.url() });
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      headers: { 'Access-Control-Allow-Origin': 'http://127.0.0.1:4173' },
+      body: JSON.stringify({ valid: false, reason: 'invalid' })
+    });
+  });
+
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Have a license? Paste it' }).click();
+  await page.getByLabel('License').fill(token);
+  await page.getByRole('button', { name: 'Verify license' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'This license is not active.' })).toBeVisible();
+
+  expect(remoteRequests).toHaveLength(1);
+  const verification = new URL(remoteRequests[0].url);
+  expect(remoteRequests[0]).toMatchObject({ method: 'GET', postData: null });
+  expect(verification.origin).toBe('https://api.sociobot.in');
+  expect(verification.pathname).toBe('/api/v1/products/chore-proof-calendar/verify');
+  expect([...verification.searchParams]).toEqual([['license', token]]);
+});
+
+test('@claim:refunded-license relocks paid photo storage after a revoked verdict', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('sb_license:chore-proof-calendar', 'refunded-license');
+    localStorage.setItem('sb_license_verdict:chore-proof-calendar', JSON.stringify({ valid: true, checkedAt: 0 }));
+  });
+  await page.route('https://api.sociobot.in/**', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    headers: { 'Access-Control-Allow-Origin': 'http://127.0.0.1:4173' },
+    body: JSON.stringify({ valid: false, reason: 'revoked' })
+  }));
+
+  await page.goto('/app');
+  await expect(page.getByText('This license is no longer active.')).toBeVisible();
+  await expect(page.getByText('Household Pack active')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Buy Household Pack — $12' })).toBeVisible();
+
+  const photo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+  const backup = {
+    chores: [{ id: 'refunded-chore', name: 'Wipe the fridge handle', intervalDays: 1, createdAt: '2026-08-20T12:00:00.000Z' }],
+    completions: Array.from({ length: 5 }, (_, index) => ({ id: `proof-${index}`, choreId: 'refunded-chore', completedAt: `2026-08-2${index + 1}T12:00:00.000Z`, photo }))
+  };
+  await page.getByLabel('Import JSON').setInputFiles({ name: 'five-photos.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(backup)) });
+  const chore = page.locator('.chore-card').filter({ hasText: 'Wipe the fridge handle' });
+  await chore.getByRole('button', { name: 'Add note or photo' }).click();
+  await page.getByLabel('Photo optional').setInputFiles({ name: 'sixth.png', mimeType: 'image/png', buffer: Buffer.from(photo.split(',')[1], 'base64') });
+  await page.getByLabel('Anyone shown in this photo agreed to store it here.').check();
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  await expect(page.getByText('The free photo limit is five.')).toBeVisible();
 });
 
 test('@claim:json-export downloads the full sample backup', async ({ page }) => {
