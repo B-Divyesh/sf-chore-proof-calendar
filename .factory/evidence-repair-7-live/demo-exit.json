@@ -1,0 +1,50 @@
+[
+  {
+    "exit": "Start for real",
+    "visibleNames": [
+      "New record after Start for real",
+      "Existing record for Start for real"
+    ],
+    "stored": [
+      {
+        "kind": "completion",
+        "id": "04e52650-ff09-4cc1-853d-13d446815b0c",
+        "choreId": "5b9d1efc-cfdb-4277-8b8f-5522bf94abe1"
+      },
+      {
+        "kind": "chore",
+        "id": "0be17249-e4bd-41ab-92dd-4c2d614ad4d1",
+        "name": "New record after Start for real"
+      },
+      {
+        "kind": "chore",
+        "id": "5b9d1efc-cfdb-4277-8b8f-5522bf94abe1",
+        "name": "Existing record for Start for real"
+      }
+    ]
+  },
+  {
+    "exit": "Calendar",
+    "visibleNames": [
+      "New record after Calendar",
+      "Existing record for Calendar"
+    ],
+    "stored": [
+      {
+        "kind": "chore",
+        "id": "08c516bd-ab22-4b4f-a5ac-72b8261224af",
+        "name": "Existing record for Calendar"
+      },
+      {
+        "kind": "completion",
+        "id": "9e33532a-2426-4f9b-86b2-c2b0870222e5",
+        "choreId": "08c516bd-ab22-4b4f-a5ac-72b8261224af"
+      },
+      {
+        "kind": "chore",
+        "id": "dcd8d358-0f94-4ddf-94bd-b778c4d5e0f4",
+        "name": "New record after Calendar"
+      }
+    ]
+  }
+]

@@ -1,0 +1,149 @@
+{
+  "base": "https://chore-proof-calendar.sociobot.in",
+  "identity": [
+    {
+      "path": "/index.html",
+      "status": 200,
+      "localSha256": "83d5b1ed694118791db2081795f7d60003e96a655021641065f1fc3c470a1ef3",
+      "liveSha256": "83d5b1ed694118791db2081795f7d60003e96a655021641065f1fc3c470a1ef3",
+      "matches": true
+    },
+    {
+      "path": "/sw.js",
+      "status": 200,
+      "localSha256": "5d29f543a65a17b85d8d5a7e65b572ab10fba9dbe45838aebb2bc78815eebb4e",
+      "liveSha256": "5d29f543a65a17b85d8d5a7e65b572ab10fba9dbe45838aebb2bc78815eebb4e",
+      "matches": true
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "status": 200,
+      "localSha256": "24d6294f14af26a652f5c2dfd26a3bc9f646e2f3e71cbabc7ff5f133949879a3",
+      "liveSha256": "24d6294f14af26a652f5c2dfd26a3bc9f646e2f3e71cbabc7ff5f133949879a3",
+      "matches": true
+    },
+    {
+      "path": "/not-found.html",
+      "status": 200,
+      "localSha256": "5e0f4fe6b90c39d4467a0e3df109c394276f198976593d12eec35961657a2336",
+      "liveSha256": "5e0f4fe6b90c39d4467a0e3df109c394276f198976593d12eec35961657a2336",
+      "matches": true
+    },
+    {
+      "path": "/assets/hero-ceramics-960.webp",
+      "status": 200,
+      "localSha256": "408852842ee58788231824855cb783bc76346f74485775f79f2c1dcc6bbe7648",
+      "liveSha256": "408852842ee58788231824855cb783bc76346f74485775f79f2c1dcc6bbe7648",
+      "matches": true
+    },
+    {
+      "path": "/assets/hero-ceramics-1440.webp",
+      "status": 200,
+      "localSha256": "1998424b8887cb688cf65da67b1fa1fb4b764613ccf2cd586fc2c86a246cef31",
+      "liveSha256": "1998424b8887cb688cf65da67b1fa1fb4b764613ccf2cd586fc2c86a246cef31",
+      "matches": true
+    },
+    {
+      "path": "/assets/icon-192.png",
+      "status": 200,
+      "localSha256": "d855772336804f147efda6bdc2f2d7e669b3afabeea0493c59dae1e898c02585",
+      "liveSha256": "d855772336804f147efda6bdc2f2d7e669b3afabeea0493c59dae1e898c02585",
+      "matches": true
+    },
+    {
+      "path": "/assets/icon-512.png",
+      "status": 200,
+      "localSha256": "0bf25cb2aab9ca38970baff4f6b047e42fdd057ddef1f1a4494db0100470f6d5",
+      "liveSha256": "0bf25cb2aab9ca38970baff4f6b047e42fdd057ddef1f1a4494db0100470f6d5",
+      "matches": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/app",
+      "status": 200
+    },
+    {
+      "path": "/demo",
+      "status": 200
+    },
+    {
+      "path": "/privacy",
+      "status": 200
+    },
+    {
+      "path": "/terms",
+      "status": 200
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200
+    },
+    {
+      "path": "/missing-route",
+      "status": 404
+    }
+  ],
+  "headers": {
+    "/demo": {
+      "cache-control": "public, must-revalidate, max-age=30",
+      "content-security-policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
+      "content-type": "text/html",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "x-content-type-options": "nosniff"
+    },
+    "/sw.js": {
+      "cache-control": "no-cache, no-store, must-revalidate",
+      "content-security-policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
+      "content-type": "text/javascript",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "x-content-type-options": "nosniff"
+    },
+    "/manifest.webmanifest": {
+      "cache-control": "public, max-age=0, must-revalidate",
+      "content-security-policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
+      "content-type": "application/manifest+json",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "x-content-type-options": "nosniff"
+    },
+    "/assets/hero-ceramics-960.webp": {
+      "cache-control": "public, max-age=31536000, immutable",
+      "content-security-policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
+      "content-type": "image/webp",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "x-content-type-options": "nosniff"
+    }
+  },
+  "billing": {
+    "checkout": {
+      "status": 303,
+      "locationOrigin": "https://checkout.dodopayments.com"
+    },
+    "verification": {
+      "status": 200,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in",
+      "body": {
+        "expires_at": null,
+        "reason": "invalid",
+        "valid": false
+      }
+    }
+  }
+}

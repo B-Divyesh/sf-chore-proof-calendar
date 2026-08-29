@@ -15,4 +15,5 @@ sample. **Start for real** opens `/app` without copying any sample record.
 
 Verifiers can mark a chore done, inspect the calendar, export every format, set
 the browser offline, and reload `/demo`. The service worker keeps the demo app
-and its sample available after the first visit.
+and its sample available after the first visit. On exit, the app reads the
+complete real calendar before it renders or enables a real-data change.
