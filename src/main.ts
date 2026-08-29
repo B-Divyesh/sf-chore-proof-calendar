@@ -24,6 +24,7 @@ const esc = (value: unknown) => String(value ?? '').replace(/[&<>'"]/g, (char) =
 const fmtDate = (iso: string) => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(new Date(iso));
 const fmtDateTime = (iso: string) => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso));
 const activeData = () => isDemo ? demoData : data;
+const isDemoRoute = () => location.pathname === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
 
 function localDate(iso: string) {
   const date = new Date(iso);
@@ -90,7 +91,13 @@ function homePage() {
 }
 
 function paidSection() {
-  return `<section class="paid" aria-labelledby="paid-title"><div><p class="eyebrow">Household Pack</p><h2 id="paid-title">Keep up to 500 photo proofs</h2><p>Pay $12 once to store up to 500 photos. Chores, notes, and every export stay free.</p></div><div class="paid-actions">${licenseActive ? '<span class="license-good">Household Pack active</span>' : `<a class="button secondary" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy Household Pack — $12</a>`}<button class="text-button" id="show-license">Have a license? Paste it</button><form id="license-form" class="license-form" hidden><label for="license">License</label><div><input id="license" name="license" autocomplete="off" required><button class="button small" type="submit">Verify license</button></div><p class="form-help">Verification sends only this token to Sociobot.</p></form><p id="license-status" role="status"></p></div></section>`;
+  const purchase = licenseActive
+    ? '<span class="license-good">Household Pack active</span>'
+    : `<a class="button secondary" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy Household Pack — $12</a>`;
+  const restore = isDemo
+    ? '<a class="text-button" href="/app" data-link>Restore a license in your calendar</a>'
+    : '<button class="text-button" id="show-license">Have a license? Paste it</button><form id="license-form" class="license-form" hidden><label for="license">License</label><div><input id="license" name="license" autocomplete="off" required><button class="button small" type="submit">Verify license</button></div><p class="form-help">Verification sends only this token to Sociobot.</p></form><p id="license-status" role="status"></p>';
+  return `<section class="paid" aria-labelledby="paid-title"><div><p class="eyebrow">Household Pack</p><h2 id="paid-title">Keep up to 500 photo proofs</h2><p>Pay $12 once to store up to 500 photos. Chores, notes, and every export stay free.</p></div><div class="paid-actions">${purchase}${restore}</div></section>`;
 }
 
 function appPage() {
@@ -134,12 +141,12 @@ function calendarSection() {
   }
   const selected = activeData().completions.filter((item) => localDate(item.completedAt) === selectedDate).sort((a, b) => b.completedAt.localeCompare(a.completedAt));
   const names = new Map(activeData().chores.map((chore) => [chore.id, chore.name]));
-  return `<section class="calendar-section" aria-labelledby="calendar-title"><div class="calendar-panel"><div class="calendar-head"><div><p class="eyebrow">Pressed in time</p><h2 id="calendar-title">Completion calendar</h2></div><div><button class="icon-button" id="prev-month" aria-label="Previous month">←</button><strong>${calendarMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</strong><button class="icon-button" id="next-month" aria-label="Next month">→</button></div></div><div class="weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" aria-label="Completion calendar">${cells.join('')}</div><p class="calendar-help">Use arrow keys to move between days.</p></div><aside class="day-history" aria-labelledby="day-title"><p class="eyebrow">Selected day</p><h3 id="day-title">${fmtDate(`${selectedDate}T12:00:00`)}</h3>${selected.length ? `<ol>${selected.map((item) => `<li><span class="mini-stamp" aria-hidden="true">✓</span><div><strong>${esc(names.get(item.choreId) ?? 'Archived chore')}</strong><time datetime="${esc(item.completedAt)}">${new Date(item.completedAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</time>${item.note ? `<p>${esc(item.note)}</p>` : ''}${item.photo ? `<img src="${esc(item.photo)}" alt="Photo saved with this completion" loading="lazy">` : ''}<button class="text-button danger" data-remove="${item.id}">Remove completion</button></div></li>`).join('')}</ol>` : '<div class="empty-day"><span aria-hidden="true">○</span><p>No completions on this day. Mark a chore done to place it here.</p></div>'}</aside></section>`;
+  return `<section class="calendar-section" aria-labelledby="calendar-title"><div class="calendar-panel"><div class="calendar-head"><div><p class="eyebrow">Pressed in time</p><h2 id="calendar-title">Completion calendar</h2></div><div><button class="icon-button" id="prev-month" aria-label="Previous month">←</button><strong>${calendarMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</strong><button class="icon-button" id="next-month" aria-label="Next month">→</button></div></div><div class="calendar-scroll"><div class="weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" aria-label="Completion calendar">${cells.join('')}</div></div><p class="calendar-help">Use arrow keys to move between days.</p></div><aside class="day-history" aria-labelledby="day-title"><p class="eyebrow">Selected day</p><h3 id="day-title">${fmtDate(`${selectedDate}T12:00:00`)}</h3>${selected.length ? `<ol>${selected.map((item) => `<li><span class="mini-stamp" aria-hidden="true">✓</span><div><strong>${esc(names.get(item.choreId) ?? 'Archived chore')}</strong><time datetime="${esc(item.completedAt)}">${new Date(item.completedAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</time>${item.note ? `<p>${esc(item.note)}</p>` : ''}${item.photo ? `<img src="${esc(item.photo)}" alt="Photo saved with this completion" loading="lazy">` : ''}<button class="text-button danger" data-remove="${item.id}">Remove completion</button></div></li>`).join('')}</ol>` : '<div class="empty-day"><span aria-hidden="true">○</span><p>No completions on this day. Mark a chore done to place it here.</p></div>'}</aside></section>`;
 }
 
 function legalPage(kind: 'privacy' | 'terms') {
   const privacy = kind === 'privacy';
-  shell(`<article class="legal"><p class="eyebrow">${privacy ? 'Your data' : 'The agreement'}</p><h1>${privacy ? 'Your chore data stays with you' : 'Terms for using Done Here'}</h1>${privacy ? `<h2>What is stored</h2><p>Chores, completions, notes, and photos are stored in this browser. Done Here has no account server.</p><h2>What can leave</h2><p>License verification sends your license token to Sociobot. Checkout opens Sociobot, the merchant of record.</p><p>Exports leave only when you download or share them. Removing site data removes the local calendar.</p><h2>Demo data</h2><p>The demo uses a separate memory-only copy. It does not read or write your real calendar.</p>` : `<h2>Use at your own discretion</h2><p>Done Here records household chores on your device. It does not guarantee that work was completed or that a photo is accurate.</p><h2>Purchases</h2><p>The $12 Household Pack is a one-time purchase. Sociobot and Dodo handle checkout and refunds. A refunded license stops working.</p><h2>Your responsibilities</h2><p>Get consent before saving photos of other people. Keep exports private when they contain household details.</p><h2>Warranty</h2><p>The software is provided as is under the MIT License, without warranty.</p>`}<p class="legal-date">Effective 28 August 2026</p></article>`, `${privacy ? 'Privacy' : 'Terms'} — Done Here`, privacy ? 'How Done Here stores chores, completion notes, photos, and licenses.' : 'Terms for using Done Here and its one-time Household Pack.');
+  shell(`<article class="legal"><p class="eyebrow">${privacy ? 'Your data' : 'The agreement'}</p><h1>${privacy ? 'Your chore data stays with you' : 'Terms for using Done Here'}</h1>${privacy ? `<h2>What is stored</h2><p>Chores, completions, notes, and photos are stored in this browser. You do not create an account to use Done Here.</p><h2>What can leave</h2><p>License verification sends your license token to Sociobot. Checkout opens Sociobot, the merchant of record.</p><p>Exports leave only when you download or share them. Removing site data removes the local calendar.</p><h2>Demo data</h2><p>The demo uses a separate memory-only copy. It does not read or write your real calendar or license.</p>` : `<h2>Use at your own discretion</h2><p>Done Here records household chores on your device. It does not guarantee that work was completed or that a photo is accurate.</p><h2>Purchases</h2><p>The $12 Household Pack is a one-time purchase. Sociobot and Dodo handle checkout and refunds. A refunded license stops working.</p><h2>Your responsibilities</h2><p>Get consent before saving photos of other people. Keep exports private when they contain household details.</p><h2>Warranty</h2><p>The software is provided as is under the MIT License, without warranty.</p>`}<p class="legal-date">Effective 28 August 2026</p></article>`, `${privacy ? 'Privacy' : 'Terms'} — Done Here`, privacy ? 'How Done Here stores chores, completion notes, photos, and licenses.' : 'Terms for using Done Here and its one-time Household Pack.');
 }
 
 function notFoundPage() {
@@ -253,6 +260,7 @@ async function importJson(event: Event) {
 }
 
 function bindPaid() {
+  if (isDemo) return;
   document.querySelector('#show-license')?.addEventListener('click', () => { const form = document.querySelector<HTMLFormElement>('#license-form')!; form.hidden = !form.hidden; if (!form.hidden) form.querySelector('input')?.focus(); });
   document.querySelector('#license-form')?.addEventListener('submit', async (event) => {
     event.preventDefault(); const token = String(new FormData(event.currentTarget as HTMLFormElement).get('license') ?? '').trim(); if (!token) return;
@@ -261,11 +269,13 @@ function bindPaid() {
 }
 
 async function verifyLicense(token: string, report = false) {
+  if (isDemo) return;
   const status = document.querySelector('#license-status');
   if (report && status) status.textContent = 'Checking this license…';
   try {
     const response = await fetch(`https://api.sociobot.in/api/v1/products/${PRODUCT}/verify?license=${encodeURIComponent(token)}`);
     const result = await response.json() as { valid: boolean };
+    if (isDemo) return;
     licenseActive = result.valid;
     localStorage.setItem(VERDICT_KEY, JSON.stringify({ valid: result.valid, checkedAt: Date.now() }));
     if (report) { if (status) status.textContent = result.valid ? 'Household Pack is active.' : 'This license is not active. Check the token or buy a new license.'; if (result.valid) setTimeout(render, 500); }
@@ -273,9 +283,10 @@ async function verifyLicense(token: string, report = false) {
 }
 
 async function initLicense() {
+  if (isDemo) { licenseActive = false; return; }
   const url = new URL(location.href);
   const incoming = url.searchParams.get('license');
-  if (incoming) { localStorage.setItem(LICENSE_KEY, incoming); url.searchParams.delete('license'); history.replaceState({}, '', url.pathname + url.search + url.hash); }
+  if (incoming) { localStorage.setItem(LICENSE_KEY, incoming); localStorage.removeItem(VERDICT_KEY); url.searchParams.delete('license'); history.replaceState({}, '', url.pathname + url.search + url.hash); }
   const token = localStorage.getItem(LICENSE_KEY);
   const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) || 'null') as { valid: boolean; checkedAt: number } | null;
   licenseActive = Boolean(cached?.valid);
@@ -290,7 +301,10 @@ function toast(message: string, action?: string, callback?: () => void | Promise
 }
 
 function render(focus = false) {
-  isDemo = location.pathname === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
+  const wasDemo = isDemo;
+  isDemo = isDemoRoute();
+  if (isDemo) licenseActive = false;
+  else if (wasDemo) void initLicense();
   if (location.pathname === '/') homePage();
   else if (location.pathname === '/app' || isDemo) appPage();
   else if (location.pathname === '/privacy') legalPage('privacy');
@@ -312,7 +326,7 @@ window.addEventListener('online', () => render());
 window.addEventListener('offline', () => render());
 async function boot() {
   if (new URLSearchParams(location.search).get('demo') === '1' && location.pathname === '/') history.replaceState({}, '', '/demo');
-  isDemo = location.pathname === '/demo';
+  isDemo = isDemoRoute();
   if (isDemo) {
     selectedDate = demoData.completions.map((item) => localDate(item.completedAt)).sort().at(-1) ?? selectedDate;
     calendarMonth = new Date(`${selectedDate}T12:00:00`);

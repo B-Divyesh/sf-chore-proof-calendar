@@ -113,6 +113,7 @@ p { max-width: 68ch; }
 .calendar-head > div:last-child { display: flex; align-items: center; gap: 10px; }
 .icon-button { width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 50%; background: var(--clay-0); cursor: pointer; font-size: 20px; }
 .weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.calendar-scroll { overflow-x: auto; }
 .weekdays { margin: 20px 0 8px; color: var(--slate-600); text-align: center; font-size: 12px; font-weight: 800; }
 .calendar-day { position: relative; min-width: 44px; min-height: 56px; border: 1px solid transparent; border-radius: 14px 5px 15px 7px; background: transparent; cursor: pointer; font-variant-numeric: tabular-nums; }
 .calendar-day:hover { background: var(--ice-50); border-color: var(--line); }
@@ -181,11 +182,14 @@ footer p { margin: 5px 0; }
   .chore-card { grid-template-columns: 1fr; }
   .chore-actions { justify-content: start; grid-template-columns: auto auto; text-align: left; }
   .calendar-section { grid-template-columns: 1fr; }
-  .calendar-panel, .day-history { padding: 18px; }
+  .calendar-panel { padding: 18px 0; }
+  .day-history { padding: 18px; }
   .calendar-head { flex-direction: column; }
-  .calendar-day { min-width: 0; min-height: 48px; padding: 2px; }
+  .calendar-head, .calendar-help { margin-right: 18px; margin-left: 18px; }
+  .weekdays, .calendar-grid { min-width: 356px; grid-template-columns: repeat(7, minmax(44px, 1fr)); gap: 8px; }
+  .calendar-day { min-width: 44px; min-height: 48px; padding: 2px; }
   .calendar-day i { right: 2px; bottom: 2px; }
-  .weekdays { gap: 2px; font-size: 10px; }
+  .weekdays { font-size: 10px; }
   .paid { padding: 28px 20px; }
   .license-form > div { flex-direction: column; }
   .demo-banner { align-items: flex-start; flex-direction: column; gap: 0; }

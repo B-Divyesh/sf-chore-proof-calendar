@@ -2,16 +2,35 @@ import { expect, test } from '@playwright/test';
 import axe from 'axe-core';
 
 test('@claim:demo-sandbox loads sample data without touching real storage', async ({ page }) => {
-  await page.goto('/demo');
+  const realStorage = {
+    'sb_license:chore-proof-calendar': 'real-household-license',
+    'sb_license_verdict:chore-proof-calendar': JSON.stringify({ valid: true, checkedAt: 4_102_444_800_000 }),
+    'real:calendar-preference': 'kept'
+  };
+  await page.addInitScript((seed) => {
+    for (const [key, value] of Object.entries(seed)) localStorage.setItem(key, value);
+  }, realStorage);
+  const licenseRequests: string[] = [];
+  page.on('request', (request) => {
+    if (request.url().includes('/products/chore-proof-calendar/verify')) licenseRequests.push(request.url());
+  });
+
+  await page.goto('/demo?license=demo-should-not-save');
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('Water the houseplants').first()).toBeVisible();
+  await expect(page.getByText('Household Pack active')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Have a license? Paste it' })).toHaveCount(0);
   const before = await page.locator('.day-history li').count();
   await page.getByRole('button', { name: 'Mark done' }).first().click();
   await expect(page.getByText('marked done')).toBeVisible();
   await page.reload();
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   expect(await page.locator('.day-history li').count()).toBe(before);
-  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key.startsWith('demo:')))).toEqual([]);
+  expect(await page.evaluate(() => Object.fromEntries(Object.entries(localStorage).sort()))).toEqual(realStorage);
+  await page.goto('/app?demo=1&license=another-demo-token');
+  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+  expect(await page.evaluate(() => Object.fromEntries(Object.entries(localStorage).sort()))).toEqual(realStorage);
+  expect(licenseRequests).toEqual([]);
 });
 
 test('@claim:one-tap-completion adds a dated completion in one action', async ({ page }) => {
@@ -26,7 +45,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v4');
+    const cache = await caches.open('done-here-v5');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -35,6 +54,57 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.reload();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Keep a record of every chore');
   await expect(page.getByText('Offline. Your calendar still works here.')).toBeVisible();
+});
+
+test('@claim:installable-pwa provides a valid standalone manifest and controlled app shell', async ({ page }) => {
+  await page.goto('/app');
+  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', '/manifest.webmanifest');
+
+  const manifestResponse = await page.request.get('/manifest.webmanifest');
+  expect(manifestResponse.ok()).toBe(true);
+  const manifest = await manifestResponse.json() as {
+    name: string;
+    short_name: string;
+    start_url: string;
+    display: string;
+    icons: Array<{ src: string; sizes: string; purpose: string }>;
+  };
+  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=5', display: 'standalone' });
+  expect(manifest.icons).toEqual(expect.arrayContaining([
+    expect.objectContaining({ sizes: '192x192', purpose: expect.stringContaining('maskable') }),
+    expect.objectContaining({ sizes: '512x512', purpose: expect.stringContaining('maskable') })
+  ]));
+  for (const icon of manifest.icons) {
+    const response = await page.request.get(icon.src);
+    expect(response.ok(), icon.src).toBe(true);
+    expect(response.headers()['content-type']).toContain('image/png');
+    const png = await response.body();
+    const [declaredWidth, declaredHeight] = icon.sizes.split('x').map(Number);
+    expect(png.readUInt32BE(16), `${icon.src} width`).toBe(declaredWidth);
+    expect(png.readUInt32BE(20), `${icon.src} height`).toBe(declaredHeight);
+  }
+
+  const cdp = await page.context().newCDPSession(page);
+  const appManifest = await cdp.send('Page.getAppManifest');
+  expect(appManifest.errors).toEqual([]);
+  await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
+  expect(await page.evaluate(async () => (await navigator.serviceWorker.ready).scope)).toBe('http://127.0.0.1:4173/');
+});
+
+test('@claim:no-account creates and completes a real calendar without an account', async ({ page }) => {
+  const remoteRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') remoteRequests.push(request.url());
+  });
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Wipe the pantry shelf');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const chore = page.locator('.chore-card').filter({ hasText: 'Wipe the pantry shelf' });
+  await chore.getByRole('button', { name: 'Mark done' }).click();
+  await expect(page.locator('.day-history')).toContainText('Wipe the pantry shelf');
+  await expect(page.getByText(/sign in|create account|log in/i)).toHaveCount(0);
+  expect(remoteRequests).toEqual([]);
 });
 
 test('@claim:local-data sends no chore data away during the demo flow', async ({ page }) => {
@@ -59,6 +129,20 @@ test('@claim:json-export downloads the full sample backup', async ({ page }) => 
   const parsed = JSON.parse(body);
   expect(parsed.chores).toHaveLength(4);
   expect(parsed.completions).toHaveLength(7);
+});
+
+test('@claim:no-household-ranking records chores without people, points, or rankings', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByRole('button', { name: 'Mark done' }).first().click();
+  const pending = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export JSON' }).click();
+  const stream = await (await pending).createReadStream();
+  let body = '';
+  for await (const chunk of stream!) body += chunk.toString();
+  const backup = JSON.parse(body) as { chores: Array<Record<string, unknown>>; completions: Array<Record<string, unknown>> };
+  const keys = [...backup.chores, ...backup.completions].flatMap((record) => Object.keys(record));
+  expect(keys).not.toEqual(expect.arrayContaining(['assignee', 'child', 'person', 'points', 'rank', 'score']));
+  await expect(page.locator('[data-ranking], [data-points], [data-assignee]')).toHaveCount(0);
 });
 
 test('@claim:json-restore restores every record from a sample backup', async ({ page }) => {
@@ -148,6 +232,31 @@ test('@claim:completion-proof saves an optional note and consented photo', async
   const history = page.locator('.day-history');
   await expect(history).toContainText('Filter rinsed and left to dry.');
   await expect(history.getByRole('img', { name: 'Photo saved with this completion' })).toBeVisible();
+});
+
+test('@claim:free-core keeps chores, notes, calendar history, and every export available without a license', async ({ page }) => {
+  const remoteRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') remoteRequests.push(request.url());
+  });
+  await page.goto('/app');
+  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key.startsWith('sb_license:')))).toEqual([]);
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Clean the free calendar test shelf');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const chore = page.locator('.chore-card').filter({ hasText: 'Clean the free calendar test shelf' });
+  await chore.getByRole('button', { name: 'Add note or photo' }).click();
+  await page.getByLabel('Note optional').fill('Saved without a Household Pack.');
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  await expect(page.locator('.day-history')).toContainText('Saved without a Household Pack.');
+
+  for (const kind of ['ICS', 'PDF', 'CSV', 'JSON']) {
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: `Export ${kind}` }).click();
+    const file = await pending;
+    expect(file.suggestedFilename()).toMatch(new RegExp(`\\.${kind.toLowerCase()}$`));
+  }
+  expect(remoteRequests).toEqual([]);
 });
 
 test('@claim:keyboard-calendar changes months and selects days from the keyboard', async ({ page }) => {

@@ -19,7 +19,7 @@ Try the isolated demo: <https://chore-proof-calendar.sociobot.in/demo>
 - Monthly completion calendar with keyboard navigation
 - ICS, PDF, CSV, and JSON export, plus JSON restore
 - Offline app shell and installable PWA manifest
-- Separate sample-data demo that does not read or write real data
+- Separate sample-data demo that does not read or write real calendar or license data
 - Free core calendar with five photos
 - $12 one-time Household Pack with storage for 500 photos
 

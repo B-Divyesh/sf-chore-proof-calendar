@@ -1,8 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const readJson = (path: string) => JSON.parse(readFileSync(path, 'utf8'));
+const readSources = (directory: string): string[] => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+  const path = join(directory, entry.name);
+  return entry.isDirectory() ? readSources(path) : entry.name.endsWith('.ts') ? [readFileSync(path, 'utf8')] : [];
+});
 
 describe('release configuration', () => {
   it('builds the production bundle before Playwright starts preview', () => {
@@ -35,11 +39,28 @@ describe('release configuration', () => {
 
   it('registers every product promise with exactly one tagged test', () => {
     const claims = readJson('.factory/claims.json') as Array<{ id: string; test: string }>;
-    const tests = [readFileSync('tests/e2e/claims.spec.ts', 'utf8'), readFileSync('tests/unit/exports.test.ts', 'utf8')].join('\n');
+    const tests = readSources('tests').join('\n');
     expect(new Set(claims.map((claim) => claim.id)).size).toBe(claims.length);
     for (const claim of claims) {
       expect(claim.test).toContain(`@claim:${claim.id}`);
       expect(tests.match(new RegExp(`@claim:${claim.id}`, 'g'))).toHaveLength(1);
+    }
+  });
+
+  it('maps each independently audited public promise to a registered claim', () => {
+    const claimIds = new Set((readJson('.factory/claims.json') as Array<{ id: string }>).map((claim) => claim.id));
+    const publicPromises = [
+      { file: 'README.md', copy: 'Offline app shell and installable PWA manifest', claims: ['offline-reload', 'installable-pwa'] },
+      { file: 'index.html', copy: 'No account needed.', claims: ['no-account'] },
+      { file: 'src/main.ts', copy: 'You do not create an account to use Done Here.', claims: ['no-account'] },
+      { file: 'src/main.ts', copy: 'Done Here does not rank people, assign points, or watch children.', claims: ['no-household-ranking'] },
+      { file: 'src/main.ts', copy: 'The calendar is free.', claims: ['free-core'] },
+      { file: 'src/main.ts', copy: 'Chores, notes, and every export stay free.', claims: ['free-core'] },
+      { file: 'README.md', copy: 'Free core calendar with five photos', claims: ['free-core', 'photo-tier'] }
+    ];
+    for (const promise of publicPromises) {
+      expect(readFileSync(promise.file, 'utf8'), `${promise.file}: ${promise.copy}`).toContain(promise.copy);
+      for (const claim of promise.claims) expect(claimIds, `${promise.copy} -> ${claim}`).toContain(claim);
     }
   });
 });

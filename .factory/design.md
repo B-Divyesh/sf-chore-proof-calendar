@@ -47,6 +47,9 @@ painted explicitly.
 - Section rhythm: 64px mobile, 96px desktop.
 - Content max: 1180px. Reading copy max: 68ch.
 - Buttons and inputs are at least 48px tall.
+- At 390px, the calendar runs edge to edge inside its ceramic panel. Its seven
+  day targets remain at least 44px wide with 8px between them. Narrower screens
+  scroll the calendar grid without widening the page.
 - Main sheets use uneven `28px 12px 30px 14px` radii, like hand-finished ware.
 - Completion marks are circular glaze impressions. Due markers are squared
   stamps. Photos have a clipped archival-corner treatment.

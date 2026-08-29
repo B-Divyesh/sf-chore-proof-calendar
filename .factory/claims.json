@@ -21,6 +21,20 @@
     "sandbox": "fresh /demo; wait for service worker, set context offline, reload"
   },
   {
+    "id": "installable-pwa",
+    "claim": "Provides an installable standalone PWA",
+    "where": "README feature list and web app metadata",
+    "test": "npm run test:e2e -- --grep @claim:installable-pwa --project=chromium",
+    "sandbox": "fresh /app; validate the browser manifest, icon responses, standalone start URL, and controlling service worker"
+  },
+  {
+    "id": "no-account",
+    "claim": "You can create and use a calendar without an account",
+    "where": "home metadata and privacy page",
+    "test": "npm run test:e2e -- --grep @claim:no-account --project=chromium",
+    "sandbox": "fresh /app; create and complete a real chore without identity UI or a remote request"
+  },
+  {
     "id": "local-data",
     "claim": "Chore records stay in this browser",
     "where": "landing facts, privacy, and README",
@@ -56,6 +70,13 @@
     "sandbox": "fresh /demo; download and parse the sample backup"
   },
   {
+    "id": "no-household-ranking",
+    "claim": "Does not rank people, assign points, or watch children",
+    "where": "landing privacy boundary",
+    "test": "npm run test:e2e -- --grep @claim:no-household-ranking --project=chromium",
+    "sandbox": "fresh /demo; complete a chore and inspect the interface and exported records for ranking, points, people, or child fields"
+  },
+  {
     "id": "json-restore",
     "claim": "Restores a full JSON backup",
     "where": "app export toolbar and README",
@@ -82,6 +103,13 @@
     "where": "landing how-it-works section, app proof form, and README",
     "test": "npm run test:e2e -- --grep @claim:completion-proof --project=chromium",
     "sandbox": "fresh /demo; add a note and photo with consent, then assert both appear in the dated history"
+  },
+  {
+    "id": "free-core",
+    "claim": "Chores, notes, calendar history, and every export work without a Household Pack license",
+    "where": "landing facts, paid section, and README",
+    "test": "npm run test:e2e -- --grep @claim:free-core --project=chromium",
+    "sandbox": "fresh /app without a license; create a chore, save a note, inspect calendar history, and download ICS, PDF, CSV, and JSON"
   },
   {
     "id": "keyboard-calendar",

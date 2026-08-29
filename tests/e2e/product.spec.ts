@@ -65,20 +65,23 @@ test('@regression:malformed-backup rejects every record before preserving the cu
   expect(errors).toEqual([]);
 });
 
-test('@regression:mobile-target-size mobile navigation, demo, and footer controls meet the 44px target', async ({ page }, testInfo) => {
+test('@regression:mobile-target-size every visible mobile control meets the 44px target', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'mobile measurement');
   await page.goto('/demo');
-  const controls = page.locator('.site-header a, .demo-banner a, .demo-banner button, .footer-links a');
+  const controls = page.locator('a[href], button, input:not(.sr-only):not([type="hidden"]), textarea, select, label.button[for]');
   let measured = 0;
   for (let index = 0; index < await controls.count(); index += 1) {
+    if (!await controls.nth(index).isVisible()) continue;
     const box = await controls.nth(index).boundingBox();
     if (!box) continue;
     measured += 1;
-    const controlName = await controls.nth(index).textContent() ?? `control ${index}`;
+    const controlName = await controls.nth(index).getAttribute('aria-label') ?? await controls.nth(index).textContent() ?? `control ${index}`;
     expect(box.width, `${controlName} width`).toBeGreaterThanOrEqual(44);
     expect(box.height, `${controlName} height`).toBeGreaterThanOrEqual(44);
   }
-  expect(measured).toBeGreaterThan(0);
+  expect(measured).toBeGreaterThan(40);
+  await expect(page.locator('.calendar-day')).toHaveCount(31);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(await page.evaluate(() => document.documentElement.clientWidth));
 });
 
 test('calendar arrow keys move focus between days', async ({ page }) => {
