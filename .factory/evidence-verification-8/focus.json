@@ -1,0 +1,14 @@
+{
+  "focus": {
+    "tag": "A",
+    "className": "skip-link",
+    "text": "Skip to main content",
+    "outline": "rgb(11, 101, 117) solid 3px",
+    "outlineColor": "rgb(11, 101, 117)",
+    "outlineWidth": "3px",
+    "outlineOffset": "3px",
+    "width": 198.578125,
+    "height": 48.796875
+  },
+  "contrastAgainstPage": 6.215160048743356
+}

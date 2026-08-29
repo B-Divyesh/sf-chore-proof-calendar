@@ -1,0 +1,25 @@
+{
+  "html": {
+    "count": 1,
+    "rawBytes": 50426,
+    "gzipBytes": 16251
+  },
+  "js": {
+    "count": 1,
+    "rawBytes": 33768,
+    "gzipBytes": 11913
+  },
+  "css": {
+    "count": 1,
+    "rawBytes": 15033,
+    "gzipBytes": 4081
+  },
+  "externalScripts": [],
+  "externalStyles": [],
+  "fonts": [],
+  "images": {
+    "hero960": 53244,
+    "hero1440": 106836,
+    "og": 125011
+  }
+}

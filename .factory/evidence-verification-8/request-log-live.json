@@ -1,0 +1,15 @@
+{
+  "requests": [
+    {
+      "method": "GET",
+      "type": "document",
+      "url": "https://chore-proof-calendar.sociobot.in/"
+    },
+    {
+      "method": "GET",
+      "type": "image",
+      "url": "https://chore-proof-calendar.sociobot.in/assets/hero-ceramics-1440.webp"
+    }
+  ],
+  "external": []
+}

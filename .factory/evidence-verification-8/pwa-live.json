@@ -1,0 +1,21 @@
+{
+  "before": {
+    "controller": "https://chore-proof-calendar.sociobot.in/sw.js",
+    "scope": "https://chore-proof-calendar.sociobot.in/",
+    "caches": [
+      "done-here-v9"
+    ],
+    "chores": 4
+  },
+  "registration": {
+    "waiting": false,
+    "installing": false,
+    "active": "activated"
+  },
+  "offline": {
+    "title": "Demo — Done Here",
+    "heading": "Keep a record of every chore",
+    "banner": true,
+    "chores": 4
+  }
+}

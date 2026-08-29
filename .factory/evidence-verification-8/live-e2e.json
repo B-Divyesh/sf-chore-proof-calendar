@@ -1,0 +1,57 @@
+{
+  "normal": {
+    "oneTapHistoryCount": 1,
+    "persistedAfterReload": true,
+    "cardText": "Due in 21 daysQA cooker hood filterLast done Aug 29, 2026, 3:50 PMEvery 21 days · next Sep 19, 2026✓Mark doneAdd note or photoArchive"
+  },
+  "boundaries": {
+    "recurrence0Rejected": true,
+    "recurrence366Rejected": true,
+    "recurrence21Accepted": true
+  },
+  "recovery": {
+    "consentError": true,
+    "photoVisible": true,
+    "invalidFileError": true,
+    "dialogStayedOpen": true,
+    "malformedImportAlert": "Backup was not imported.This backup has an invalid chore or completion. Your current calendar was not changed.",
+    "preservedAfterBadImport": true
+  },
+  "exports": {
+    "names": [
+      "done-here-2026-08-29.ics",
+      "done-here-2026-08-29.pdf",
+      "done-here-2026-08-29.csv",
+      "done-here-2026-08-29.json"
+    ],
+    "icsUtcEvents": 2,
+    "pdfHeader": "%PDF-",
+    "csvRows": 3,
+    "jsonChores": 1,
+    "jsonCompletions": 2,
+    "notePreserved": true,
+    "photoPreserved": true
+  },
+  "archive": {
+    "archivedHidden": true,
+    "recordRetained": true,
+    "completionsRetained": 2
+  },
+  "privacy": {
+    "requestCount": 2,
+    "external": [],
+    "requests": [
+      {
+        "method": "GET",
+        "type": "document",
+        "url": "https://chore-proof-calendar.sociobot.in/app"
+      },
+      {
+        "method": "GET",
+        "type": "document",
+        "url": "https://chore-proof-calendar.sociobot.in/app"
+      }
+    ]
+  },
+  "errors": []
+}
