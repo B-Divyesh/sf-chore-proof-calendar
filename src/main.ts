@@ -12,6 +12,7 @@ const root = document.querySelector<HTMLDivElement>('#app')!;
 let data: AppData = { chores: [], completions: [] };
 let demoData: AppData = structuredClone(SAMPLE_DATA);
 let isDemo = false;
+let realDataHydrated = false;
 let storageError = '';
 let importError = '';
 let selectedDate = new Date().toISOString().slice(0, 10);
@@ -34,8 +35,24 @@ function localDate(iso: string) {
 
 async function persist() {
   if (isDemo) return;
+  if (!realDataHydrated) {
+    storageError = 'Your calendar is still loading. Reload the page before making changes.';
+    throw new Error(storageError);
+  }
   try { await saveData(data); storageError = ''; }
   catch (error) { storageError = error instanceof Error ? error.message : 'Your change was not saved. Reload and try again.'; throw error; }
+}
+
+async function hydrateRealData() {
+  if (realDataHydrated) return;
+  try {
+    data = await loadData();
+    realDataHydrated = true;
+    storageError = '';
+  } catch (error) {
+    realDataHydrated = false;
+    storageError = error instanceof Error ? error.message : 'Your calendar could not be read.';
+  }
 }
 
 const navLink = (href: string, label: string) => `<a href="${href}" data-link>${label}</a>`;
@@ -54,7 +71,7 @@ function shell(content: string, title: string, description: string) {
     ${!navigator.onLine ? '<div class="offline-strip" role="status">Offline. Your calendar still works here.</div>' : ''}
     <main id="main" tabindex="-1">${content}</main>
     <div id="route-status" class="sr-only" aria-live="polite">${esc(title)}</div>
-    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.2</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
+    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.3</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
     <div class="toast-region" aria-live="polite" aria-atomic="true"></div>`;
   document.querySelector('#reset-demo')?.addEventListener('click', () => { demoData = structuredClone(SAMPLE_DATA); toast('Sample data reset.'); render(); });
 }
@@ -102,6 +119,19 @@ function paidSection() {
 }
 
 function appPage() {
+  if (!isDemo && !realDataHydrated) {
+    shell(`
+      <section class="not-found">
+        <span class="empty-seal" aria-hidden="true">!</span>
+        <p class="eyebrow">Local storage unavailable</p>
+        <h1>Your calendar could not open</h1>
+        <div class="error-panel" role="alert"><p>${esc(storageError || 'Your calendar could not be read. Reload the page and try again.')}</p></div>
+        <button class="button primary" id="retry-calendar">Retry opening calendar</button>
+      </section>
+    `, 'Calendar unavailable — Done Here', 'Retry opening your local Done Here calendar.');
+    document.querySelector('#retry-calendar')?.addEventListener('click', () => { void navigate(); });
+    return;
+  }
   const d = activeData();
   const sorted = [...d.chores].filter((c) => !c.archived).sort((a, b) => dueInfo(a, d.completions).due.getTime() - dueInfo(b, d.completions).due.getTime());
   shell(`
@@ -306,10 +336,6 @@ function toast(message: string, action?: string, callback?: () => void | Promise
 }
 
 function render(focus = false) {
-  const wasDemo = isDemo;
-  isDemo = isDemoRoute();
-  if (isDemo) { licenseActive = false; licenseNotice = ''; }
-  else if (wasDemo) void initLicense();
   if (location.pathname === '/') homePage();
   else if (location.pathname === '/app' || isDemo) appPage();
   else if (location.pathname === '/privacy') legalPage('privacy');
@@ -319,14 +345,37 @@ function render(focus = false) {
   if (focus) { window.scrollTo(0, 0); requestAnimationFrame(() => { const heading = document.querySelector<HTMLElement>('h1'); heading?.setAttribute('tabindex', '-1'); heading?.focus({ preventScroll: true }); }); }
 }
 
+async function prepareRoute() {
+  const nextIsDemo = isDemoRoute();
+  if (nextIsDemo) {
+    isDemo = true;
+    licenseActive = false;
+    licenseNotice = '';
+    return;
+  }
+
+  const wasDemo = isDemo;
+  // Keep the previous demo state active while IndexedDB is read. This makes
+  // every demo exit read-only with respect to the real calendar until its
+  // complete state is available in memory.
+  await hydrateRealData();
+  isDemo = false;
+  if (wasDemo) await initLicense();
+}
+
+async function navigate(focus = false) {
+  await prepareRoute();
+  render(focus);
+}
+
 function bindNavigation() {
   document.querySelectorAll<HTMLAnchorElement>('a[data-link]').forEach((link) => link.addEventListener('click', (event) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault(); history.pushState({}, '', link.href); render(true);
+    event.preventDefault(); history.pushState({}, '', link.href); void navigate(true);
   }));
 }
 
-window.addEventListener('popstate', () => render(true));
+window.addEventListener('popstate', () => { void navigate(true); });
 window.addEventListener('online', () => render());
 window.addEventListener('offline', () => render());
 async function boot() {
@@ -337,7 +386,7 @@ async function boot() {
     calendarMonth = new Date(`${selectedDate}T12:00:00`);
   }
   await initLicense();
-  if (!isDemo) { try { data = await loadData(); } catch (error) { storageError = error instanceof Error ? error.message : 'Your calendar could not be read.'; } }
+  if (!isDemo) await hydrateRealData();
   render();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').then((registration) => {

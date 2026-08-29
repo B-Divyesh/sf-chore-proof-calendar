@@ -45,7 +45,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v6');
+    const cache = await caches.open('done-here-v7');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -69,7 +69,7 @@ test('@claim:installable-pwa provides a valid standalone manifest and controlled
     display: string;
     icons: Array<{ src: string; sizes: string; purpose: string }>;
   };
-  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=6', display: 'standalone' });
+  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=7', display: 'standalone' });
   expect(manifest.icons).toEqual(expect.arrayContaining([
     expect.objectContaining({ sizes: '192x192', purpose: expect.stringContaining('maskable') }),
     expect.objectContaining({ sizes: '512x512', purpose: expect.stringContaining('maskable') })

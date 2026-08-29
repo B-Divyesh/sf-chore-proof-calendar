@@ -13,6 +13,36 @@ test('a real calendar persists chores and completions', async ({ page }) => {
   await expect(page.locator('.day-history')).toContainText('Clean the cooker hood');
 });
 
+for (const exit of ['Start for real', 'Calendar']) {
+  test(`@regression:demo-exit-preserves-real-data ${exit} hydrates before the next save`, async ({ page }, testInfo) => {
+    test.skip(exit === 'Calendar' && testInfo.project.name === 'mobile', 'The compact header hides Calendar; Start for real covers the mobile exit.');
+    await page.goto('/app');
+    await page.getByRole('button', { name: 'Add a chore' }).click();
+    await page.getByLabel('Chore name').fill('Existing real calendar record');
+    await page.getByRole('button', { name: 'Save chore' }).click();
+    const existing = page.locator('.chore-card').filter({ hasText: 'Existing real calendar record' });
+    await existing.getByRole('button', { name: 'Mark done' }).click();
+    await page.reload();
+    await expect(page.getByRole('heading', { name: 'Existing real calendar record' })).toBeVisible();
+
+    // A document boot at /demo intentionally does not open the real database.
+    await page.goto('/demo');
+    await page.getByRole('link', { name: exit, exact: true }).click();
+    await expect(page).toHaveURL(/\/app$/);
+    await expect(page.getByRole('heading', { name: 'Existing real calendar record' })).toBeVisible();
+
+    await page.getByRole('button', { name: 'Add a chore' }).click();
+    await page.getByLabel('Chore name').fill(`New record after ${exit}`);
+    await page.getByRole('button', { name: 'Save chore' }).click();
+    await expect(page.getByRole('heading', { name: `New record after ${exit}` })).toBeVisible();
+    await page.reload();
+
+    await expect(page.getByRole('heading', { name: 'Existing real calendar record' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: `New record after ${exit}` })).toBeVisible();
+    await expect(page.locator('.day-history')).toContainText('Existing real calendar record');
+  });
+}
+
 test('photo proof requires consent', async ({ page }) => {
   await page.goto('/demo');
   await page.getByRole('button', { name: 'Add note or photo' }).first().click();
