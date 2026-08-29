@@ -1,0 +1,188 @@
+{
+  "mobile": {
+    "status": 200,
+    "url": "https://chore-proof-calendar.sociobot.in/",
+    "title": "Done Here — See when each chore was done",
+    "fold": [
+      {
+        "tag": "a",
+        "text": "✓Done Here",
+        "top": 12,
+        "bottom": 56
+      },
+      {
+        "tag": "a",
+        "text": "Demo",
+        "top": 12,
+        "bottom": 56
+      },
+      {
+        "tag": "a",
+        "text": "Privacy",
+        "top": 12,
+        "bottom": 56
+      },
+      {
+        "tag": "p",
+        "text": "Recurring chore completion history",
+        "top": 108,
+        "bottom": 127
+      },
+      {
+        "tag": "h1",
+        "text": "See when each chore was done",
+        "top": 139,
+        "bottom": 229
+      },
+      {
+        "tag": "p",
+        "text": "For households that need a clear record of when recurring work was finished.",
+        "top": 249,
+        "bottom": 338
+      },
+      {
+        "tag": "a",
+        "text": "Try it with sample data",
+        "top": 366,
+        "bottom": 414
+      },
+      {
+        "tag": "a",
+        "text": "Create your first chore →",
+        "top": 483,
+        "bottom": 527
+      },
+      {
+        "tag": "li",
+        "text": "Works after the first visit without internet.",
+        "top": 551,
+        "bottom": 572
+      },
+      {
+        "tag": "li",
+        "text": "Chore records stay in this browser.",
+        "top": 580,
+        "bottom": 602
+      },
+      {
+        "tag": "li",
+        "text": "$12 once raises photo storage from 5 to 500. The calendar is free.",
+        "top": 610,
+        "bottom": 653
+      }
+    ],
+    "requests": [
+      "https://chore-proof-calendar.sociobot.in/",
+      "https://chore-proof-calendar.sociobot.in/assets/hero-ceramics-960.webp"
+    ],
+    "consoleErrors": []
+  },
+  "desktop": {
+    "status": 200,
+    "url": "https://chore-proof-calendar.sociobot.in/",
+    "title": "Done Here — See when each chore was done",
+    "fold": [
+      {
+        "tag": "a",
+        "text": "✓Done Here",
+        "top": 18,
+        "bottom": 62
+      },
+      {
+        "tag": "a",
+        "text": "Calendar",
+        "top": 18,
+        "bottom": 62
+      },
+      {
+        "tag": "a",
+        "text": "Demo",
+        "top": 18,
+        "bottom": 62
+      },
+      {
+        "tag": "a",
+        "text": "Privacy",
+        "top": 18,
+        "bottom": 62
+      },
+      {
+        "tag": "p",
+        "text": "Recurring chore completion history",
+        "top": 144,
+        "bottom": 163
+      },
+      {
+        "tag": "h1",
+        "text": "See when each chore was done",
+        "top": 175,
+        "bottom": 330
+      },
+      {
+        "tag": "p",
+        "text": "For households that need a clear record of when recurring work was finished.",
+        "top": 350,
+        "bottom": 409
+      },
+      {
+        "tag": "a",
+        "text": "Try it with sample data",
+        "top": 437,
+        "bottom": 485
+      },
+      {
+        "tag": "a",
+        "text": "Create your first chore →",
+        "top": 503,
+        "bottom": 547
+      },
+      {
+        "tag": "li",
+        "text": "Works after the first visit without internet.",
+        "top": 571,
+        "bottom": 593
+      },
+      {
+        "tag": "li",
+        "text": "Chore records stay in this browser.",
+        "top": 601,
+        "bottom": 622
+      },
+      {
+        "tag": "li",
+        "text": "$12 once raises photo storage from 5 to 500. The calendar is free.",
+        "top": 630,
+        "bottom": 652
+      },
+      {
+        "tag": "p",
+        "text": "Calendar preview",
+        "top": 780,
+        "bottom": 799
+      },
+      {
+        "tag": "h2",
+        "text": "Last done stays visible",
+        "top": 811,
+        "bottom": 914
+      },
+      {
+        "tag": "li",
+        "text": "✓Water the houseplantsLast done Aug 26, 2026",
+        "top": 809,
+        "bottom": 891
+      },
+      {
+        "tag": "li",
+        "text": "✓Change the bed sheetsLast done Aug 24, 2026",
+        "top": 891,
+        "bottom": 974
+      }
+    ],
+    "requests": [
+      "https://chore-proof-calendar.sociobot.in/",
+      "https://chore-proof-calendar.sociobot.in/assets/hero-ceramics-1440.webp"
+    ],
+    "consoleErrors": []
+  }
+}

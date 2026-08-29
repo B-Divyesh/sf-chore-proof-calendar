@@ -1,0 +1,206 @@
+{
+  "pages": [
+    {
+      "route": "/",
+      "status": 200,
+      "title": "Done Here — See when each chore was done",
+      "description": "Record recurring household chores with notes, photos, due dates, and a compact calendar history. No account needed.",
+      "canonical": "https://chore-proof-calendar.sociobot.in/",
+      "ogTitle": "Done Here — See when each chore was done",
+      "ogDescription": "Record recurring household chores with notes, photos, due dates, and a compact calendar history. No account needed.",
+      "ogImage": "https://chore-proof-calendar.sociobot.in/assets/done-here-og.jpg",
+      "twitterCard": "summary_large_image",
+      "favicon": "https://chore-proof-calendar.sociobot.in/favicon.svg",
+      "appleTouch": "https://chore-proof-calendar.sociobot.in/assets/apple-touch-icon.png",
+      "h1": [
+        "See when each chore was done"
+      ],
+      "header": true,
+      "footer": true,
+      "privacy": true,
+      "terms": true,
+      "skip": true
+    },
+    {
+      "route": "/app",
+      "status": 200,
+      "title": "Calendar — Done Here",
+      "description": "Mark recurring chores done and see their completion history in a local calendar.",
+      "canonical": "https://chore-proof-calendar.sociobot.in/app",
+      "ogTitle": "Calendar — Done Here",
+      "ogDescription": "Mark recurring chores done and see their completion history in a local calendar.",
+      "ogImage": "https://chore-proof-calendar.sociobot.in/assets/done-here-og.jpg",
+      "twitterCard": "summary_large_image",
+      "favicon": "https://chore-proof-calendar.sociobot.in/favicon.svg",
+      "appleTouch": "https://chore-proof-calendar.sociobot.in/assets/apple-touch-icon.png",
+      "h1": [
+        "Keep a record of every chore"
+      ],
+      "header": true,
+      "footer": true,
+      "privacy": true,
+      "terms": true,
+      "skip": true
+    },
+    {
+      "route": "/demo",
+      "status": 200,
+      "title": "Demo — Done Here",
+      "description": "Mark recurring chores done and see their completion history in a local calendar.",
+      "canonical": "https://chore-proof-calendar.sociobot.in/demo",
+      "ogTitle": "Demo — Done Here",
+      "ogDescription": "Mark recurring chores done and see their completion history in a local calendar.",
+      "ogImage": "https://chore-proof-calendar.sociobot.in/assets/done-here-og.jpg",
+      "twitterCard": "summary_large_image",
+      "favicon": "https://chore-proof-calendar.sociobot.in/favicon.svg",
+      "appleTouch": "https://chore-proof-calendar.sociobot.in/assets/apple-touch-icon.png",
+      "h1": [
+        "Keep a record of every chore"
+      ],
+      "header": true,
+      "footer": true,
+      "privacy": true,
+      "terms": true,
+      "skip": true
+    },
+    {
+      "route": "/privacy",
+      "status": 200,
+      "title": "Privacy — Done Here",
+      "description": "How Done Here stores chores, completion notes, photos, and licenses.",
+      "canonical": "https://chore-proof-calendar.sociobot.in/privacy",
+      "ogTitle": "Privacy — Done Here",
+      "ogDescription": "How Done Here stores chores, completion notes, photos, and licenses.",
+      "ogImage": "https://chore-proof-calendar.sociobot.in/assets/done-here-og.jpg",
+      "twitterCard": "summary_large_image",
+      "favicon": "https://chore-proof-calendar.sociobot.in/favicon.svg",
+      "appleTouch": "https://chore-proof-calendar.sociobot.in/assets/apple-touch-icon.png",
+      "h1": [
+        "Your chore data stays with you"
+      ],
+      "header": true,
+      "footer": true,
+      "privacy": true,
+      "terms": true,
+      "skip": true
+    },
+    {
+      "route": "/terms",
+      "status": 200,
+      "title": "Terms — Done Here",
+      "description": "Terms for using Done Here and its one-time Household Pack.",
+      "canonical": "https://chore-proof-calendar.sociobot.in/terms",
+      "ogTitle": "Terms — Done Here",
+      "ogDescription": "Terms for using Done Here and its one-time Household Pack.",
+      "ogImage": "https://chore-proof-calendar.sociobot.in/assets/done-here-og.jpg",
+      "twitterCard": "summary_large_image",
+      "favicon": "https://chore-proof-calendar.sociobot.in/favicon.svg",
+      "appleTouch": "https://chore-proof-calendar.sociobot.in/assets/apple-touch-icon.png",
+      "h1": [
+        "Terms for using Done Here"
+      ],
+      "header": true,
+      "footer": true,
+      "privacy": true,
+      "terms": true,
+      "skip": true
+    },
+    {
+      "route": "/missing-route",
+      "status": 200,
+      "title": "Page not found — Done Here",
+      "description": "This page could not be found. Return to Done Here.",
+      "canonical": "https://chore-proof-calendar.sociobot.in/missing-route",
+      "ogTitle": "Page not found — Done Here",
+      "ogDescription": "This page could not be found. Return to Done Here.",
+      "ogImage": "https://chore-proof-calendar.sociobot.in/assets/done-here-og.jpg",
+      "twitterCard": "summary_large_image",
+      "favicon": "https://chore-proof-calendar.sociobot.in/favicon.svg",
+      "appleTouch": "https://chore-proof-calendar.sociobot.in/assets/apple-touch-icon.png",
+      "h1": [
+        "This page could not be found"
+      ],
+      "header": true,
+      "footer": true,
+      "privacy": true,
+      "terms": true,
+      "skip": true
+    }
+  ],
+  "navigation": {
+    "forward": {
+      "url": "https://chore-proof-calendar.sociobot.in/demo",
+      "h1Focused": true
+    },
+    "back": {
+      "url": "https://chore-proof-calendar.sociobot.in/",
+      "h1Focused": true
+    }
+  },
+  "links": [
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/#main",
+      "status": "skipped-protocol-or-fragment"
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/app",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/demo",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/privacy",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/?demo=1",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout",
+      "status": 303,
+      "location": "https://checkout.dodopayments.com/session/cks_0NmSWEuu3WWTPa5z9aM1r"
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/terms",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://hello-factory.sociobot.in/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/app#main",
+      "status": "skipped-protocol-or-fragment"
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/demo#main",
+      "status": "skipped-protocol-or-fragment"
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/privacy#main",
+      "status": "skipped-protocol-or-fragment"
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/terms#main",
+      "status": "skipped-protocol-or-fragment"
+    },
+    {
+      "href": "https://chore-proof-calendar.sociobot.in/missing-route#main",
+      "status": "skipped-protocol-or-fragment"
+    }
+  ]
+}

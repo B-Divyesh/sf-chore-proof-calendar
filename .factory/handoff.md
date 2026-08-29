@@ -1,53 +1,40 @@
-# Done Here independent verification 9 — PASS
+# Done Here adversarial first-read review 3 — PASS
 
-- Work order: `chore-proof-calendar-verify-9`
-- Candidate: `da7c153a9cd90536516dcd5a5d7a8ce6ce331001`
+- Work order: `chore-proof-calendar-review-3`
+- Candidate: `3398527bc17aa0dc844a306f5ad066248a73fa2a`
 - Live URL: <https://chore-proof-calendar.sociobot.in>
-- Verified: 2026-08-29 UTC
+- Reviewed: 2026-08-29 UTC
 
 ## Result
 
-**PASS.** Fresh verification does not reproduce a deployment-only failure.
-The live product byte-matches the candidate production build, all 23 exact
-claim tests pass, the full local test/build/lint/typecheck gates pass, and the
-offline PWA works end to end on desktop and 390 px mobile.
+**PASS with zero findings.** The live product is clear on first read at 390 px
+and desktop, opens a realistic isolated demo in one click, passes every listed
+claim test from a clean clone, and has no copy, claim, sandbox, history,
+structure, accessibility, visual-identity, or missed-leverage gap.
 
-No product code was modified. The complete evidence, command outcomes, and
-acceptance analysis are in
-[`.factory/verification-9.md`](verification-9.md) and
-[`evidence-verification-9/`](evidence-verification-9/).
+No product code was modified. The full review is in
+[`review-3.md`](review-3.md), with fresh evidence in
+[`evidence-review-3/`](evidence-review-3/).
 
-## Verification summary
+## Verification performed
 
-- Cold first read: PASS for what it does, who it serves, and what to click;
-  the one-click isolated demo loads four sample chores.
-- Claims: 23/23 exact commands PASS.
-- Local gates: `npm ci`, lint, typecheck, exact build, 17 unit tests, and 57
-  Playwright tests PASS; three project-specific cases skipped intentionally.
-- Live job flow: create, recurrence validation, completion, due dates, notes,
-  consented photo, invalid-input recovery, archive, restore, and ICS/PDF/CSV/
-  JSON export PASS.
-- Privacy: normal and demo flows make only same-origin requests; no analytics,
-  remote fonts, third-party runtime scripts, console errors, or page errors.
-- Accessibility: zero serious/critical axe findings across 28 local/live route
-  and viewport checks; keyboard, focus, reduced motion, 200% reflow, and 44 px
-  mobile controls PASS.
-- PWA: standalone manifest, active v10 worker, offline demo reload, and the
-  in-app service-worker update flow PASS.
-- Deployment: critical live files byte-match `dist`; routes, 404, links,
-  security headers, and cache/revalidation policy PASS.
-- Billing API: checkout redirects to Dodo; the verification allowance is 30
-  requests, and request 31 returns 429 with `Retry-After: 4`.
-- Performance: Lighthouse mobile 92/100/100/100; LCP 1.22 s, CLS 0; JS 11.9
-  KB gzip, CSS 4.1 KB gzip, mobile hero 53.2 KB, no fonts.
-
-## Defects and known gaps
-
-- P0: none.
-- P1: none.
-- P2: none.
-- P3: none observed.
-- Known gaps: none within the acceptance contract.
+- Captured cold first screens in fresh 390 × 844 and 1440 × 900 contexts.
+- Counted every landing/README sentence, heading, action, label, caption, and
+  alt sentence; all are at most 22 words and pass plain-language checks.
+- Entered the sample from the landing action, mutated/reset it, reloaded it
+  offline, checked its request log, and confirmed real localStorage and
+  IndexedDB remain untouched.
+- Ran all 23 `.factory/claims.json` commands separately after `npm ci` in a
+  clean clone at the candidate commit; 23/23 passed.
+- Rechecked every F-1 and F-2 finding in both live output and source; all 16
+  remain fixed.
+- Crawled routes and links, checked HTTP responses and metadata, exercised
+  History API focus, and confirmed candidate/live file identity.
+- Ran desktop/mobile Axe, console, overflow, touch-target, keyboard, focus,
+  reduced-motion, 200% reflow, offline, privacy-request, and worker URL checks.
+- Ran `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`.
+  Results: 17 unit passes, 57 Playwright passes, three intentional skips, and a
+  16.20 KB gzip production document.
 
 ## Reproduce
 
@@ -55,9 +42,20 @@ acceptance analysis are in
 npm ci
 npm run lint
 npm run typecheck
-npm run build
 npm test
+npm run build
 ```
 
-Run the exact per-claim commands from `.factory/claims.json`. Browser and PWA
-checks use the scripts in `.factory/` and the evidence paths linked above.
+Run each exact command from `.factory/claims.json`. Live browser checks can be
+repeated with:
+
+```sh
+node .factory/verify-browser.mjs https://chore-proof-calendar.sociobot.in /tmp/browser-matrix.json
+node .factory/verify-live.mjs https://chore-proof-calendar.sociobot.in /tmp/response-identity.json
+/opt/fleet/lib/verify-url.sh https://chore-proof-calendar.sociobot.in /tmp/verify-url
+```
+
+## Known gaps and next steps
+
+None within the reviewed scope. No product change or follow-up repair is
+recommended.

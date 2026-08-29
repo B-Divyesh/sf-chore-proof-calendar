@@ -1,0 +1,40 @@
+{
+  "seeded": {
+    "real:calendar-preference": "kept",
+    "sb_license:chore-proof-calendar": "real-household-license",
+    "sb_license_verdict:chore-proof-calendar": "{\"valid\":true,\"checkedAt\":4102444800000}"
+  },
+  "before": {
+    "localStorage": {
+      "real:calendar-preference": "kept",
+      "sb_license:chore-proof-calendar": "real-household-license",
+      "sb_license_verdict:chore-proof-calendar": "{\"valid\":true,\"checkedAt\":4102444800000}"
+    },
+    "dbs": [],
+    "chores": [
+      "Rinse the coffee filter",
+      "Water the houseplants",
+      "Change the bed sheets",
+      "Clear the fridge shelf"
+    ]
+  },
+  "after": {
+    "localStorage": {
+      "real:calendar-preference": "kept",
+      "sb_license:chore-proof-calendar": "real-household-license",
+      "sb_license_verdict:chore-proof-calendar": "{\"valid\":true,\"checkedAt\":4102444800000}"
+    },
+    "dbs": [],
+    "chores": [
+      "Rinse the coffee filter",
+      "Water the houseplants",
+      "Change the bed sheets",
+      "Clear the fridge shelf"
+    ]
+  },
+  "requests": [
+    "https://chore-proof-calendar.sociobot.in/?demo=1&license=demo-should-not-save",
+    "https://chore-proof-calendar.sociobot.in/?demo=1&license=demo-should-not-save"
+  ],
+  "remoteRequests": []
+}
