@@ -64,10 +64,23 @@ metadata are covered by the complete existing Playwright suite and claim tests.
 Its captured evidence is in
 `.factory/evidence-repair-4-local/`.
 
-## Deploy and known gaps
+## Deployment and known gaps
 
-The static deployment is triggered by pushing `main` to the configured origin.
-The live URL and build identity are checked after that push. There are no known
+`/opt/fleet/lib/deploy-static.sh chore-proof-calendar dist` deployed the final
+production build to the existing Central US Static Web App (deployment
+`f86a431e-c64f-4110-bc6b-737c16e80963`). The configured custom domain returned
+HTTPS 200 after deployment.
+
+Live identity matches the final build exactly:
+
+- `index.html`: `d66f5cd9aebd3e18ba691f9aa20771a325839bd3f85fbb2bdb1c8b95b8d25bfc`
+- `sw.js`: `dc2be8b41c9804a934648736177a9f125ab5155ad82c8aaf9305088e94241068`
+
+`verify-url.sh` on live `/demo` passed in 585 ms with the expected title,
+language, heading, main landmark, image/button labels, and no browser errors.
+Live mobile Playwright/Axe verification found no serious or critical issue;
+the visible **Terms** link measured exactly `44 × 44 px`.
+Live evidence is in `.factory/evidence-repair-4-live/`. There are no known
 product gaps from this repair.
 
 ## Run locally
