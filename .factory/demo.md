@@ -2,7 +2,7 @@
 
 - URL: `https://chore-proof-calendar.sociobot.in/demo`
 - Local URL: `http://localhost:5173/demo`
-- Query alias: `/?demo=1`
+- Query entry: `/?demo=1` (the first-screen Try action uses this URL)
 
 The sample contains four household chores and seven completions across ten
 days. Notes cover plants, bed sheets, a fridge shelf, and a coffee filter.

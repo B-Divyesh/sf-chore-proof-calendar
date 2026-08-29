@@ -15,7 +15,8 @@ test('@claim:demo-sandbox loads sample data without touching real storage', asyn
     if (request.url().includes('/products/chore-proof-calendar/verify')) licenseRequests.push(request.url());
   });
 
-  await page.goto('/demo?license=demo-should-not-save');
+  await page.goto('/?demo=1&license=demo-should-not-save');
+  await expect(page).toHaveURL(/\?demo=1/);
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('Water the houseplants').first()).toBeVisible();
   await expect(page.getByText('Household Pack active')).toHaveCount(0);
@@ -30,6 +31,11 @@ test('@claim:demo-sandbox loads sample data without touching real storage', asyn
   await page.goto('/app?demo=1&license=another-demo-token');
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   expect(await page.evaluate(() => Object.fromEntries(Object.entries(localStorage).sort()))).toEqual(realStorage);
+
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Try it with sample data' }).click();
+  await expect(page).toHaveURL(/\?demo=1$/);
+  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   expect(licenseRequests).toEqual([]);
 });
 
@@ -45,7 +51,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v8');
+    const cache = await caches.open('done-here-v9');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -69,7 +75,7 @@ test('@claim:installable-pwa provides a valid standalone manifest and controlled
     display: string;
     icons: Array<{ src: string; sizes: string; purpose: string }>;
   };
-  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=8', display: 'standalone' });
+  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=9', display: 'standalone' });
   expect(manifest.icons).toEqual(expect.arrayContaining([
     expect.objectContaining({ sizes: '192x192', purpose: expect.stringContaining('maskable') }),
     expect.objectContaining({ sizes: '512x512', purpose: expect.stringContaining('maskable') })

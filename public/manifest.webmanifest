@@ -3,7 +3,7 @@
   "short_name": "Done Here",
   "description": "Record when recurring household chores were done.",
   "id": "/",
-  "start_url": "/app?v=8",
+  "start_url": "/app?v=9",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f4f7f5",

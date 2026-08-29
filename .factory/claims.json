@@ -2,7 +2,7 @@
   {
     "id": "demo-sandbox",
     "claim": "Demo — sample data, nothing is saved",
-    "where": "demo banner",
+    "where": "demo banner and ?demo=1 sample entry",
     "test": "npm run test:e2e -- --grep @claim:demo-sandbox --project=chromium",
     "sandbox": "fresh browser context at /demo; mutate, reload, and inspect storage"
   },

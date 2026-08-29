@@ -69,7 +69,18 @@ const navLink = (href: string, label: string) => `<a href="${href}" data-link>${
 function shell(content: string, title: string, description: string) {
   document.title = title;
   document.querySelector<HTMLMetaElement>('meta[name="description"]')!.content = description;
-  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = `https://chore-proof-calendar.sociobot.in${location.pathname}`;
+  const canonicalPath = isDemo ? '/demo' : location.pathname;
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = `https://chore-proof-calendar.sociobot.in${canonicalPath}`;
+  const canonical = `https://chore-proof-calendar.sociobot.in${canonicalPath}`;
+  const setMeta = (selector: string, value: string) => {
+    const element = document.querySelector<HTMLMetaElement>(selector);
+    if (element) element.content = value;
+  };
+  setMeta('meta[property="og:title"]', title);
+  setMeta('meta[property="og:description"]', description);
+  setMeta('meta[property="og:url"]', canonical);
+  setMeta('meta[name="twitter:title"]', title);
+  setMeta('meta[name="twitter:description"]', description);
   root.innerHTML = `
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
@@ -80,7 +91,7 @@ function shell(content: string, title: string, description: string) {
     ${!navigator.onLine ? '<div class="offline-strip" role="status">Offline. Your calendar still works here.</div>' : ''}
     <main id="main" tabindex="-1">${content}</main>
     <div id="route-status" class="sr-only" aria-live="polite">${esc(title)}</div>
-    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.4</span></div><p class="asset-note">Ceramic artwork generated for this product.</p></footer>
+    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.5</span></div></footer>
     <div class="toast-region" aria-live="polite" aria-atomic="true"></div>`;
   document.querySelector('#reset-demo')?.addEventListener('click', () => { demoData = structuredClone(SAMPLE_DATA); toast('Sample data reset.'); render(); });
 }
@@ -93,10 +104,10 @@ function homePage() {
   shell(`
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">A household record, kept here</p>
+        <p class="eyebrow">Recurring chore completion history</p>
         <h1>See when each chore was done</h1>
         <p class="lede">For households that need a clear history, not another overdue badge.</p>
-        <div class="hero-actions"><a class="button primary" href="/demo" data-link>Try it with sample data</a><span>See a filled calendar in one click.</span></div>
+        <div class="hero-actions"><a class="button primary" href="/?demo=1" data-link>Try it with sample data</a><span>See a filled calendar in one click.</span></div>
         <a class="quiet-action" href="/app" data-link>Create your first chore →</a>
         <ul class="plain-facts">
           <li>Works after the first visit without internet.</li>
@@ -107,11 +118,11 @@ function homePage() {
       <figure class="hero-art"><picture><source media="(max-width: 700px)" srcset="/assets/hero-ceramics-960.webp"><img src="/assets/hero-ceramics-1440.webp" width="1440" height="960" fetchpriority="high" alt="Five handmade ceramic tiles form a weekly record with one teal completion mark."></picture><figcaption>Each completion leaves a dated mark you can return to.</figcaption></figure>
     </section>
     <section class="preview-section" aria-labelledby="preview-title">
-      <div><p class="eyebrow">Today’s shelf</p><h2 id="preview-title">Last done stays visible</h2><p>Each chore shows its latest completion and next due date.</p></div>
+      <div><p class="eyebrow">Calendar preview</p><h2 id="preview-title">Last done stays visible</h2><p>Each chore shows its latest completion and next due date.</p></div>
       <ol class="preview-list">${preview}</ol>
     </section>
-    <section class="steps" aria-labelledby="how-title"><p class="eyebrow">Three small moves</p><h2 id="how-title">How the record works</h2><ol><li><span>01</span><h3>Name the chore</h3><p>Choose how many days pass before it is due again.</p></li><li><span>02</span><h3>Mark it done</h3><p>Save the time in one tap. Add a note or photo when useful.</p></li><li><span>03</span><h3>Read the history</h3><p>Use the calendar or export the record as ICS, PDF, CSV, or JSON.</p></li></ol></section>
-    <section class="boundaries"><div><p class="eyebrow">A calmer boundary</p><h2>Proof without household scoring</h2></div><div><p>Done Here does not rank people, assign points, or watch children.</p><p>It records the chore, time, note, and optional photo you choose.</p></div></section>
+    <section class="steps" aria-labelledby="how-title"><p class="eyebrow">How it works</p><h2 id="how-title">Build a clear chore record</h2><ol><li><span>01</span><h3>Name the chore</h3><p>Choose how many days pass before it is due again.</p></li><li><span>02</span><h3>Mark it done</h3><p>Save the time in one tap. Add a note or photo when useful.</p></li><li><span>03</span><h3>Read the history</h3><p>Use the calendar or export the record as ICS, PDF, CSV, or JSON.</p></li></ol></section>
+    <section class="boundaries"><div><p class="eyebrow">What Done Here does not do</p><h2>Proof without household scoring</h2></div><div><p>Done Here does not rank people, assign points, or watch children.</p><p>It records the chore, time, note, and optional photo you choose.</p></div></section>
     ${paidSection()}
   `, 'Done Here — See when each chore was done', 'Record recurring household chores with notes, photos, due dates, and a compact calendar history. No account needed.');
   bindPaid();
@@ -345,8 +356,9 @@ function toast(message: string, action?: string, callback?: () => void | Promise
 }
 
 function render(focus = false) {
-  if (location.pathname === '/') homePage();
-  else if (location.pathname === '/app' || isDemo) appPage();
+  if (isDemo) appPage();
+  else if (location.pathname === '/') homePage();
+  else if (location.pathname === '/app') appPage();
   else if (location.pathname === '/privacy') legalPage('privacy');
   else if (location.pathname === '/terms') legalPage('terms');
   else notFoundPage();
@@ -394,7 +406,6 @@ window.addEventListener('popstate', () => { void navigate(true); });
 window.addEventListener('online', () => render());
 window.addEventListener('offline', () => render());
 async function boot() {
-  if (new URLSearchParams(location.search).get('demo') === '1' && location.pathname === '/') history.replaceState({}, '', '/demo');
   isDemo = isDemoRoute();
   if (isDemo) {
     selectedDate = demoData.completions.map((item) => localDate(item.completedAt)).sort().at(-1) ?? selectedDate;

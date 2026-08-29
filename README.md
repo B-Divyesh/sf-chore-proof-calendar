@@ -9,21 +9,21 @@ a full JSON backup.
 
 Live site: <https://chore-proof-calendar.sociobot.in>
 
-Try the isolated demo: <https://chore-proof-calendar.sociobot.in/demo>
+Try the isolated demo: <https://chore-proof-calendar.sociobot.in/?demo=1>
 
 ## Features
 
-- Named chores with a recurrence from 1 to 365 days
-- One-tap completion with immediate last-done and calendar-day due dates
+- Name chores and repeat each one every 1 to 365 days
+- Mark a chore done once and see when it was last completed and next due
 - Optional notes and consent-aware photos
 - Monthly completion calendar with keyboard navigation
 - ICS, PDF, CSV, and JSON export, plus JSON restore
-- Offline app shell and installable PWA manifest
+- Works without internet after the first visit and can be installed as an app
 - Separate sample-data demo that does not read or write real calendar or license data
 - Free core calendar with five photos
 - $12 one-time Household Pack with storage for 500 photos
 
-The paid link uses the Sociobot billing API.
+The $12 purchase opens Sociobot checkout.
 
 ## Run locally
 
@@ -52,15 +52,14 @@ Individual claim tests are listed in [`.factory/claims.json`](.factory/claims.js
 
 ## Deploy
 
-Upload the contents of `dist/` to the static host. The included
-`staticwebapp.config.json` provides history fallback, a 404 rewrite, and
+Upload the contents of `dist/` to the static host. The included host settings
+keep direct links working, show a 404 page for missing addresses, and set
 security headers. The factory owns DNS, product registration, and deployment.
 
 ## Data and privacy
 
-Real data uses IndexedDB database `done-here:v1`. Demo data stays in memory and
-resets on reload. No analytics, remote fonts, or third-party runtime scripts
-are included. License verification sends only the pasted token to Sociobot.
+Your real calendar is stored only in this browser. Demo changes disappear when
+you reload and never change your real calendar. No analytics, remote fonts, or third-party runtime scripts are included. License verification sends only the pasted token to Sociobot.
 
 Read the in-app `/privacy` and `/terms` pages before sharing a device or buying
 the Household Pack.

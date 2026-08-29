@@ -37,6 +37,23 @@ describe('release configuration', () => {
     expect(existsSync('public/404.html')).toBe(false);
   });
 
+  it('gives the direct HTTP 404 the same navigation, legal links, and route metadata', () => {
+    const notFound = readFileSync('public/not-found.html', 'utf8');
+    for (const required of [
+      '<title>Page not found — Done Here</title>',
+      'name="description"',
+      'rel="canonical"',
+      'property="og:title"',
+      'name="twitter:title"',
+      'rel="icon"',
+      'aria-label="Main navigation"',
+      'href="/privacy"',
+      'href="/terms"',
+      'Built by Param Factory',
+      '<main id="main"'
+    ]) expect(notFound).toContain(required);
+  });
+
   it('registers every product promise with exactly one tagged test', () => {
     const claims = readJson('.factory/claims.json') as Array<{ id: string; test: string }>;
     const tests = readSources('tests').join('\n');
@@ -50,7 +67,7 @@ describe('release configuration', () => {
   it('maps each independently audited public promise to a registered claim', () => {
     const claimIds = new Set((readJson('.factory/claims.json') as Array<{ id: string }>).map((claim) => claim.id));
     const publicPromises = [
-      { file: 'README.md', copy: 'Offline app shell and installable PWA manifest', claims: ['offline-reload', 'installable-pwa'] },
+      { file: 'README.md', copy: 'Works without internet after the first visit and can be installed as an app', claims: ['offline-reload', 'installable-pwa'] },
       { file: 'index.html', copy: 'No account needed.', claims: ['no-account'] },
       { file: 'src/main.ts', copy: 'You do not create an account to use Done Here.', claims: ['no-account'] },
       { file: 'src/main.ts', copy: 'Done Here does not rank people, assign points, or watch children.', claims: ['no-household-ranking'] },
