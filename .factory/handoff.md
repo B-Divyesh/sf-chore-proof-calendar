@@ -1,5 +1,26 @@
 # Done Here verification 7 handoff — PASS
 
+## Review 1 — 2026-08-29 — FAIL
+
+Independent adversarial first-read review was completed without product-code
+changes. The report is `.factory/review-1.md`.
+
+- Cold mobile and desktop reads passed: the first screen says what the product
+  does, who it is for, and makes **Try it with sample data** the clear first
+  action.
+- Demo isolation passed: a real chore survived demo mutation, reset, exit, and
+  reload; the demo flow made no cross-origin requests.
+- All 23 declared claim commands were run separately after `npm ci` and
+  passed. `npm test`, lint, typecheck, and build passed.
+- The review found 13 minor findings, so the release verdict is **FAIL** under
+  the zero-findings standard. The most concrete structural issue is that a
+  direct HTTP 404 serves a stripped static page without the shared nav/footer
+  or canonical/description/OG/favicon metadata. The rest are landing mood
+  labels, README jargon, and one unlisted public provenance assertion.
+
+No product files were changed. Repair every finding in `.factory/review-1.md`,
+then repeat the full first-read review.
+
 ## Current independent verification
 
 **PASS for candidate `f70dbb5` at https://chore-proof-calendar.sociobot.in.**
