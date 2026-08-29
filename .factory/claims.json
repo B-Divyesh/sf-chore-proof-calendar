@@ -120,10 +120,10 @@
   },
   {
     "id": "completion-proof",
-    "claim": "Adds optional notes and consent-aware photos to completions",
+    "claim": "Adds optional notes and photos after a consent checkbox is confirmed",
     "where": "landing how-it-works section, app proof form, and README",
     "test": "npm run test:e2e -- --grep @claim:completion-proof --project=chromium",
-    "sandbox": "fresh /demo; add a note and photo with consent, then assert both appear in the dated history"
+    "sandbox": "fresh /demo; require the consent checkbox for a photo, then add a note and photo and assert both appear in dated history"
   },
   {
     "id": "free-core",

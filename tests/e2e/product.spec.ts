@@ -26,6 +26,9 @@ for (const exit of ['Start for real', 'Calendar']) {
     await page.getByRole('button', { name: 'Save chore' }).click();
     const existing = page.locator('.chore-card').filter({ hasText: 'Existing real calendar record' });
     await existing.getByRole('button', { name: 'Mark done' }).click();
+    // Wait for the rendered dated history, which is the completion save's
+    // observable confirmation, before deliberately exercising a reload.
+    await expect(page.locator('.day-history')).toContainText('Existing real calendar record');
     await page.reload();
     await expect(page.getByRole('heading', { name: 'Existing real calendar record' })).toBeVisible();
 

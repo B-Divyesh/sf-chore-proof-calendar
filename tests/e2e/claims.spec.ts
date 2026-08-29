@@ -20,7 +20,7 @@ test('@claim:demo-sandbox loads sample data without touching real storage', asyn
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('Water the houseplants').first()).toBeVisible();
   await expect(page.getByText('Household Pack active')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Have a license? Paste it' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Enter a license' })).toHaveCount(0);
   const before = await page.locator('.day-history li').count();
   await page.getByRole('button', { name: 'Mark done' }).first().click();
   await expect(page.getByText('marked done')).toBeVisible();
@@ -51,7 +51,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v9');
+    const cache = await caches.open('done-here-v10');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -75,7 +75,7 @@ test('@claim:installable-pwa provides a valid standalone manifest and controlled
     display: string;
     icons: Array<{ src: string; sizes: string; purpose: string }>;
   };
-  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=9', display: 'standalone' });
+  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=10', display: 'standalone' });
   expect(manifest.icons).toEqual(expect.arrayContaining([
     expect.objectContaining({ sizes: '192x192', purpose: expect.stringContaining('maskable') }),
     expect.objectContaining({ sizes: '512x512', purpose: expect.stringContaining('maskable') })
@@ -154,7 +154,7 @@ test('@claim:license-token-only sends only the pasted token to Sociobot verifica
   });
 
   await page.goto('/app');
-  await page.getByRole('button', { name: 'Have a license? Paste it' }).click();
+  await page.getByRole('button', { name: 'Enter a license' }).click();
   await page.getByLabel('License').fill(token);
   await page.getByRole('button', { name: 'Verify license' }).click();
   await expect(page.getByRole('status').filter({ hasText: 'This license is not active.' })).toBeVisible();
@@ -298,7 +298,7 @@ test('@claim:due-status shows matching next dates and calendar-day labels', asyn
   await expect(card).toContainText('next Aug 29, 2026');
 });
 
-test('@claim:completion-proof saves an optional note and consented photo', async ({ page }) => {
+test('@claim:completion-proof requires consent confirmation before saving an optional note and photo', async ({ page }) => {
   await page.goto('/demo');
   await page.getByRole('button', { name: 'Add note or photo' }).first().click();
   await page.getByLabel('Note optional').fill('Filter rinsed and left to dry.');
@@ -307,6 +307,8 @@ test('@claim:completion-proof saves an optional note and consented photo', async
     mimeType: 'image/png',
     buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64')
   });
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  await expect(page.getByText('Confirm photo consent before saving this photo.')).toBeVisible();
   await page.getByLabel('Anyone shown in this photo agreed to store it here.').check();
   await page.getByRole('button', { name: 'Mark done with proof' }).click();
   const history = page.locator('.day-history');

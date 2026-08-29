@@ -1,7 +1,7 @@
 # Done Here
 
 Done Here records when recurring household chores were completed. It is for
-homes that need a visible history instead of scores or overdue badges.
+homes that need a visible history without scores.
 
 Chores, notes, and optional photos live in browser storage. The app works after
 the first visit without internet. It exports timezone-aware ICS, PDF, CSV, and
@@ -15,7 +15,7 @@ Try the isolated demo: <https://chore-proof-calendar.sociobot.in/?demo=1>
 
 - Name chores and repeat each one every 1 to 365 days
 - Mark a chore done once and see when it was last completed and next due
-- Optional notes and consent-aware photos
+- Optional notes and photos, with a checkbox to confirm consent
 - Monthly completion calendar with keyboard navigation
 - ICS, PDF, CSV, and JSON export, plus JSON restore
 - Works without internet after the first visit and can be installed as an app

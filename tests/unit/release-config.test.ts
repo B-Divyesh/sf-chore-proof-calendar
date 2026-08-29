@@ -78,11 +78,24 @@ describe('release configuration', () => {
       { file: 'README.md', copy: 'License verification sends only the pasted token to Sociobot.', claims: ['license-token-only'] },
       { file: 'src/main.ts', copy: 'Verification sends only this token to Sociobot.', claims: ['license-token-only'] },
       { file: 'src/main.ts', copy: 'License verification sends your license token to Sociobot.', claims: ['license-token-only'] },
-      { file: 'src/main.ts', copy: 'A refunded license stops working.', claims: ['refunded-license'] }
+      { file: 'src/main.ts', copy: 'A refunded license stops working.', claims: ['refunded-license'] },
+      { file: 'README.md', copy: 'Optional notes and photos, with a checkbox to confirm consent', claims: ['completion-proof'] }
     ];
     for (const promise of publicPromises) {
       expect(readFileSync(promise.file, 'utf8'), `${promise.file}: ${promise.copy}`).toContain(promise.copy);
       for (const claim of promise.claims) expect(claimIds, `${promise.copy} -> ${claim}`).toContain(claim);
+    }
+  });
+
+  it('keeps the reviewed first-screen, consent, and license wording accurate', () => {
+    const app = readFileSync('src/main.ts', 'utf8');
+    const readme = readFileSync('README.md', 'utf8');
+    expect(app).toContain('For households that need a clear record of when recurring work was finished.');
+    expect(readme).toContain('homes that need a visible history without scores.');
+    expect(readme).toContain('Optional notes and photos, with a checkbox to confirm consent');
+    expect(app).toContain('>Enter a license</button>');
+    for (const removed of ['not another overdue badge', 'instead of scores or overdue badges', 'consent-aware photos', 'Have a license? Paste it']) {
+      expect(`${app}\n${readme}`).not.toContain(removed);
     }
   });
 });

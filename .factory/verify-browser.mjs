@@ -100,7 +100,7 @@ try {
     const page = await context.newPage();
     await page.goto(base + '/demo');
     await page.waitForFunction(() => Boolean(navigator.serviceWorker?.controller));
-    await page.waitForFunction(async () => Boolean(await (await caches.open('done-here-v9')).match('/demo')));
+    await page.waitForFunction(async () => Boolean(await (await caches.open('done-here-v10')).match('/demo')));
     await context.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
     report.offline = {
