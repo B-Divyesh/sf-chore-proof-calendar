@@ -1,0 +1,13 @@
+{
+  "homeContainsCorrectCopy": true,
+  "oldOverdueBadgeCopyCount": 0,
+  "enterLicenseCount": 1,
+  "demo": {
+    "url": "https://chore-proof-calendar.sociobot.in/?demo=1",
+    "banner": true,
+    "reset": true,
+    "start": true,
+    "chores": 4
+  },
+  "errors": []
+}
