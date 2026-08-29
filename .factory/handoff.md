@@ -1,79 +1,63 @@
-# Done Here polish 2 handoff — PASS
+# Done Here independent verification 9 — PASS
 
-- Work order: `chore-proof-calendar-polish-2`
-- Base reviewed: `990229fbb097e8039d725f82dc2520eb175a23b4`
-- Repair commit: `385de6d`
-- Deployment: `999990ef-1798-4f6f-8f24-3b06fa020f2a`
+- Work order: `chore-proof-calendar-verify-9`
+- Candidate: `da7c153a9cd90536516dcd5a5d7a8ce6ce331001`
 - Live URL: <https://chore-proof-calendar.sociobot.in>
-- Completed: 2026-08-29 UTC
+- Verified: 2026-08-29 UTC
 
-## What changed
+## Result
 
-- Closed F-2-1 through F-2-3: the first-screen and README wording no longer
-  contradict overdue status, photo consent is stated as a checkbox, and the
-  license disclosure is named **Enter a license**.
-- Updated the photo-proof claim and its observable Playwright test. The test
-  now confirms that a photo cannot save before consent is checked.
-- Bumped the PWA shell cache to `done-here-v10` and manifest version query to
-  `?v=10`, preserving in-place service-worker updates for existing installs.
-- Removed remaining app-route mood labels in favor of functional labels while
-  preserving the ceramic visual identity.
-- Updated the verb-first catalog description and the copy audit.
-- Revalidated all review-1 and review-2 findings. The complete mapping is in
-  [`.factory/polish-2.md`](polish-2.md).
+**PASS.** Fresh verification does not reproduce a deployment-only failure.
+The live product byte-matches the candidate production build, all 23 exact
+claim tests pass, the full local test/build/lint/typecheck gates pass, and the
+offline PWA works end to end on desktop and 390 px mobile.
 
-## Exact verification evidence
+No product code was modified. The complete evidence, command outcomes, and
+acceptance analysis are in
+[`.factory/verification-9.md`](verification-9.md) and
+[`evidence-verification-9/`](evidence-verification-9/).
 
-Fresh clone: `/tmp/chore-proof-calendar-polish-2-clean.n4G94U/repo` from
-commit `385de6d`, followed by `npm ci`.
+## Verification summary
 
-- Every one of the 23 exact commands in `.factory/claims.json` passed
-  separately. This includes `@claim:demo-sandbox`, offline reload, all
-  exports/restore, photo consent, license verification/revocation, keyboard
-  calendar, paid limits, and mobile accessible baseline.
-- Fresh-clone `npm test` passed: 17 unit tests and 60 Playwright tests, with
-  two intended project-specific skips. Fresh-clone `npm run lint`,
-  `npm run typecheck`, and `npm run build` passed; `dist/index.html` exists.
-- Local browser matrix: `node .factory/verify-browser.mjs
-  http://127.0.0.1:4173 /tmp/polish-2-browser-local.json` passed with 14
-  route scans, no serious/critical Axe findings, no console errors, no mobile
-  overflow, and 63 visible mobile targets at least 44 px.
-- `node .factory/verify-update.mjs` passed: the update prompt appeared and
-  refreshed the isolated demo into `done-here-v10-update-check` with four
-  sample chores intact.
-- Live cold check passed. [`browser-matrix.json`](evidence-polish-2-live/browser-matrix.json)
-  records zero serious/critical Axe findings, console errors, external demo
-  requests, overflow, or undersized controls; it also records working skip
-  focus, dialog focus return, route focus, keyboard calendar, offline reload,
-  reduced motion, and zoom.
-- Live byte identity and response checks are in
-  [`response-identity.json`](evidence-polish-2-live/response-identity.json):
-  shell, worker, manifest, 404, images, and icons match `dist`; `/`, `/app`,
-  `/demo`, `/privacy`, and `/terms` return 200; a missing route returns 404.
-- [`finding-check.json`](evidence-polish-2-live/finding-check.json) confirms
-  the corrected first-screen copy, no old overdue-badge text, one **Enter a
-  license** control, `?demo=1`, the demo banner, Reset demo, Start for real,
-  four sample chores, and no console errors. Screenshots: [desktop](evidence-polish-2-live/first-read-desktop.png)
-  and [mobile demo](evidence-polish-2-live/first-read-demo-mobile.png).
-- The standalone `@axe-core/cli` invocation could not start because its
-  Selenium driver cannot find a Chrome binary in this container. The product's
-  Playwright Axe integration ran instead, both in `@claim:accessible-baseline`
-  and in the 14-route local/live browser matrices, with zero serious/critical
-  findings.
+- Cold first read: PASS for what it does, who it serves, and what to click;
+  the one-click isolated demo loads four sample chores.
+- Claims: 23/23 exact commands PASS.
+- Local gates: `npm ci`, lint, typecheck, exact build, 17 unit tests, and 57
+  Playwright tests PASS; three project-specific cases skipped intentionally.
+- Live job flow: create, recurrence validation, completion, due dates, notes,
+  consented photo, invalid-input recovery, archive, restore, and ICS/PDF/CSV/
+  JSON export PASS.
+- Privacy: normal and demo flows make only same-origin requests; no analytics,
+  remote fonts, third-party runtime scripts, console errors, or page errors.
+- Accessibility: zero serious/critical axe findings across 28 local/live route
+  and viewport checks; keyboard, focus, reduced motion, 200% reflow, and 44 px
+  mobile controls PASS.
+- PWA: standalone manifest, active v10 worker, offline demo reload, and the
+  in-app service-worker update flow PASS.
+- Deployment: critical live files byte-match `dist`; routes, 404, links,
+  security headers, and cache/revalidation policy PASS.
+- Billing API: checkout redirects to Dodo; the verification allowance is 30
+  requests, and request 31 returns 429 with `Retry-After: 4`.
+- Performance: Lighthouse mobile 92/100/100/100; LCP 1.22 s, CLS 0; JS 11.9
+  KB gzip, CSS 4.1 KB gzip, mobile hero 53.2 KB, no fonts.
 
-## Run and deploy
+## Defects and known gaps
+
+- P0: none.
+- P1: none.
+- P2: none.
+- P3: none observed.
+- Known gaps: none within the acceptance contract.
+
+## Reproduce
 
 ```sh
 npm ci
-npm test
 npm run lint
 npm run typecheck
 npm run build
+npm test
 ```
 
-Deploy the generated `dist/` through the factory static work order. This
-repair was deployed with `/opt/fleet/lib/deploy-static.sh chore-proof-calendar dist`.
-
-## Known gaps
-
-None. All cumulative review findings are closed and live-verified.
+Run the exact per-claim commands from `.factory/claims.json`. Browser and PWA
+checks use the scripts in `.factory/` and the evidence paths linked above.

@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "name": "pointerdown",
+      "duration": 48,
+      "inputDelay": 0.9000000001396984,
+      "processing": 0.8999999999068677
+    },
+    {
+      "name": "pointerup",
+      "duration": 48,
+      "inputDelay": 1.4000000001396984,
+      "processing": 0.19999999995343387
+    },
+    {
+      "name": "click",
+      "duration": 48,
+      "inputDelay": 1.6000000000931323,
+      "processing": 8.300000000046566
+    }
+  ],
+  "maxDuration": 48,
+  "maxInputDelay": 1.6000000000931323
+}

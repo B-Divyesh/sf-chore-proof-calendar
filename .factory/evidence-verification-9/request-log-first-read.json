@@ -1,0 +1,136 @@
+{
+  "desktop": {
+    "status": 200,
+    "headers": {
+      "cache-control": "public, must-revalidate, max-age=30",
+      "content-encoding": "br",
+      "content-security-policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
+      "content-type": "text/html",
+      "date": "Sat, 29 Aug 2026 16:50:06 GMT",
+      "etag": "\"67002475\"",
+      "last-modified": "Sat, 29 Aug 2026 16:33:12 GMT",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-xss-protection": "1; mode=block"
+    },
+    "hero": {
+      "title": "Done Here — See when each chore was done",
+      "h1": [
+        "See when each chore was done"
+      ],
+      "main": 1,
+      "visibleText": [
+        "✓Done Here",
+        "Calendar",
+        "Demo",
+        "Privacy",
+        "Recurring chore completion history",
+        "See when each chore was done",
+        "For households that need a clear record of when recurring work was finished.",
+        "Try it with sample data",
+        "Create your first chore →",
+        "Calendar preview"
+      ],
+      "sampleVisible": true
+    },
+    "demoInitial": {
+      "url": "https://chore-proof-calendar.sociobot.in/?demo=1",
+      "banner": true,
+      "reset": true,
+      "startReal": true,
+      "chores": 4
+    },
+    "backup": {
+      "chores": 4,
+      "completions": 8
+    },
+    "storage": {
+      "localStorage": {},
+      "sessionStorage": {}
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "type": "document",
+        "url": "https://chore-proof-calendar.sociobot.in/"
+      },
+      {
+        "method": "GET",
+        "type": "image",
+        "url": "https://chore-proof-calendar.sociobot.in/assets/hero-ceramics-1440.webp"
+      }
+    ],
+    "external": [],
+    "errors": []
+  },
+  "mobile": {
+    "status": 200,
+    "headers": {
+      "cache-control": "public, must-revalidate, max-age=30",
+      "content-encoding": "br",
+      "content-security-policy": "default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.sociobot.in; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'",
+      "content-type": "text/html",
+      "date": "Sat, 29 Aug 2026 16:50:08 GMT",
+      "etag": "\"67002475\"",
+      "last-modified": "Sat, 29 Aug 2026 16:33:12 GMT",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-xss-protection": "1; mode=block"
+    },
+    "hero": {
+      "title": "Done Here — See when each chore was done",
+      "h1": [
+        "See when each chore was done"
+      ],
+      "main": 1,
+      "visibleText": [
+        "✓Done Here",
+        "Demo",
+        "Privacy",
+        "Recurring chore completion history",
+        "See when each chore was done",
+        "For households that need a clear record of when recurring work was finished.",
+        "Try it with sample data",
+        "Create your first chore →"
+      ],
+      "sampleVisible": true
+    },
+    "demoInitial": {
+      "url": "https://chore-proof-calendar.sociobot.in/?demo=1",
+      "banner": true,
+      "reset": true,
+      "startReal": true,
+      "chores": 4
+    },
+    "backup": {
+      "chores": 4,
+      "completions": 8
+    },
+    "storage": {
+      "localStorage": {},
+      "sessionStorage": {}
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "type": "document",
+        "url": "https://chore-proof-calendar.sociobot.in/"
+      },
+      {
+        "method": "GET",
+        "type": "image",
+        "url": "https://chore-proof-calendar.sociobot.in/assets/hero-ceramics-960.webp"
+      }
+    ],
+    "external": [],
+    "errors": []
+  }
+}

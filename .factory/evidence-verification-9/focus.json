@@ -1,0 +1,19 @@
+{
+  "skip": {
+    "focused": true,
+    "visible": true,
+    "outlineColor": "rgb(11, 101, 117)",
+    "outlineWidth": "3px",
+    "outlineStyle": "solid",
+    "elementBackground": "rgb(23, 43, 45)",
+    "outerBackground": "rgb(244, 247, 245)",
+    "box": {
+      "width": 198.578125,
+      "height": 48.796875,
+      "top": 16,
+      "left": 16
+    },
+    "outlineOuterContrast": 6.215160048743356
+  },
+  "enterMovedFocusToH1": true
+}

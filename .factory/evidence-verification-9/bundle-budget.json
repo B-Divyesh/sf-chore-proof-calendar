@@ -1,0 +1,23 @@
+{
+  "html": {
+    "raw": 50397,
+    "gzip": 16196
+  },
+  "inlineJs": {
+    "raw": 33739,
+    "gzip": 11856
+  },
+  "inlineCss": {
+    "raw": 15033,
+    "gzip": 4081
+  },
+  "heroMobile": {
+    "raw": 53244,
+    "gzip": 53282
+  },
+  "heroDesktop": {
+    "raw": 106836,
+    "gzip": 106889
+  },
+  "fonts": []
+}
