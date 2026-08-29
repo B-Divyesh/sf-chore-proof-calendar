@@ -1,0 +1,203 @@
+{
+  "routes": [
+    {
+      "viewport": "desktop",
+      "route": "/",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Done Here — See when each chore was done",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/app",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Calendar — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/demo",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Demo — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/privacy",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Privacy — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/terms",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Terms — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/404",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Page not found — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/missing-route",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Page not found — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Done Here — See when each chore was done",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/app",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Calendar — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/demo",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Demo — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/privacy",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Privacy — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/terms",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Terms — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/404",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Page not found — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    },
+    {
+      "viewport": "mobile",
+      "route": "/missing-route",
+      "errors": [],
+      "seriousCritical": [],
+      "title": "Page not found — Done Here",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "overflow": 0
+    }
+  ],
+  "keyboard": {
+    "skipVisible": true,
+    "skipFocus": true,
+    "dialogTrap": true,
+    "dialogFocusReturn": true,
+    "arrowMoved": true,
+    "enterSelected": true,
+    "routeFocus": true
+  },
+  "privacy": {
+    "externalRequests": []
+  },
+  "offline": {
+    "heading": "Keep a record of every chore",
+    "statusVisible": true,
+    "sampleChores": 4
+  },
+  "reducedMotion": {
+    "transitionDuration": "1e-05s",
+    "scrollBehavior": "auto"
+  },
+  "zoom": {
+    "desktop200PercentEquivalent": true,
+    "overflow": 0,
+    "addChoreVisible": true,
+    "exportJsonVisible": true
+  },
+  "mobileTargets": {
+    "count": 63,
+    "below44": []
+  }
+}

@@ -16,6 +16,10 @@ test('a real calendar persists chores and completions', async ({ page }) => {
 for (const exit of ['Start for real', 'Calendar']) {
   test(`@regression:demo-exit-preserves-real-data ${exit} hydrates before the next save`, async ({ page }, testInfo) => {
     test.skip(exit === 'Calendar' && testInfo.project.name === 'mobile', 'The compact header hides Calendar; Start for real covers the mobile exit.');
+    // Keep the real completion off the demo sample's final date. This catches
+    // a mode switch that hydrates records but accidentally keeps demo calendar
+    // selection state, hiding the real record from the selected-day history.
+    await page.clock.install({ time: new Date('2026-09-09T11:10:00.000Z') });
     await page.goto('/app');
     await page.getByRole('button', { name: 'Add a chore' }).click();
     await page.getByLabel('Chore name').fill('Existing real calendar record');
@@ -30,6 +34,10 @@ for (const exit of ['Start for real', 'Calendar']) {
     await page.getByRole('link', { name: exit, exact: true }).click();
     await expect(page).toHaveURL(/\/app$/);
     await expect(page.getByRole('heading', { name: 'Existing real calendar record' })).toBeVisible();
+    // This must be visible before any new record can cause a save. It is the
+    // mobile failure surface: data was present but selected-day history stayed
+    // pointed at the sample calendar.
+    await expect(page.locator('.day-history')).toContainText('Existing real calendar record');
 
     await page.getByRole('button', { name: 'Add a chore' }).click();
     await page.getByLabel('Chore name').fill(`New record after ${exit}`);

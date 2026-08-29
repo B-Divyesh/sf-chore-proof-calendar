@@ -1,0 +1,16 @@
+{
+  "before": {
+    "caches": [
+      "done-here-v8"
+    ],
+    "chores": 4
+  },
+  "updateActionVisible": true,
+  "after": {
+    "caches": [
+      "done-here-v8-update-check"
+    ],
+    "chores": 4,
+    "demoBannerVisible": true
+  }
+}

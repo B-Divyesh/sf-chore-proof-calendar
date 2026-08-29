@@ -3,17 +3,21 @@ import { chromium } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
 
 const base = process.argv[2] ?? 'http://127.0.0.1:4173';
-const output = process.argv[3] ?? '.factory/demo-exit.json';
+const output = process.argv[3] ?? '.factory/evidence-repair-8-local/demo-exit.json';
 const browser = await chromium.launch();
 const results = [];
 
 try {
-  for (const exit of ['Start for real', 'Calendar']) {
-    const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+  for (const { exit, viewport } of [
+    { exit: 'Start for real', viewport: { width: 390, height: 844 } },
+    { exit: 'Calendar', viewport: { width: 1280, height: 720 } }
+  ]) {
+    const context = await browser.newContext({ viewport });
     const page = await context.newPage();
     const existingName = `Existing record for ${exit}`;
     const newName = `New record after ${exit}`;
 
+    await page.clock.install({ time: new Date('2026-09-09T11:10:00.000Z') });
     await page.goto(`${base}/app`);
     await page.getByRole('button', { name: 'Add a chore' }).click();
     await page.getByLabel('Chore name').fill(existingName);
@@ -29,6 +33,7 @@ try {
     await page.getByRole('link', { name: exit, exact: true }).click();
     await page.waitForURL('**/app');
     await page.getByRole('heading', { name: existingName }).waitFor();
+    const selectedHistory = await page.locator('.day-history').textContent();
 
     await page.getByRole('button', { name: 'Add a chore' }).click();
     await page.getByLabel('Chore name').fill(newName);
@@ -46,7 +51,7 @@ try {
         request.onsuccess = () => resolve(request.result.map(({ kind, id, choreId, name }) => ({ kind, id, choreId, name })));
       };
     }));
-    results.push({ exit, visibleNames, stored });
+    results.push({ exit, viewport, selectedHistory, visibleNames, stored });
     await context.close();
   }
 } finally {
@@ -55,11 +60,12 @@ try {
 
 writeFileSync(output, JSON.stringify(results, null, 2));
 console.log(JSON.stringify(results, null, 2));
-const failed = results.some(({ exit, visibleNames, stored }) => {
+const failed = results.some(({ exit, selectedHistory, visibleNames, stored }) => {
   const existingName = `Existing record for ${exit}`;
   const newName = `New record after ${exit}`;
   return !visibleNames.includes(existingName)
     || !visibleNames.includes(newName)
+    || !selectedHistory?.includes(existingName)
     || !stored.some((row) => row.kind === 'chore' && row.name === existingName)
     || !stored.some((row) => row.kind === 'chore' && row.name === newName)
     || !stored.some((row) => row.kind === 'completion');
