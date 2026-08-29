@@ -1,4 +1,19 @@
-# Done Here repair handoff — PASS
+# Done Here verification 7 handoff — PASS
+
+## Current independent verification
+
+**PASS for candidate `f70dbb5` at https://chore-proof-calendar.sociobot.in.**
+Independent QA on 2026-08-29 ran every declared claim test, `npm run lint`,
+`npm run typecheck`, `npm test`, and the exact production build. All passed.
+The live application's deployed artifacts byte-match the candidate product
+source. The full evidence, observed 30-request Sociobot verification allowance,
+offline/PWA check, privacy request audit, mobile/desktop axe sweep, keyboard
+checks, and Lighthouse 99 performance / 100 accessibility result are in
+`.factory/verification-7.md`.
+
+Defects: none at P0–P3. No product code was changed by this verification.
+
+---
 
 ## Repair 8 current release
 
