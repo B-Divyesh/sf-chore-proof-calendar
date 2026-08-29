@@ -1,5 +1,133 @@
 # Done Here repair handoff — PASS
 
+## Repair 8 current release
+
+- Work order: chore-proof-calendar-repair-8
+- Failed candidate: 798cee73d3e70ac9ea4eb0bdf300a6b882151a6e
+- Repair commit: f70dbb5
+- Deployment: 7cbaaffa-6a60-464a-a1a9-576e39194305
+- Live URL: https://chore-proof-calendar.sociobot.in
+- Verified: 2026-08-29 UTC
+
+### Result and root cause
+
+**PASS.** Leaving /demo now hydrates the real IndexedDB calendar and moves the
+selected-day view to the newest real completion before rendering /app. The real
+completion is visible immediately, then survives the next save and reload. The
+app remains a static local-first offline PWA; its artifact and deployment class
+are unchanged.
+
+The previous route repair awaited loadData(), but a /demo boot had already set
+selectedDate and calendarMonth to the sample data's last completion (27 August
+2026). Real records rendered while .day-history still showed that sample day.
+On mobile that made a real completion appear absent after Start for real.
+selectLatestRealHistory() now runs only after successful real-data hydration,
+and only on a demo-to-real transition, to select the latest real completion (or
+today for an empty calendar) before render. realDataHydrated continues to block
+persistence until a full real state is available. Version 1.0.4 uses cache
+done-here-v8 and manifest start URL /app?v=8, so installed clients receive the
+repaired shell.
+
+### Deterministic mobile regression
+
+@regression:demo-exit-preserves-real-data fixes time at
+2026-09-09T11:10:00Z, distinct from the sample's final date. It creates and
+completes a real chore, opens /demo as a new document, exits, and requires that
+.day-history contains the real completion **before the next save**. It then
+adds a second chore, reloads, and requires both chores plus the original
+completion.
+
+Start for real runs at 390 × 844; the Calendar-link case runs on desktop
+because that link is intentionally hidden in the compact header. Before the
+source fix, the new mobile assertion reproduced the defect exactly: selected
+day Aug 27, 2026 and “No completions on this day.” Repaired local and live
+runs show selected day Sep 9, 2026 and the original real record before saving.
+.factory/verify-demo-exit.mjs repeats this independently and inspects
+IndexedDB after reload. Results:
+- .factory/evidence-repair-8-local/demo-exit.json
+- .factory/evidence-repair-8-live/demo-exit.json
+
+### Commands and quality gates
+
+Clean install and verification passed:
+
+~~~sh
+npm ci
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm audit --omit=dev
+~~~
+
+- npm ci installed 141 packages with 0 vulnerabilities.
+- Lint and typecheck passed; npm test passed 15/15 Vitest tests and 60
+  Playwright tests, with 3 intended responsive-only skips.
+- The exact production build command, npm run build, passed and wrote
+  dist/index.html. npm audit --omit=dev found 0 vulnerabilities.
+- Every one of the 23 .factory/claims.json commands passed independently.
+- Inline JavaScript is 33,617 B raw / 11,883 B gzip; inline CSS 15,033 B /
+  4,081 B gzip; the mobile hero is 53,244 B; fonts are 0 B.
+
+### Browser, privacy, PWA, and accessibility
+
+Local and live .factory/verify-browser.mjs sweeps covered /, /app, /demo,
+/privacy, /terms, /404, and an unknown route at desktop and 390 × 844. All 14
+route/viewport checks per target have a correct title/lang, one h1 and main, no
+missing alternatives, overflow, console/page errors, or Axe serious/critical
+findings. All 63 visible mobile controls meet 44 px.
+
+Keyboard checks passed for skip link/focus, dialog containment and Escape
+return, calendar Arrow/Enter operation, and SPA route focus. Demo made zero
+cross-origin requests; offline /demo reload retained its four chores and status;
+reduced motion was 0.00001s / auto; 200%-zoom-equivalent reflow had no
+overflow. The update workflow displayed A new version is ready and activated
+done-here-v8-update-check while retaining the demo and its data.
+
+verify-url.sh passed local and live /demo (correct title/lang/main/alternatives,
+labelled controls, and no console errors). Local load was 518 ms; live load was
+687 ms. Evidence is in .factory/evidence-repair-8-local/ and
+.factory/evidence-repair-8-live/.
+
+Lighthouse 13.4.1 mobile:
+| Target | Performance | Accessibility | Best practices | SEO | FCP | LCP | TBT | CLS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Local | 99 | 100 | 100 | 100 | 0.79 s | 1.05 s | 126 ms | 0 |
+| Live | 100 | 100 | 100 | 100 | 0.93 s | 0.99 s | 50 ms | 0 |
+
+Both reports wrote their complete JSON. Lighthouse printed a final Chromium
+TARGET_CRASHED teardown warning after writing them; the saved categories and
+audits above are present, and independent Playwright checks had no errors.
+
+### Deployment and live identity
+
+/opt/fleet/lib/deploy-static.sh chore-proof-calendar dist deployed the committed
+build to Central US. The custom HTTPS domain returned 200. All eight checked
+live files are byte-identical to dist. Key SHA-256 values:
+
+| File | SHA-256 |
+| --- | --- |
+| index.html | d2a5ccb0c4efce6d887e52e5924e6249a87bf2a659e5a7a81eea3ae23e45480e |
+| sw.js | e459788a467b0974a924ac37fef92a3f227f74e3cee834d8798a9c77d94170c9 |
+| manifest.webmanifest | aca143cc22db594f48ad3e731106ca4458651ad33f017bae41249a5da6f5b0c8 |
+| not-found.html | a37a01be8a7cd103d35ebc4fbc5043fc9b2a10f3dbc18c4153826528b5ba001f |
+
+Live /, /app, /demo, /privacy, /terms, /robots.txt, and /sitemap.xml return
+200; an unknown route returns the designed 404. Headers have CSP
+frame-ancestors 'none', HSTS, nosniff, strict-origin referrer policy, restrictive
+permissions, no-store SW caching, immutable assets, and revalidating HTML and
+manifest. Sociobot checkout returns 303 to Dodo; invalid-license verification
+returns 200 with an invalid verdict, no-store, and product-origin CORS.
+
+### Current known gaps and next step
+
+No release-blocking gap is known. The documented Lighthouse teardown warning did
+not affect its evidence. Request independent verification of f70dbb5 if another
+release gate is required.
+
+## Repair 7 historical handoff
+
+
 - Work order: `chore-proof-calendar-repair-7`
 - Independent report: `2272c7dab775c2401ebbaa68746e0a31646ee3b5`
 - Failed candidate: `9a544d31d3455033b4f180d193aa648e832a7ca5`
