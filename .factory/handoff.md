@@ -1,24 +1,24 @@
-# Done Here verification 11 handoff
+# Done Here review 6 handoff
 
-- Work order: `chore-proof-calendar-verify-11`
+- Work order: `chore-proof-calendar-review-6`
 - Verdict: **PASS**
 - Runtime implementation: `da9493593009fcf702410ab246b5f6ab04f54706`
 - Claims repair: `0dbc219f3f79b47991c9f216ef52ea4dfb04580f`
-- Documentation baseline: `e5db22164f045009939c271df6c5083a458fc970`
+- Documentation/report baseline: `924a1bbd13d1feeb02a9ab1d73c6e24cb5ad92df`
 - Live URL: <https://chore-proof-calendar.sociobot.in>
 - Product class: offline PWA
 
 ## What was done
 
-Independent QA was completed without changing product code. The work covered
+Independent strict review was completed without changing product code. The work covered
 the researched household job, fresh desktop and phone first reads, one-click
 sample and reset behavior, real-data isolation, every declared claim, normal
 and failure paths, exports and restore, keyboard and accessibility, privacy,
 offline/update behavior, routes and legal pages, billing, rate limiting,
 performance, and live-to-build identity.
 
-The full report is [verification-11.md](verification-11.md). Fresh evidence is
-in `evidence-verification-11/`.
+The full report is [review-6.md](review-6.md). Fresh evidence is in
+`evidence-review-6/`.
 
 ## How it was verified
 
