@@ -1,0 +1,228 @@
+{
+  "coldRead": [
+    {
+      "viewport": {
+        "name": "phone",
+        "width": 390,
+        "height": 844
+      },
+      "scrollY": 0,
+      "title": "Done Here — See when each chore was done",
+      "h1": {
+        "text": "See when each chore was done",
+        "visible": true,
+        "box": {
+          "x": 16,
+          "y": 138.59375,
+          "width": 358,
+          "height": 90.71875
+        },
+        "aboveFold": true
+      },
+      "audience": {
+        "text": "For households that need a clear record of when recurring work was finished.",
+        "visible": true,
+        "box": {
+          "x": 16,
+          "y": 249.3125,
+          "width": 358,
+          "height": 88.3125
+        },
+        "aboveFold": true
+      },
+      "firstAction": {
+        "text": "Try it with sample data",
+        "visible": true,
+        "box": {
+          "x": 16,
+          "y": 365.625,
+          "width": 245.671875,
+          "height": 48
+        },
+        "aboveFold": true
+      },
+      "actionResult": {
+        "text": "See a filled calendar in one click.",
+        "visible": true,
+        "box": {
+          "x": 16,
+          "y": 429.625,
+          "width": 180,
+          "height": 35.09375
+        },
+        "aboveFold": true
+      },
+      "facts": [
+        "Works after the first visit without internet.",
+        "Chore records stay in this browser.",
+        "$12 once raises photo storage from 5 to 500. The calendar is free."
+      ],
+      "errors": []
+    },
+    {
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 900
+      },
+      "scrollY": 0,
+      "title": "Done Here — See when each chore was done",
+      "h1": {
+        "text": "See when each chore was done",
+        "visible": true,
+        "box": {
+          "x": 130,
+          "y": 174.59375,
+          "width": 492.109375,
+          "height": 155.5
+        },
+        "aboveFold": true
+      },
+      "audience": {
+        "text": "For households that need a clear record of when recurring work was finished.",
+        "visible": true,
+        "box": {
+          "x": 130,
+          "y": 350.09375,
+          "width": 492.109375,
+          "height": 58.875
+        },
+        "aboveFold": true
+      },
+      "firstAction": {
+        "text": "Try it with sample data",
+        "visible": true,
+        "box": {
+          "x": 130,
+          "y": 436.96875,
+          "width": 245.671875,
+          "height": 48
+        },
+        "aboveFold": true
+      },
+      "actionResult": {
+        "text": "See a filled calendar in one click.",
+        "visible": true,
+        "box": {
+          "x": 391.671875,
+          "y": 443.421875,
+          "width": 180,
+          "height": 35.09375
+        },
+        "aboveFold": true
+      },
+      "facts": [
+        "Works after the first visit without internet.",
+        "Chore records stay in this browser.",
+        "$12 once raises photo storage from 5 to 500. The calendar is free."
+      ],
+      "errors": []
+    }
+  ],
+  "demo": {
+    "oneClick": {
+      "chores": 4,
+      "storedCompletions": 7,
+      "visibleCalendarCompletions": 0,
+      "calendarHeading": "September 2026",
+      "banner": true,
+      "reset": true,
+      "start": true
+    },
+    "direct": {
+      "chores": 4,
+      "completions": 7,
+      "calendarHeading": "August 2026",
+      "banner": true
+    },
+    "mutated": {
+      "chores": 4,
+      "storedCompletions": 8,
+      "visibleCalendarCompletions": 1,
+      "calendarHeading": "September 2026",
+      "banner": true
+    },
+    "reset": {
+      "chores": 4,
+      "storedCompletions": 7,
+      "visibleCalendarCompletions": 0,
+      "calendarHeading": "September 2026",
+      "banner": true
+    },
+    "reloaded": {
+      "chores": 4,
+      "completions": 7,
+      "banner": true
+    },
+    "licenseQueryStripped": false,
+    "demoShowsPaid": 0,
+    "errors": [],
+    "oneClickFilledCalendar": false
+  },
+  "isolation": {
+    "rowsUnchanged": true,
+    "storageUnchanged": true,
+    "beforeRows": [
+      {
+        "kind": "chore",
+        "name": "Real calendar sentinel"
+      }
+    ],
+    "afterRows": [
+      {
+        "kind": "chore",
+        "name": "Real calendar sentinel"
+      }
+    ],
+    "externalRequests": []
+  },
+  "links": {
+    "discovered": [
+      "https://chore-proof-calendar.sociobot.in/#main",
+      "https://chore-proof-calendar.sociobot.in/",
+      "https://chore-proof-calendar.sociobot.in/app",
+      "https://chore-proof-calendar.sociobot.in/demo",
+      "https://chore-proof-calendar.sociobot.in/privacy",
+      "https://chore-proof-calendar.sociobot.in/?demo=1",
+      "https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout",
+      "https://chore-proof-calendar.sociobot.in/terms",
+      "https://hello-factory.sociobot.in/"
+    ],
+    "checked": [
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/#main",
+        "status": 200
+      },
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/",
+        "status": 200
+      },
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/app",
+        "status": 200
+      },
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/demo",
+        "status": 200
+      },
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/privacy",
+        "status": 200
+      },
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/?demo=1",
+        "status": 200
+      },
+      {
+        "href": "https://chore-proof-calendar.sociobot.in/terms",
+        "status": 200
+      },
+      {
+        "href": "https://hello-factory.sociobot.in/",
+        "status": 200
+      }
+    ],
+    "failures": []
+  },
+  "errors": []
+}
