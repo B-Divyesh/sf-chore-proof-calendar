@@ -1,0 +1,60 @@
+[
+  {
+    "exit": "Start for real",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "selectedHistory": "Selected daySep 9, 2026✓Existing record for Start for real11:10 AMRemove completion",
+    "visibleNames": [
+      "New record after Start for real",
+      "Existing record for Start for real"
+    ],
+    "stored": [
+      {
+        "kind": "completion",
+        "id": "1d9c6d19-ab35-4185-8081-93704325449e",
+        "choreId": "3b2697e2-2969-4a72-a8d0-012c72677477"
+      },
+      {
+        "kind": "chore",
+        "id": "3b2697e2-2969-4a72-a8d0-012c72677477",
+        "name": "Existing record for Start for real"
+      },
+      {
+        "kind": "chore",
+        "id": "504dd3fe-3248-49c9-a0b2-beda06c4a1dd",
+        "name": "New record after Start for real"
+      }
+    ]
+  },
+  {
+    "exit": "Calendar",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "selectedHistory": "Selected daySep 9, 2026✓Existing record for Calendar11:10 AMRemove completion",
+    "visibleNames": [
+      "New record after Calendar",
+      "Existing record for Calendar"
+    ],
+    "stored": [
+      {
+        "kind": "chore",
+        "id": "71f2a833-1990-443e-ab46-63052e0b83cf",
+        "name": "New record after Calendar"
+      },
+      {
+        "kind": "completion",
+        "id": "91ddcc6b-bcd9-4e01-bbc3-827100fb88fd",
+        "choreId": "9e505bd0-47a8-46e2-ab81-15e3ae934959"
+      },
+      {
+        "kind": "chore",
+        "id": "9e505bd0-47a8-46e2-ab81-15e3ae934959",
+        "name": "Existing record for Calendar"
+      }
+    ]
+  }
+]

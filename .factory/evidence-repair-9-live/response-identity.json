@@ -1,0 +1,44 @@
+{
+  "implementation_sha": "da9493593009fcf702410ab246b5f6ab04f54706",
+  "deployment_id": "c56c8446-e65d-4f71-962f-92f68709f593",
+  "files": {
+    "index.html": {
+      "built_sha256": "07879918eb8f4c622d8fcd871ab3b2ce73af2f1120d0c9e1738733b800d3a40f",
+      "live_sha256": "07879918eb8f4c622d8fcd871ab3b2ce73af2f1120d0c9e1738733b800d3a40f"
+    },
+    "sw.js": {
+      "built_sha256": "caadbd67da09503c5cb9391fae4604cbce8d3cbea601b012af108b58d3b0984a",
+      "live_sha256": "caadbd67da09503c5cb9391fae4604cbce8d3cbea601b012af108b58d3b0984a"
+    },
+    "manifest.webmanifest": {
+      "built_sha256": "aada7be3f2320d6ec79623e8e4c7028daa8e511b87c060f4a5e30047d0bc416b",
+      "live_sha256": "aada7be3f2320d6ec79623e8e4c7028daa8e511b87c060f4a5e30047d0bc416b"
+    },
+    "not-found.html": {
+      "built_sha256": "c86d6161d2314ac5616fbfbda8939d5693de1e3fb7be600dff473234f1ac2d",
+      "live_sha256": "c86d6161d2314ac5616fbfbda8939d5693de1e3fb7be600dff473234f1ac2d"
+    },
+    "assets/hero-ceramics-960.webp": {
+      "built_sha256": "408852842ee58788231824855cb783bc76346f74485775f79f2c1dcc6bbe7648",
+      "live_sha256": "408852842ee58788231824855cb783bc76346f74485775f79f2c1dcc6bbe7648"
+    },
+    "assets/icon-192.png": {
+      "built_sha256": "d855772336804f147efda6bdc2f2d7e669b3afabeea0493c59dae1e898c02585",
+      "live_sha256": "d855772336804f147efda6bdc2f2d7e669b3afabeea0493c59dae1e898c02585"
+    }
+  },
+  "routes": {
+    "/": 200,
+    "/app": 200,
+    "/demo": 200,
+    "/privacy": 200,
+    "/terms": 200,
+    "/robots.txt": 200,
+    "/sitemap.xml": 200,
+    "/missing-repair-9": 404
+  },
+  "checkout": {
+    "status": 303,
+    "location_origin": "https://checkout.dodopayments.com"
+  }
+}

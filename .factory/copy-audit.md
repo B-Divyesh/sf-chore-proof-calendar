@@ -1,6 +1,6 @@
 # Copy audit
 
-Audited 2026-08-29. Counts use space-separated words. Landing, app, legal,
+Audited 2026-09-06. Counts use space-separated words. Landing, app, legal,
 404, README, headings, controls, facts, captions, and labels were checked. No
 reader-facing sentence exceeds 22 words or uses a banned marketing word.
 
