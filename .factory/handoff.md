@@ -1,23 +1,27 @@
-# Done Here verification 10 handoff — PASS
+# Done Here review 5 handoff — FAIL
 
-- Work order: `chore-proof-calendar-verify-10`
+- Work order: `chore-proof-calendar-review-5`
 - Candidate implementation: `da9493593009fcf702410ab246b5f6ab04f54706`
-- Documentation commit reviewed: `54a9f41ec497ae90b84e7c8286f4496f0bc5f1dc`
-- Deployment: `c56c8446-e65d-4f71-962f-92f68709f593`
+- Documentation commit reviewed: `a790a57b4e4a2fb351c279c1355bee0c0df4e92b`
 - Live URL: <https://chore-proof-calendar.sociobot.in>
-- Verified: 2026-09-06 UTC
+- Reviewed: 2026-09-06 UTC
 
 ## Result
 
-**PASS.** Independent live and clean-checkout QA found zero defects and zero
-untested public claims. Product code was not changed.
+**FAIL — 3 findings and 5 untested public claims.**
 
-The repaired first action and **Reset demo** show all seven August sample
-completions on phone and desktop. The persistent sample label remains visible,
-and seeded real calendar and license data stay unchanged. Both demo exits load
-and preserve existing real history before allowing a new save.
+The live PWA works end to end and matches the implementation candidate. No
+product code was changed. The mandatory claims gate fails because:
 
-## Verification
+- archive retention is promised in a confirmation but has no registered
+  functional test;
+- full JSON export and restore tests assert record counts, not field fidelity;
+- photo storage/export and site-data deletion promises lack direct declared
+  tests.
+
+Full report: [review-5.md](review-5.md).
+
+## Verification completed
 
 From a clean GitHub clone after `npm ci`:
 
@@ -32,20 +36,22 @@ npm audit --omit=dev
 - All 24 declared claim commands passed separately and exactly as written.
 - 17 unit and 59 browser tests passed; three responsive-project skips were
   intentional.
-- The build produced `dist/index.html`.
-- Live and local production artifacts byte-match.
-- Live route, legal, 404, link, privacy, keyboard, mobile, offline, update,
-  accessibility, export, restore, and recovery checks passed.
-- Lighthouse: 99 performance, 100 accessibility, 100 best practices, and 100
-  SEO; LCP 1.22 s, TBT 121.5 ms, CLS 0.
-- Bundle: 11,841 bytes gzip JavaScript, 4,081 bytes gzip CSS, no fonts, and a
-  53,244 byte mobile hero.
-- License allowance: 30 successful requests, then 429 with `Retry-After: 4`.
+- The build produced `dist/index.html` and byte-matched live critical files.
+- Fresh phone and desktop sample entry and reset showed all seven completions
+  without changing seeded real data or license state.
+- Live normal, invalid, boundary, recovery, archive, export, keyboard, focus,
+  route, legal, 404, privacy, offline, update, and billing checks passed.
+- Axe found zero serious or critical issues across 14 route/viewport checks.
+- Lighthouse scored 100/100/100/100, with LCP 1.22 s and CLS 0.
+- The license endpoint allowed 30 requests, then returned 429 with
+  `Retry-After: 4`.
 
-Full report: [verification-10.md](verification-10.md). Evidence is under
-`.factory/evidence-verification-10/`.
+Evidence is under `.factory/evidence-review-5/`.
 
-## Known gaps and next steps
+## Required next work
 
-None observed within the product contract. No repair or redeployment is
-needed.
+Do not accept or redeploy the unchanged product. Add or strengthen the tagged
+claim tests described in F-5-1 through F-5-3, then rerun every declared
+command and the full review. The live behavior passed the matching manual
+checks, so the needed repair is claim and test coverage unless the public copy
+is removed.

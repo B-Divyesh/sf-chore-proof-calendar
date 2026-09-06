@@ -1,0 +1,378 @@
+{
+  "discovered": [
+    {
+      "route": "/",
+      "documentStatus": 200,
+      "title": "Done Here — See when each chore was done",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/demo"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Try it with sample data",
+          "href": "https://chore-proof-calendar.sociobot.in/?demo=1"
+        },
+        {
+          "text": "Create your first chore →",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Buy Household Pack — $12",
+          "href": "https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory (external)",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    },
+    {
+      "route": "/app",
+      "documentStatus": 200,
+      "title": "Calendar — Done Here",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/app#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/demo"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Buy Household Pack — $12",
+          "href": "https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory (external)",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    },
+    {
+      "route": "/demo",
+      "documentStatus": 200,
+      "title": "Demo — Done Here",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/demo#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/demo"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Start for real",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Buy Household Pack — $12",
+          "href": "https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout"
+        },
+        {
+          "text": "Restore a license in your calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory (external)",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "documentStatus": 200,
+      "title": "Privacy — Done Here",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/demo"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory (external)",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "documentStatus": 200,
+      "title": "Terms — Done Here",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/terms#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/demo"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory (external)",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    },
+    {
+      "route": "/404",
+      "documentStatus": 404,
+      "title": "Page not found — Done Here",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/404#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/?demo=1"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Return home",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    },
+    {
+      "route": "/missing-route",
+      "documentStatus": 404,
+      "title": "Page not found — Done Here",
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://chore-proof-calendar.sociobot.in/missing-route#main"
+        },
+        {
+          "text": "✓Done Here",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Calendar",
+          "href": "https://chore-proof-calendar.sociobot.in/app"
+        },
+        {
+          "text": "Demo",
+          "href": "https://chore-proof-calendar.sociobot.in/?demo=1"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Return home",
+          "href": "https://chore-proof-calendar.sociobot.in/"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://chore-proof-calendar.sociobot.in/privacy"
+        },
+        {
+          "text": "Terms",
+          "href": "https://chore-proof-calendar.sociobot.in/terms"
+        },
+        {
+          "text": "Built by Param Factory",
+          "href": "https://hello-factory.sociobot.in/"
+        }
+      ]
+    }
+  ],
+  "checked": [
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/app",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/demo",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/privacy",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/?demo=1",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://api.sociobot.in/api/v1/products/chore-proof-calendar/checkout",
+      "status": 303,
+      "location": "https://checkout.dodopayments.com/session/cks_0NmzeEv9QqhFtWe742Yqw"
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/terms",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://hello-factory.sociobot.in/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/404",
+      "status": 404,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/missing-route",
+      "status": 404,
+      "location": null
+    }
+  ],
+  "expected404": [
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/404",
+      "status": 404,
+      "location": null
+    },
+    {
+      "target": "https://chore-proof-calendar.sociobot.in/missing-route",
+      "status": 404,
+      "location": null
+    }
+  ],
+  "failures": []
+}

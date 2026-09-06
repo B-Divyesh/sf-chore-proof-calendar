@@ -1,0 +1,43 @@
+{
+  "checkout": "/tmp/chore-proof-review5.X091gX/clone",
+  "documentation_commit": "a790a57b4e4a2fb351c279c1355bee0c0df4e92b",
+  "implementation_commit": "da9493593009fcf702410ab246b5f6ab04f54706",
+  "npm_ci": "passed; 141 packages installed; 0 vulnerabilities",
+  "declared_claim_commands": [
+    { "id": "demo-sandbox", "exit_code": 0 },
+    { "id": "filled-sample-calendar", "exit_code": 0 },
+    { "id": "one-tap-completion", "exit_code": 0 },
+    { "id": "offline-reload", "exit_code": 0 },
+    { "id": "installable-pwa", "exit_code": 0 },
+    { "id": "no-account", "exit_code": 0 },
+    { "id": "local-data", "exit_code": 0 },
+    { "id": "runtime-privacy", "exit_code": 0 },
+    { "id": "license-token-only", "exit_code": 0 },
+    { "id": "refunded-license", "exit_code": 0 },
+    { "id": "ics-export", "exit_code": 0 },
+    { "id": "pdf-export", "exit_code": 0 },
+    { "id": "csv-export", "exit_code": 0 },
+    { "id": "json-export", "exit_code": 0 },
+    { "id": "no-household-ranking", "exit_code": 0 },
+    { "id": "json-restore", "exit_code": 0 },
+    { "id": "recurrence-bounds", "exit_code": 0 },
+    { "id": "due-status", "exit_code": 0 },
+    { "id": "completion-proof", "exit_code": 0 },
+    { "id": "free-core", "exit_code": 0 },
+    { "id": "keyboard-calendar", "exit_code": 0 },
+    { "id": "photo-tier", "exit_code": 0 },
+    { "id": "paid-photo-cap", "exit_code": 0 },
+    { "id": "accessible-baseline", "exit_code": 0 }
+  ],
+  "declared_claim_total": 24,
+  "declared_claim_failures": 0,
+  "each_tag_occurs_once": true,
+  "quality_gates": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "unit_tests": "17 passed",
+    "browser_tests": "59 passed; 3 intentional responsive-project skips",
+    "build": "passed; dist/index.html produced",
+    "audit_omit_dev": "0 vulnerabilities"
+  }
+}

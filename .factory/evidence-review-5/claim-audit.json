@@ -1,0 +1,25 @@
+{
+  "declared_claims": 24,
+  "declared_commands_passed": 24,
+  "findings": [
+    {
+      "id": "F-5-1",
+      "public_claim": "Its completion history will remain in exports.",
+      "location": "src/main.ts archive confirmation",
+      "issue": "No claims.json entry and no functional archive-retention test."
+    },
+    {
+      "id": "F-5-2",
+      "public_claim": "Exports a full JSON backup / Restores a full JSON backup",
+      "location": ".factory/claims.json, README.md, and the app export area",
+      "issue": "The two tagged tests assert only chore and completion counts, not full field fidelity."
+    },
+    {
+      "id": "F-5-3",
+      "public_claim": "Photos stay in this browser and appear in exported JSON / Removing site data removes the local calendar.",
+      "location": "src/main.ts photo help and privacy page",
+      "issue": "No declared command exercises photo network/storage/export behavior or clearing browser site data."
+    }
+  ],
+  "untested_public_claim_count": 5
+}
