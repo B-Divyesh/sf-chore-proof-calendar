@@ -33,13 +33,18 @@ function localDate(iso: string) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
-function selectLatestRealHistory() {
-  const latest = data.completions.reduce<Completion | undefined>((current, item) => {
+function selectLatestHistory(source: AppData) {
+  const latest = source.completions.reduce<Completion | undefined>((current, item) => {
     if (!current || item.completedAt > current.completedAt) return item;
     return current;
   }, undefined);
   selectedDate = localDate(latest?.completedAt ?? new Date().toISOString());
   calendarMonth = new Date(`${selectedDate}T12:00:00`);
+}
+
+function resetDemoState() {
+  demoData = structuredClone(SAMPLE_DATA);
+  selectLatestHistory(demoData);
 }
 
 async function persist() {
@@ -91,9 +96,13 @@ function shell(content: string, title: string, description: string) {
     ${!navigator.onLine ? '<div class="offline-strip" role="status">Offline. Your calendar still works here.</div>' : ''}
     <main id="main" tabindex="-1">${content}</main>
     <div id="route-status" class="sr-only" aria-live="polite">${esc(title)}</div>
-    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.6</span></div></footer>
+    <footer><div><span class="wordmark-small">Done Here</span><p>Visible chore history for shared homes.</p></div><div class="footer-links">${navLink('/privacy', 'Privacy')}${navLink('/terms', 'Terms')}<a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external)</span></a><span>v1.0.7</span></div></footer>
     <div class="toast-region" aria-live="polite" aria-atomic="true"></div>`;
-  document.querySelector('#reset-demo')?.addEventListener('click', () => { demoData = structuredClone(SAMPLE_DATA); toast('Sample data reset.'); render(); });
+  document.querySelector('#reset-demo')?.addEventListener('click', () => {
+    resetDemoState();
+    render();
+    toast('Sample data reset.');
+  });
 }
 
 function homePage() {
@@ -369,6 +378,7 @@ function render(focus = false) {
 async function prepareRoute() {
   const nextIsDemo = isDemoRoute();
   if (nextIsDemo) {
+    if (!isDemo) resetDemoState();
     isDemo = true;
     licenseActive = false;
     licenseNotice = '';
@@ -385,7 +395,7 @@ async function prepareRoute() {
     // The demo starts on the sample's last mark. Once real records have
     // hydrated, move the selected-day view to real history too; otherwise
     // data is preserved but appears missing until the user changes days.
-    selectLatestRealHistory();
+    selectLatestHistory(data);
     await initLicense();
   }
 }
@@ -407,10 +417,7 @@ window.addEventListener('online', () => render());
 window.addEventListener('offline', () => render());
 async function boot() {
   isDemo = isDemoRoute();
-  if (isDemo) {
-    selectedDate = demoData.completions.map((item) => localDate(item.completedAt)).sort().at(-1) ?? selectedDate;
-    calendarMonth = new Date(`${selectedDate}T12:00:00`);
-  }
+  if (isDemo) resetDemoState();
   await initLicense();
   if (!isDemo) await hydrateRealData();
   render();

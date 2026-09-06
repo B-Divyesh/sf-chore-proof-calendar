@@ -5,7 +5,9 @@
 - Query entry: `/?demo=1` (the first-screen Try action uses this URL)
 
 The sample contains four household chores and seven completions across ten
-days. Notes cover plants, bed sheets, a fridge shelf, and a coffee filter.
+days. Notes cover plants, bed sheets, a fridge shelf, and a coffee filter. Demo
+entry and reset select the latest sample completion, so all seven completions
+are visible in the August 2026 calendar.
 
 The demo keeps its mutable copy in memory. It never opens the real IndexedDB
 database and never reads or writes local storage, including production license

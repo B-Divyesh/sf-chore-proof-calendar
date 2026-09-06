@@ -71,6 +71,7 @@ describe('release configuration', () => {
       { file: 'index.html', copy: 'No account needed.', claims: ['no-account'] },
       { file: 'src/main.ts', copy: 'You do not create an account to use Done Here.', claims: ['no-account'] },
       { file: 'src/main.ts', copy: 'Done Here does not rank people, assign points, or watch children.', claims: ['no-household-ranking'] },
+      { file: 'src/main.ts', copy: 'See a filled calendar in one click.', claims: ['filled-sample-calendar'] },
       { file: 'src/main.ts', copy: 'The calendar is free.', claims: ['free-core'] },
       { file: 'src/main.ts', copy: 'Chores, notes, and every export stay free.', claims: ['free-core'] },
       { file: 'README.md', copy: 'Free core calendar with five photos', claims: ['free-core', 'photo-tier'] },

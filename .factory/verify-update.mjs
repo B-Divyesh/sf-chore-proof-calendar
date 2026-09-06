@@ -6,6 +6,7 @@ import { extname, join, normalize } from 'node:path';
 
 const root = 'dist';
 const port = 4191;
+const output = process.argv[2] ?? '.factory/evidence-repair-8-local/update.json';
 let updated = false;
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -33,7 +34,7 @@ const server = createServer((request, response) => {
   try {
     statSync(path);
     let body = readFileSync(path);
-    if (relative === 'sw.js' && updated) body = Buffer.from(body.toString().replace('done-here-v10', 'done-here-v10-update-check'));
+    if (relative === 'sw.js' && updated) body = Buffer.from(body.toString().replace('done-here-v11', 'done-here-v11-update-check'));
     response.writeHead(200, {
       'Content-Type': contentTypes[extname(path)] ?? 'application/octet-stream',
       'Cache-Control': relative === 'sw.js' ? 'no-store' : 'no-cache'
@@ -62,7 +63,7 @@ try {
   const updateActionVisible = await page.getByRole('button', { name: 'Update now' }).isVisible();
   await page.getByRole('button', { name: 'Update now' }).click();
   await page.waitForLoadState('domcontentloaded');
-  await page.waitForFunction(async () => (await caches.keys()).includes('done-here-v10-update-check'));
+  await page.waitForFunction(async () => (await caches.keys()).includes('done-here-v11-update-check'));
   report = {
     before,
     updateActionVisible,
@@ -77,6 +78,6 @@ try {
   await new Promise((resolve) => server.close(resolve));
 }
 
-writeFileSync('.factory/evidence-repair-8-local/update.json', JSON.stringify(report, null, 2));
+writeFileSync(output, `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));
-if (!report.updateActionVisible || report.after.chores !== 4 || !report.after.demoBannerVisible || !report.after.caches.includes('done-here-v10-update-check')) process.exitCode = 1;
+if (!report.updateActionVisible || report.after.chores !== 4 || !report.after.demoBannerVisible || !report.after.caches.includes('done-here-v11-update-check')) process.exitCode = 1;

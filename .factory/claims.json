@@ -7,6 +7,13 @@
     "sandbox": "fresh browser context at /demo; mutate, reload, and inspect storage"
   },
   {
+    "id": "filled-sample-calendar",
+    "claim": "See a filled calendar in one click",
+    "where": "landing first-screen sample action",
+    "test": "npm run test:e2e -- --grep @claim:filled-sample-calendar --project=chromium",
+    "sandbox": "fresh browser at / after the bundled sample month; seed a real record, click the sample action, assert all seven calendar completions, record in another month, reset, assert the seven completions again, and confirm real storage is unchanged"
+  },
+  {
     "id": "one-tap-completion",
     "claim": "Save the completion time in one tap",
     "where": "landing how-it-works section and app",

@@ -39,6 +39,78 @@ test('@claim:demo-sandbox loads sample data without touching real storage', asyn
   expect(licenseRequests).toEqual([]);
 });
 
+test('@claim:filled-sample-calendar shows all sample completions after one click and reset', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-09-06T12:00:00.000Z') });
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('See when each chore was done');
+
+  const storedBefore = await page.evaluate(async () => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('done-here:v1', 1);
+      request.onupgradeneeded = () => request.result.createObjectStore('records', { keyPath: 'id' });
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction('records', 'readwrite');
+      transaction.objectStore('records').put({ id: 'real-sentinel', kind: 'chore', name: 'Real calendar sentinel', intervalDays: 14, createdAt: '2026-09-01T09:00:00.000Z' });
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+    return await new Promise<unknown[]>((resolve, reject) => {
+      const request = db.transaction('records').objectStore('records').getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  });
+
+  await page.getByRole('link', { name: 'Try it with sample data' }).click();
+  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+
+  const expectBundledCalendar = async () => {
+    await expect(page.locator('.calendar-head strong')).toHaveText('August 2026');
+    await expect(page.locator('.calendar-day.has-events')).toHaveCount(6);
+    const marks = await page.locator('.calendar-day.has-events').evaluateAll((days) => Object.fromEntries(days.map((day) => [
+      (day as HTMLElement).dataset.date,
+      Number(day.querySelector('i')?.textContent)
+    ]))) as Record<string, number>;
+    expect(marks).toEqual({
+      '2026-08-18': 1,
+      '2026-08-20': 1,
+      '2026-08-21': 1,
+      '2026-08-24': 2,
+      '2026-08-26': 1,
+      '2026-08-27': 1
+    });
+    expect(Object.values(marks).reduce((total, count) => total + count, 0)).toBe(7);
+    await expect(page.locator('[data-date="2026-08-27"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.day-history')).toContainText('Rinse the coffee filter');
+  };
+
+  await expectBundledCalendar();
+  await page.getByRole('button', { name: 'Mark done' }).first().click();
+  await expect(page.locator('.calendar-head strong')).toHaveText('September 2026');
+  await expect(page.locator('.calendar-day.has-events')).toHaveCount(1);
+
+  await page.getByRole('button', { name: 'Reset demo' }).click();
+  await expect(page.getByText('Sample data reset.')).toBeVisible();
+  await expectBundledCalendar();
+
+  const storedAfter = await page.evaluate(async () => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('done-here:v1', 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    return await new Promise<unknown[]>((resolve, reject) => {
+      const request = db.transaction('records').objectStore('records').getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  });
+  expect(storedAfter).toEqual(storedBefore);
+});
+
 test('@claim:one-tap-completion adds a dated completion in one action', async ({ page }) => {
   await page.goto('/demo');
   const chore = page.locator('.chore-card').first();
@@ -51,7 +123,7 @@ test('@claim:offline-reload works offline after the first visit', async ({ page,
   await page.goto('/demo');
   await page.waitForFunction(() => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller));
   await page.waitForFunction(async () => {
-    const cache = await caches.open('done-here-v10');
+    const cache = await caches.open('done-here-v11');
     const shell = await cache.match('/index.html');
     const demo = await cache.match('/demo');
     return Boolean(shell && demo && (await shell.text()).includes('Keep a record of every chore'));
@@ -75,7 +147,7 @@ test('@claim:installable-pwa provides a valid standalone manifest and controlled
     display: string;
     icons: Array<{ src: string; sizes: string; purpose: string }>;
   };
-  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=10', display: 'standalone' });
+  expect(manifest).toMatchObject({ name: expect.stringContaining('Done Here'), short_name: 'Done Here', start_url: '/app?v=11', display: 'standalone' });
   expect(manifest.icons).toEqual(expect.arrayContaining([
     expect.objectContaining({ sizes: '192x192', purpose: expect.stringContaining('maskable') }),
     expect.objectContaining({ sizes: '512x512', purpose: expect.stringContaining('maskable') })
