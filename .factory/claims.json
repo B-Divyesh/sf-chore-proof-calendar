@@ -92,10 +92,10 @@
   },
   {
     "id": "json-export",
-    "claim": "Exports a full JSON backup",
+    "claim": "Exports a full JSON backup without dropping chore, recurrence, archive, note, or photo fields",
     "where": "app export toolbar and README",
     "test": "npm run test:e2e -- --grep @claim:json-export --project=chromium",
-    "sandbox": "fresh /demo; download and parse the sample backup"
+    "sandbox": "fresh demo entry; import a fixture with active and archived chores, recurrence values, timestamps, notes, and a photo; download JSON and deep-compare every field"
   },
   {
     "id": "no-household-ranking",
@@ -106,10 +106,10 @@
   },
   {
     "id": "json-restore",
-    "claim": "Restores a full JSON backup",
+    "claim": "Restores a full JSON backup without dropping chore, recurrence, archive, note, or photo fields",
     "where": "app export toolbar and README",
     "test": "npm run test:e2e -- --grep @claim:json-restore --project=chromium",
-    "sandbox": "fresh /demo; export the bundled sample, start for real, import it, and assert all records are restored"
+    "sandbox": "fresh demo entry; start for real, import a fixture with every supported field, export it again, and deep-compare every field"
   },
   {
     "id": "recurrence-bounds",
@@ -131,6 +131,27 @@
     "where": "landing how-it-works section, app proof form, and README",
     "test": "npm run test:e2e -- --grep @claim:completion-proof --project=chromium",
     "sandbox": "fresh /demo; require the consent checkbox for a photo, then add a note and photo and assert both appear in dated history"
+  },
+  {
+    "id": "photo-json-local",
+    "claim": "Photos stay in this browser and appear in exported JSON",
+    "where": "app proof form",
+    "test": "npm run test:e2e -- --grep @claim:photo-json-local --project=chromium",
+    "sandbox": "fresh real calendar; save a consented PNG proof, reload, export JSON, assert the exact photo data remains, and record that no cross-origin request occurs"
+  },
+  {
+    "id": "archive-retention",
+    "claim": "Archived chores and their completion history remain in JSON exports",
+    "where": "app archive confirmation",
+    "test": "npm run test:e2e -- --grep @claim:archive-retention --project=chromium",
+    "sandbox": "fresh real calendar; create and complete a chore twice, confirm archive, then assert JSON retains the archived chore and both completion records"
+  },
+  {
+    "id": "site-data-deletion",
+    "claim": "Removing site data removes the local calendar",
+    "where": "privacy page",
+    "test": "npm run test:e2e -- --grep @claim:site-data-deletion --project=chromium",
+    "sandbox": "fresh real calendar; save a chore and completion, use the browser site-data clearing command for the origin, reload, and assert the calendar is empty"
   },
   {
     "id": "free-core",

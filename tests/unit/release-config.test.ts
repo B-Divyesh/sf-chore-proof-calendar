@@ -80,7 +80,12 @@ describe('release configuration', () => {
       { file: 'src/main.ts', copy: 'Verification sends only this token to Sociobot.', claims: ['license-token-only'] },
       { file: 'src/main.ts', copy: 'License verification sends your license token to Sociobot.', claims: ['license-token-only'] },
       { file: 'src/main.ts', copy: 'A refunded license stops working.', claims: ['refunded-license'] },
-      { file: 'README.md', copy: 'Optional notes and photos, with a checkbox to confirm consent', claims: ['completion-proof'] }
+      { file: 'README.md', copy: 'Optional notes and photos, with a checkbox to confirm consent', claims: ['completion-proof'] },
+      { file: 'README.md', copy: 'a full JSON backup', claims: ['json-export'] },
+      { file: 'README.md', copy: 'plus JSON restore', claims: ['json-restore'] },
+      { file: 'src/main.ts', copy: 'Photos stay in this browser and appear in exported JSON.', claims: ['photo-json-local'] },
+      { file: 'src/main.ts', copy: 'Its completion history will remain in exports.', claims: ['archive-retention'] },
+      { file: 'src/main.ts', copy: 'Removing site data removes the local calendar.', claims: ['site-data-deletion'] }
     ];
     for (const promise of publicPromises) {
       expect(readFileSync(promise.file, 'utf8'), `${promise.file}: ${promise.copy}`).toContain(promise.copy);

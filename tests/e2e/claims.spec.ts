@@ -1,5 +1,44 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Download, type Page } from '@playwright/test';
 import axe from 'axe-core';
+
+type Backup = {
+  chores: Array<{ id: string; name: string; intervalDays: number; createdAt: string; archived?: boolean }>;
+  completions: Array<{ id: string; choreId: string; completedAt: string; note?: string; photo?: string }>;
+};
+
+const PHOTO_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+const PHOTO_DATA_URL = `data:image/png;base64,${PHOTO_BASE64}`;
+
+const richBackup = (): Backup => ({
+  chores: [
+    { id: 'active-proof-chore', name: 'Clean the café drain', intervalDays: 29, createdAt: '2026-08-02T08:15:00.000Z', archived: false },
+    { id: 'archived-proof-chore', name: 'Wash the balcony rail', intervalDays: 365, createdAt: '2026-03-01T09:45:00.000Z', archived: true }
+  ],
+  completions: [
+    { id: 'active-photo-proof', choreId: 'active-proof-chore', completedAt: '2026-08-03T12:30:00.000Z', note: 'Drain rinsed — no residue.', photo: PHOTO_DATA_URL },
+    { id: 'archived-note-proof', choreId: 'archived-proof-chore', completedAt: '2026-08-04T14:00:00.000Z', note: 'Rail checked before rain.' }
+  ]
+});
+
+async function readJsonDownload(download: Download): Promise<Backup> {
+  const stream = await download.createReadStream();
+  let body = '';
+  for await (const chunk of stream!) body += chunk.toString();
+  return JSON.parse(body) as Backup;
+}
+
+async function exportJson(page: Page): Promise<Backup> {
+  const pending = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export JSON' }).click();
+  return readJsonDownload(await pending);
+}
+
+function sortBackup(backup: Backup): Backup {
+  return {
+    chores: [...backup.chores].map((chore) => ({ ...chore })).sort((left, right) => left.id.localeCompare(right.id)),
+    completions: [...backup.completions].map((completion) => ({ ...completion })).sort((left, right) => left.id.localeCompare(right.id))
+  };
+}
 
 test('@claim:demo-sandbox loads sample data without touching real storage', async ({ page }) => {
   const realStorage = {
@@ -270,17 +309,19 @@ test('@claim:refunded-license relocks paid photo storage after a revoked verdict
   await expect(page.getByText('The free photo limit is five.')).toBeVisible();
 });
 
-test('@claim:json-export downloads the full sample backup', async ({ page }) => {
+test('@claim:json-export exports every field in a full backup', async ({ page }) => {
+  const fixture = richBackup();
   await page.goto('/demo');
-  const pending = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Export JSON' }).click();
-  const file = await pending;
-  const stream = await file.createReadStream();
-  let body = '';
-  for await (const chunk of stream!) body += chunk.toString();
-  const parsed = JSON.parse(body);
-  expect(parsed.chores).toHaveLength(4);
-  expect(parsed.completions).toHaveLength(7);
+  await page.getByRole('link', { name: 'Start for real' }).click();
+  await page.getByLabel('Import JSON').setInputFiles({
+    name: 'full-household-backup.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(fixture))
+  });
+  await expect(page.getByText('Backup imported.')).toBeVisible();
+
+  const exported = await exportJson(page);
+  expect(sortBackup(exported)).toEqual(sortBackup(fixture));
 });
 
 test('@claim:no-household-ranking records chores without people, points, or rankings', async ({ page }) => {
@@ -297,33 +338,22 @@ test('@claim:no-household-ranking records chores without people, points, or rank
   await expect(page.locator('[data-ranking], [data-points], [data-assignee]')).toHaveCount(0);
 });
 
-test('@claim:json-restore restores every record from a sample backup', async ({ page }) => {
+test('@claim:json-restore restores every field in a full backup', async ({ page }) => {
+  const fixture = richBackup();
   await page.goto('/demo');
-  const exported = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Export JSON' }).click();
-  const stream = await (await exported).createReadStream();
-  const chunks: Buffer[] = [];
-  for await (const chunk of stream!) chunks.push(Buffer.from(chunk));
-  const backup = Buffer.concat(chunks);
-
   await page.getByRole('link', { name: 'Start for real' }).click();
   await expect(page).toHaveURL(/\/app$/);
   await page.getByLabel('Import JSON').setInputFiles({
-    name: 'done-here-sample.json',
+    name: 'full-household-backup.json',
     mimeType: 'application/json',
-    buffer: backup
+    buffer: Buffer.from(JSON.stringify(fixture))
   });
   await expect(page.getByText('Backup imported.')).toBeVisible();
-  await expect(page.locator('.chore-card')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: 'Clean the café drain' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Wash the balcony rail' })).toHaveCount(0);
 
-  const restoredExport = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Export JSON' }).click();
-  const restoredStream = await (await restoredExport).createReadStream();
-  let restoredBody = '';
-  for await (const chunk of restoredStream!) restoredBody += chunk.toString();
-  const restored = JSON.parse(restoredBody);
-  expect(restored.chores).toHaveLength(4);
-  expect(restored.completions).toHaveLength(7);
+  const restored = await exportJson(page);
+  expect(sortBackup(restored)).toEqual(sortBackup(fixture));
 });
 
 test('@claim:recurrence-bounds accepts named chores from 1 through 365 days', async ({ page }) => {
@@ -386,6 +416,101 @@ test('@claim:completion-proof requires consent confirmation before saving an opt
   const history = page.locator('.day-history');
   await expect(history).toContainText('Filter rinsed and left to dry.');
   await expect(history.getByRole('img', { name: 'Photo saved with this completion' })).toBeVisible();
+});
+
+test('@claim:photo-json-local keeps a consented photo local and in its JSON backup', async ({ page }) => {
+  const remoteRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') remoteRequests.push(request.url());
+  });
+
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Photograph the water meter');
+  await page.getByLabel('Due every').fill('91');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const chore = page.locator('.chore-card').filter({ hasText: 'Photograph the water meter' });
+  await chore.getByRole('button', { name: 'Add note or photo' }).click();
+  await page.getByLabel('Note optional').fill('Reading recorded before the utility visit.');
+  await page.getByLabel('Photo optional').setInputFiles({
+    name: 'water-meter.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(PHOTO_BASE64, 'base64')
+  });
+  await page.getByLabel('Anyone shown in this photo agreed to store it here.').check();
+  await page.getByRole('button', { name: 'Mark done with proof' }).click();
+  await expect(page.locator('.day-history')).toContainText('Reading recorded before the utility visit.');
+  await expect(page.getByRole('img', { name: 'Photo saved with this completion' })).toBeVisible();
+
+  await page.reload();
+  await expect(page.locator('.day-history')).toContainText('Reading recorded before the utility visit.');
+  const backup = await exportJson(page);
+  const savedChore = backup.chores.find((item) => item.name === 'Photograph the water meter');
+  expect(savedChore).toBeDefined();
+  expect(backup.completions).toContainEqual(expect.objectContaining({
+    choreId: savedChore!.id,
+    note: 'Reading recorded before the utility visit.',
+    photo: PHOTO_DATA_URL
+  }));
+  expect(remoteRequests).toEqual([]);
+});
+
+test('@claim:archive-retention keeps an archived chore and all of its history in JSON', async ({ page }) => {
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Archive the pantry shelf record');
+  await page.getByLabel('Due every').fill('14');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const chore = page.locator('.chore-card').filter({ hasText: 'Archive the pantry shelf record' });
+
+  await chore.getByRole('button', { name: 'Mark done' }).click();
+  await expect(page.locator('.day-history')).toContainText('Archive the pantry shelf record');
+  await chore.getByRole('button', { name: 'Mark done' }).click();
+  await expect(page.locator('.day-history')).toContainText('Archive the pantry shelf record');
+
+  page.once('dialog', (dialog) => dialog.accept());
+  await chore.getByRole('button', { name: 'Archive' }).click();
+  await expect(page.getByRole('heading', { name: 'Archive the pantry shelf record' })).toHaveCount(0);
+
+  const backup = await exportJson(page);
+  const archived = backup.chores.find((item) => item.name === 'Archive the pantry shelf record');
+  expect(archived).toMatchObject({ archived: true, intervalDays: 14 });
+  const history = backup.completions.filter((item) => item.choreId === archived!.id);
+  expect(history).toHaveLength(2);
+  expect(new Set(history.map((item) => item.id)).size).toBe(2);
+});
+
+test('@claim:site-data-deletion clears the persisted local calendar', async ({ page }) => {
+  await page.goto('/app');
+  await page.getByRole('button', { name: 'Add a chore' }).click();
+  await page.getByLabel('Chore name').fill('Clear this site-data record');
+  await page.getByRole('button', { name: 'Save chore' }).click();
+  const chore = page.locator('.chore-card').filter({ hasText: 'Clear this site-data record' });
+  await chore.getByRole('button', { name: 'Mark done' }).click();
+  await expect(page.locator('.day-history')).toContainText('Clear this site-data record');
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Clear this site-data record' })).toBeVisible();
+
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Storage.clearDataForOrigin', { origin: 'http://127.0.0.1:4173', storageTypes: 'all' });
+  await cdp.detach();
+  await page.reload();
+
+  await expect(page.getByRole('heading', { name: 'No chores yet' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Clear this site-data record' })).toHaveCount(0);
+  const persistedRows = await page.evaluate(async () => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('done-here:v1', 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    return new Promise<unknown[]>((resolve, reject) => {
+      const request = db.transaction('records').objectStore('records').getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  });
+  expect(persistedRows).toEqual([]);
 });
 
 test('@claim:free-core keeps chores, notes, calendar history, and every export available without a license', async ({ page }) => {

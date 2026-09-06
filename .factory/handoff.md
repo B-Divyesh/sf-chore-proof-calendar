@@ -1,57 +1,71 @@
-# Done Here review 5 handoff — FAIL
+# Done Here repair 10 handoff
 
-- Work order: `chore-proof-calendar-review-5`
-- Candidate implementation: `da9493593009fcf702410ab246b5f6ab04f54706`
-- Documentation commit reviewed: `a790a57b4e4a2fb351c279c1355bee0c0df4e92b`
+- Work order: `chore-proof-calendar-repair-10`
+- Runtime implementation: `da9493593009fcf702410ab246b5f6ab04f54706`
+- Base documentation review: `9ad751f6f1a7b02d0161b2ecf40db94255eaf763`
 - Live URL: <https://chore-proof-calendar.sociobot.in>
-- Reviewed: 2026-09-06 UTC
+- Product class: offline PWA
 
 ## Result
 
-**FAIL — 3 findings and 5 untested public claims.**
+The strict claims repair is complete. The product's runtime behavior was
+already correct; this repair adds the missing public-claim declarations and
+outcome-based regression tests that prove it stays correct.
 
-The live PWA works end to end and matches the implementation candidate. No
-product code was changed. The mandatory claims gate fails because:
+| Review finding | Repair and regression proof |
+| --- | --- |
+| F-5-1 archive retention | `archive-retention` creates a real chore, records two completions, confirms archive, and verifies JSON retains the archived chore and both records. |
+| F-5-2 full JSON export | `json-export` imports a fixture containing active and archived chores, recurrence values, timestamps, notes, and a PNG data URL; the downloaded backup is deep-compared field for field. |
+| F-5-2 full JSON restore | `json-restore` imports the same complete fixture through the real UI and deep-compares the subsequent JSON export, including the archived state and photo data. |
+| F-5-3 photo promise | `photo-json-local` saves a consented PNG in a real calendar, reloads it, verifies the exact data URL in JSON, and records no cross-origin request. |
+| F-5-3 site-data deletion | `site-data-deletion` saves a real chore and completion, clears all browser site data for the origin through the browser protocol, reloads, and proves the calendar and IndexedDB records are empty. |
 
-- archive retention is promised in a confirmation but has no registered
-  functional test;
-- full JSON export and restore tests assert record counts, not field fidelity;
-- photo storage/export and site-data deletion promises lack direct declared
-  tests.
+The claim-audit unit test now maps each of these retained public promises to
+its registered claim, while the browser tests independently prove outcomes.
 
-Full report: [review-5.md](review-5.md).
+## Verification
 
-## Verification completed
+From the documented clean setup, `npm ci` installed 141 packages with zero
+reported audit vulnerabilities. All 27 declared claim commands were run
+separately from `.factory/claims.json`; each completed with a passing
+Playwright or Vitest result.
 
-From a clean GitHub clone after `npm ci`:
+The following also passed:
 
-```sh
-npm run lint
-npm run typecheck
-npm test
-npm run build
-npm audit --omit=dev
-```
+- `npm run lint`
+- `npm run typecheck`
+- `npm test` — 17 unit tests and the complete 68-case desktop/mobile browser suite
+- `npm run build` — produced `dist/index.html` at 50.35 kB raw / 16.18 kB gzip
+- `npm audit --omit=dev` — zero vulnerabilities
 
-- All 24 declared claim commands passed separately and exactly as written.
-- 17 unit and 59 browser tests passed; three responsive-project skips were
-  intentional.
-- The build produced `dist/index.html` and byte-matched live critical files.
-- Fresh phone and desktop sample entry and reset showed all seven completions
-  without changing seeded real data or license state.
-- Live normal, invalid, boundary, recovery, archive, export, keyboard, focus,
-  route, legal, 404, privacy, offline, update, and billing checks passed.
-- Axe found zero serious or critical issues across 14 route/viewport checks.
-- Lighthouse scored 100/100/100/100, with LCP 1.22 s and CLS 0.
-- The license endpoint allowed 30 requests, then returned 429 with
-  `Retry-After: 4`.
+Local browser evidence is in `.factory/evidence-repair-10-local/`:
 
-Evidence is under `.factory/evidence-review-5/`.
+- `browser-matrix.json`: 14 desktop/phone route scans, zero serious/critical
+  Axe findings or console errors, 63 mobile targets with none below 44 px,
+  keyboard/focus/privacy/offline/reduced-motion/200% reflow all passing.
+- `verify-url/verify.json`: `/demo` has a title, `lang=en`, one `h1`, one
+  main landmark, image alternatives, labelled controls, and no browser error.
+- `sample-calendar.json`: desktop and phone first reads identify the job,
+  household audience, and sample action before scrolling; one click and reset
+  each show the seven bundled completions with the persistent sample label and
+  unchanged real storage.
+- `update.json`: an isolated worker update displays its update action and
+  retains the sample banner and four chores.
 
-## Required next work
+The plain verb-first catalog description remains in
+`.factory/catalog-description.txt` and is copied to
+`/work/.evidence/catalog-description.txt`.
 
-Do not accept or redeploy the unchanged product. Add or strengthen the tagged
-claim tests described in F-5-1 through F-5-3, then rerun every declared
-command and the full review. The live behavior passed the matching manual
-checks, so the needed repair is claim and test coverage unless the public copy
-is removed.
+## Deployment and remaining work
+
+No runtime source or static asset changed in this repair, so the runtime
+implementation remains `da94935`; the follow-on commit contains claims,
+tests, verification evidence, and this handoff. Push the repair commit using
+the normal static-product path, then confirm the HTTPS shell still
+byte-matches the rebuilt `dist/` files and cold-open `/` and `/demo` on desktop
+and phone. No product behavior, billing offer, stored data format, or privacy
+boundary is intentionally changed.
+
+Known product gaps: none observed. This remains a browser-only PWA with no
+product-owned backend, accounts, tenant state, or server-side persistence; the
+Sociobot checkout and license endpoint remain the named external dependency.
