@@ -1,0 +1,16 @@
+{
+  "before": {
+    "sb_license_verdict:chore-proof-calendar": "{\"valid\":true,\"checkedAt\":1788669299228}",
+    "sb_license:chore-proof-calendar": "real-sentinel-license"
+  },
+  "after": {
+    "sb_license_verdict:chore-proof-calendar": "{\"valid\":true,\"checkedAt\":1788669299228}",
+    "sb_license:chore-proof-calendar": "real-sentinel-license"
+  },
+  "unchanged": true,
+  "url": "https://chore-proof-calendar.sociobot.in/demo?license=demo-should-not-save",
+  "banner": true,
+  "householdPackActive": 0,
+  "buyVisible": true,
+  "licenseRequests": []
+}

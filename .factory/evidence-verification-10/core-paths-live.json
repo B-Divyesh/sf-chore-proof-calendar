@@ -1,0 +1,25 @@
+{
+  "emptyState": true,
+  "zeroRejected": true,
+  "over366Rejected": true,
+  "beforeCompletion": "Due todayVerification 10 daily sinkNo completion yetEvery 1 day · next Sep 6, 2026✓Mark doneAdd note or photoArchive",
+  "afterCompletion": "Due in 1 dayVerification 10 daily sinkLast done Sep 6, 2026, 4:00 PMEvery 1 day · next Sep 7, 2026✓Mark doneAdd note or photoArchive",
+  "persistedAfterReload": true,
+  "consentRequired": true,
+  "notePhotoSaved": true,
+  "invalidPhotoRejected": true,
+  "dialogStayedOpen": true,
+  "exports": {
+    "icsUtcEvents": 2,
+    "pdfHeader": "%PDF-",
+    "csvRows": 3,
+    "jsonChores": 1,
+    "jsonCompletions": 2,
+    "notePreserved": true,
+    "photoPreserved": true
+  },
+  "malformedBackupRejected": true,
+  "currentDataPreserved": true,
+  "externalRequests": [],
+  "errors": []
+}

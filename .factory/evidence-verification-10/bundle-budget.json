@@ -1,0 +1,25 @@
+{
+  "html": {
+    "raw": 50348,
+    "gzip": 16180
+  },
+  "javascript": {
+    "raw": 33690,
+    "gzip": 11841,
+    "budget": 200000
+  },
+  "css": {
+    "raw": 15033,
+    "gzip": 4081,
+    "budget": 50000
+  },
+  "fonts": {
+    "files": [],
+    "total": 0,
+    "budget": 120000
+  },
+  "heroMobile": {
+    "bytes": 53244,
+    "budget": 300000
+  }
+}

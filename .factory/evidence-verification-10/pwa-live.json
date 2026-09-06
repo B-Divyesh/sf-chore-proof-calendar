@@ -1,0 +1,36 @@
+{
+  "manifestUrl": "https://chore-proof-calendar.sociobot.in/manifest.webmanifest",
+  "name": "Done Here — Chore completion calendar",
+  "shortName": "Done Here",
+  "startUrl": "/app?v=11",
+  "display": "standalone",
+  "themeColor": "#f4f7f5",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "status": 200,
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "status": 200,
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "https://chore-proof-calendar.sociobot.in/",
+  "controller": true,
+  "workerState": "activated",
+  "caches": [
+    "done-here-v11"
+  ],
+  "offline": {
+    "title": "Demo — Done Here",
+    "heading": "Keep a record of every chore",
+    "chores": 4,
+    "status": true
+  }
+}

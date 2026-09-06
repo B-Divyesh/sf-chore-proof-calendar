@@ -1,0 +1,224 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 2,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 3,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 4,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 5,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 6,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 7,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 8,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 9,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 10,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 11,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 12,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 13,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 14,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 15,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 16,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 17,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 18,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 19,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 20,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 21,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 22,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 23,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 24,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 25,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 26,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 27,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 28,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 29,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 30,
+      "status": 200,
+      "retryAfter": null,
+      "cacheControl": "no-store",
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    },
+    {
+      "attempt": 31,
+      "status": 429,
+      "retryAfter": "4",
+      "cacheControl": null,
+      "allowOrigin": "https://chore-proof-calendar.sociobot.in"
+    }
+  ],
+  "successes": 30,
+  "limited": true,
+  "retryAfter": "4"
+}

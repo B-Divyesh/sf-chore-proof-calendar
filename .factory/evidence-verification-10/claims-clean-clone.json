@@ -1,0 +1,225 @@
+{
+  "checkout": "54a9f41ec497ae90b84e7c8286f4496f0bc5f1dc",
+  "candidate": "da9493593009fcf702410ab246b5f6ab04f54706",
+  "claimCount": 24,
+  "passed": 24,
+  "failed": 0,
+  "results": [
+    {
+      "id": "demo-sandbox",
+      "claim": "Demo — sample data, nothing is saved",
+      "command": "npm run test:e2e -- --grep @claim:demo-sandbox --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7821,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:demo-sandbox --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.5s)\n[WebServer] (node:1669) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:1701) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:1719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:1719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "filled-sample-calendar",
+      "claim": "See a filled calendar in one click",
+      "command": "npm run test:e2e -- --grep @claim:filled-sample-calendar --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7429,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:filled-sample-calendar --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.2s)\n[WebServer] (node:1853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:1884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:1902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:1902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "one-tap-completion",
+      "claim": "Save the completion time in one tap",
+      "command": "npm run test:e2e -- --grep @claim:one-tap-completion --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7145,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:one-tap-completion --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:2033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:2082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:2082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "offline-reload",
+      "claim": "Works after the first visit without internet",
+      "command": "npm run test:e2e -- --grep @claim:offline-reload --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7185,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:offline-reload --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:2211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2242) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:2260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:2260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "installable-pwa",
+      "claim": "Provides an installable standalone PWA",
+      "command": "npm run test:e2e -- --grep @claim:installable-pwa --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7162,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:installable-pwa --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:2389) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:2439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:2439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "no-account",
+      "claim": "You can create and use a calendar without an account",
+      "command": "npm run test:e2e -- --grep @claim:no-account --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7370,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:no-account --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.1s)\n[WebServer] (node:2589) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2621) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:2639) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:2639) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "local-data",
+      "claim": "Chore records stay in this browser",
+      "command": "npm run test:e2e -- --grep @claim:local-data --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7154,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:local-data --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:2768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:2817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:2817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "runtime-privacy",
+      "claim": "No analytics, remote fonts, or third-party runtime scripts are included",
+      "command": "npm run test:e2e -- --grep @claim:runtime-privacy --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7154,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:runtime-privacy --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:2943) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:2993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:2993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "license-token-only",
+      "claim": "License verification sends only the pasted token to Sociobot",
+      "command": "npm run test:e2e -- --grep @claim:license-token-only --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7186,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:license-token-only --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:3123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:3154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:3172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:3172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "refunded-license",
+      "claim": "A refunded license stops working",
+      "command": "npm run test:e2e -- --grep @claim:refunded-license --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7429,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:refunded-license --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.2s)\n[WebServer] (node:3321) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:3353) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:3371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:3371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "ics-export",
+      "claim": "Exports completion history as timezone-aware ICS",
+      "command": "npm run test:unit -- --testNamePattern=@claim:ics-export",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 1770,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:unit\n> vitest run --testNamePattern=@claim:ics-export\n\n\n RUN  v3.2.7 /work/qa-chore-proof-calendar-verify-10\n\n ↓ tests/unit/release-config.test.ts (7 tests | 7 skipped)\n ↓ tests/unit/dates.test.ts (2 tests | 2 skipped)\n ✓ tests/unit/exports.test.ts (4 tests | 3 skipped) 11ms\n ↓ tests/unit/storage.test.ts (4 tests | 4 skipped)\n\n Test Files  1 passed | 3 skipped (4)\n      Tests  1 passed | 16 skipped (17)\n   Start at  04:29:03\n   Duration  1.15s (transform 287ms, setup 0ms, collect 365ms, tests 11ms, environment 1ms, prepare 752ms)\n\n"
+    },
+    {
+      "id": "pdf-export",
+      "claim": "Exports completion history as PDF",
+      "command": "npm run test:unit -- --testNamePattern=@claim:pdf-export",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 1812,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:unit\n> vitest run --testNamePattern=@claim:pdf-export\n\n\n RUN  v3.2.7 /work/qa-chore-proof-calendar-verify-10\n\n ↓ tests/unit/release-config.test.ts (7 tests | 7 skipped)\n ↓ tests/unit/dates.test.ts (2 tests | 2 skipped)\n ✓ tests/unit/exports.test.ts (4 tests | 3 skipped) 28ms\n ↓ tests/unit/storage.test.ts (4 tests | 4 skipped)\n\n Test Files  1 passed | 3 skipped (4)\n      Tests  1 passed | 16 skipped (17)\n   Start at  04:29:05\n   Duration  1.20s (transform 310ms, setup 0ms, collect 396ms, tests 28ms, environment 1ms, prepare 731ms)\n\n"
+    },
+    {
+      "id": "csv-export",
+      "claim": "Exports completion history as CSV",
+      "command": "npm run test:unit -- --testNamePattern=@claim:csv-export",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 1755,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:unit\n> vitest run --testNamePattern=@claim:csv-export\n\n\n RUN  v3.2.7 /work/qa-chore-proof-calendar-verify-10\n\n ↓ tests/unit/release-config.test.ts (7 tests | 7 skipped)\n ↓ tests/unit/dates.test.ts (2 tests | 2 skipped)\n ✓ tests/unit/exports.test.ts (4 tests | 3 skipped) 5ms\n ↓ tests/unit/storage.test.ts (4 tests | 4 skipped)\n\n Test Files  1 passed | 3 skipped (4)\n      Tests  1 passed | 16 skipped (17)\n   Start at  04:29:07\n   Duration  1.14s (transform 289ms, setup 0ms, collect 337ms, tests 5ms, environment 5ms, prepare 761ms)\n\n"
+    },
+    {
+      "id": "json-export",
+      "claim": "Exports a full JSON backup",
+      "command": "npm run test:e2e -- --grep @claim:json-export --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7105,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:json-export --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (5.9s)\n[WebServer] (node:4056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:4105) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:4105) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "no-household-ranking",
+      "claim": "Does not rank people, assign points, or watch children",
+      "command": "npm run test:e2e -- --grep @claim:no-household-ranking --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7220,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:no-household-ranking --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.0s)\n[WebServer] (node:4236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4267) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:4285) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:4285) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "json-restore",
+      "claim": "Restores a full JSON backup",
+      "command": "npm run test:e2e -- --grep @claim:json-restore --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7290,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:json-restore --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.1s)\n[WebServer] (node:4415) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4446) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:4464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:4464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "recurrence-bounds",
+      "claim": "Creates named chores with a recurrence from 1 to 365 days",
+      "command": "npm run test:e2e -- --grep @claim:recurrence-bounds --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7916,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:recurrence-bounds --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.7s)\n[WebServer] (node:4592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4623) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:4641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:4641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "due-status",
+      "claim": "Each chore shows its latest completion and next due date",
+      "command": "npm run test:e2e -- --grep @claim:due-status --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7518,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:due-status --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.3s)\n[WebServer] (node:4789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:4838) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:4838) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "completion-proof",
+      "claim": "Adds optional notes and photos after a consent checkbox is confirmed",
+      "command": "npm run test:e2e -- --grep @claim:completion-proof --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7662,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:completion-proof --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.4s)\n[WebServer] (node:4967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4999) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:5017) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:5017) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "free-core",
+      "claim": "Chores, notes, calendar history, and every export work without a Household Pack license",
+      "command": "npm run test:e2e -- --grep @claim:free-core --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7767,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:free-core --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.5s)\n[WebServer] (node:5145) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:5194) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:5194) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "keyboard-calendar",
+      "claim": "Provides a monthly completion calendar with keyboard navigation",
+      "command": "npm run test:e2e -- --grep @claim:keyboard-calendar --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7344,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:keyboard-calendar --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.0s)\n[WebServer] (node:5323) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:5372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:5372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "photo-tier",
+      "claim": "The free photo limit is 5 and the paid limit is 500",
+      "command": "npm run test:unit -- --testNamePattern=@claim:photo-tier",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 1853,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:unit\n> vitest run --testNamePattern=@claim:photo-tier\n\n\n RUN  v3.2.7 /work/qa-chore-proof-calendar-verify-10\n\n ↓ tests/unit/release-config.test.ts (7 tests | 7 skipped)\n ↓ tests/unit/dates.test.ts (2 tests | 2 skipped)\n ✓ tests/unit/exports.test.ts (4 tests | 3 skipped) 4ms\n ↓ tests/unit/storage.test.ts (4 tests | 4 skipped)\n\n Test Files  1 passed | 3 skipped (4)\n      Tests  1 passed | 16 skipped (17)\n   Start at  04:30:08\n   Duration  1.23s (transform 318ms, setup 0ms, collect 398ms, tests 4ms, environment 1ms, prepare 774ms)\n\n"
+    },
+    {
+      "id": "paid-photo-cap",
+      "claim": "The Household Pack costs $12 once through Sociobot",
+      "command": "npm run test:e2e -- --grep @claim:paid-photo-cap --project=chromium",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7948,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:paid-photo-cap --project=chromium\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.7s)\n[WebServer] (node:5685) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5717) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:5735) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:5735) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "accessible-baseline",
+      "claim": "The app supports its accessible page structure and controls",
+      "command": "npm run test:e2e -- --grep @claim:accessible-baseline --project=mobile",
+      "status": "PASS",
+      "exitCode": 0,
+      "durationMs": 7649,
+      "outputTail": "\n> chore-proof-calendar@1.0.7 test:e2e\n> playwright test --grep @claim:accessible-baseline --project=mobile\n\n\nRunning 1 test using 1 worker\n·\n  1 passed (6.4s)\n[WebServer] (node:5886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:5936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:5936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    }
+  ]
+}

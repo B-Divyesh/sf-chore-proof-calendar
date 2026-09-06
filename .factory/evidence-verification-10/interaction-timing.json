@@ -1,0 +1,108 @@
+{
+  "entries": [
+    {
+      "name": "pointerover",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerenter",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "mouseover",
+      "duration": 16,
+      "inputDelay": 0.5,
+      "processing": 0
+    },
+    {
+      "name": "pointerdown",
+      "duration": 16,
+      "inputDelay": 0.8000000000465661,
+      "processing": 0.9000000000232831
+    },
+    {
+      "name": "mousedown",
+      "duration": 16,
+      "inputDelay": 1.7000000000698492,
+      "processing": 0
+    },
+    {
+      "name": "pointerup",
+      "duration": 16,
+      "inputDelay": 1.7999999999301508,
+      "processing": 0.09999999997671694
+    },
+    {
+      "name": "mouseup",
+      "duration": 16,
+      "inputDelay": 1.8999999999068677,
+      "processing": 0
+    },
+    {
+      "name": "click",
+      "duration": 16,
+      "inputDelay": 1.8999999999068677,
+      "processing": 4.300000000046566
+    }
+  ],
+  "maxDuration": 16,
+  "maxInputDelay": 1.8999999999068677
+}
