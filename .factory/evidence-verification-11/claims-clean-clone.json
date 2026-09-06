@@ -1,0 +1,49 @@
+{
+  "checkout": "/tmp/done-here-verify-11.1VXHTH",
+  "documentationCommit": "e5db22164f045009939c271df6c5083a458fc970",
+  "implementationCommit": "da9493593009fcf702410ab246b5f6ab04f54706",
+  "claimsRepairCommit": "0dbc219f3f79b47991c9f216ef52ea4dfb04580f",
+  "npmCi": {
+    "status": "passed",
+    "packages": 141,
+    "vulnerabilities": 0
+  },
+  "claims": [
+    { "id": "demo-sandbox", "status": "passed" },
+    { "id": "filled-sample-calendar", "status": "passed" },
+    { "id": "one-tap-completion", "status": "passed" },
+    { "id": "offline-reload", "status": "passed" },
+    { "id": "installable-pwa", "status": "passed" },
+    { "id": "no-account", "status": "passed" },
+    { "id": "local-data", "status": "passed" },
+    { "id": "runtime-privacy", "status": "passed" },
+    { "id": "license-token-only", "status": "passed" },
+    { "id": "refunded-license", "status": "passed" },
+    { "id": "ics-export", "status": "passed" },
+    { "id": "pdf-export", "status": "passed" },
+    { "id": "csv-export", "status": "passed" },
+    { "id": "json-export", "status": "passed" },
+    { "id": "no-household-ranking", "status": "passed" },
+    { "id": "json-restore", "status": "passed" },
+    { "id": "recurrence-bounds", "status": "passed" },
+    { "id": "due-status", "status": "passed" },
+    { "id": "completion-proof", "status": "passed" },
+    { "id": "photo-json-local", "status": "passed" },
+    { "id": "archive-retention", "status": "passed" },
+    { "id": "site-data-deletion", "status": "passed" },
+    { "id": "free-core", "status": "passed" },
+    { "id": "keyboard-calendar", "status": "passed" },
+    { "id": "photo-tier", "status": "passed" },
+    { "id": "paid-photo-cap", "status": "passed" },
+    { "id": "accessible-baseline", "status": "passed" }
+  ],
+  "claimSummary": { "passed": 27, "failed": 0, "untested": 0 },
+  "qualityGates": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "unitTests": { "passed": 17, "failed": 0 },
+    "browserTests": { "passed": 65, "failed": 0, "skipped": 3 },
+    "build": { "status": "passed", "distIndexBytes": 50348, "distIndexGzipBytes": 16180 },
+    "productionAudit": { "status": "passed", "vulnerabilities": 0 }
+  }
+}

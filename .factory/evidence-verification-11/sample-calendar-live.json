@@ -1,0 +1,88 @@
+[
+  {
+    "viewport": {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    "firstScreen": {
+      "job": {
+        "text": "See when each chore was done",
+        "visible": true,
+        "aboveFold": true
+      },
+      "audience": {
+        "text": "For households that need a clear record of when recurring work was finished.",
+        "visible": true,
+        "aboveFold": true
+      },
+      "firstAction": {
+        "text": "Try it with sample data",
+        "visible": true,
+        "aboveFold": true
+      }
+    },
+    "initial": {
+      "month": "August 2026",
+      "populatedDays": 6,
+      "completions": 7,
+      "selectedDate": "2026-08-27",
+      "sampleLabel": true
+    },
+    "changedMonth": "September 2026",
+    "reset": {
+      "month": "August 2026",
+      "populatedDays": 6,
+      "completions": 7,
+      "selectedDate": "2026-08-27",
+      "sampleLabel": true,
+      "feedback": true
+    },
+    "realStorageUnchanged": true,
+    "externalRequests": [],
+    "errors": []
+  },
+  {
+    "viewport": {
+      "name": "phone",
+      "width": 390,
+      "height": 844
+    },
+    "firstScreen": {
+      "job": {
+        "text": "See when each chore was done",
+        "visible": true,
+        "aboveFold": true
+      },
+      "audience": {
+        "text": "For households that need a clear record of when recurring work was finished.",
+        "visible": true,
+        "aboveFold": true
+      },
+      "firstAction": {
+        "text": "Try it with sample data",
+        "visible": true,
+        "aboveFold": true
+      }
+    },
+    "initial": {
+      "month": "August 2026",
+      "populatedDays": 6,
+      "completions": 7,
+      "selectedDate": "2026-08-27",
+      "sampleLabel": true
+    },
+    "changedMonth": "September 2026",
+    "reset": {
+      "month": "August 2026",
+      "populatedDays": 6,
+      "completions": 7,
+      "selectedDate": "2026-08-27",
+      "sampleLabel": true,
+      "feedback": true
+    },
+    "realStorageUnchanged": true,
+    "externalRequests": [],
+    "errors": []
+  }
+]

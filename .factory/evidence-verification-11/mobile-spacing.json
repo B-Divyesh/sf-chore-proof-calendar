@@ -1,0 +1,9 @@
+{
+  "actionGaps": [
+    { "name": "Rinse the coffee filter", "proof": { "width": 144.796875, "height": 44 }, "archive": { "width": 144.796875, "height": 44 }, "gap": 8 },
+    { "name": "Water the houseplants", "proof": { "width": 144.796875, "height": 44 }, "archive": { "width": 144.796875, "height": 44 }, "gap": 8 },
+    { "name": "Change the bed sheets", "proof": { "width": 144.796875, "height": 44 }, "archive": { "width": 144.796875, "height": 44 }, "gap": 8 },
+    { "name": "Clear the fridge shelf", "proof": { "width": 144.796875, "height": 44 }, "archive": { "width": 144.796875, "height": 44 }, "gap": 8 }
+  ],
+  "calendar": { "count": 31, "minWidth": 44, "minHeight": 48 }
+}

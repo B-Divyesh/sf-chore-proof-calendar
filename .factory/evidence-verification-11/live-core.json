@@ -1,0 +1,63 @@
+{
+  "empty": {
+    "heading": "Keep a record of every chore",
+    "message": "○No chores yetYour recurring chores will appear here with last-done and next-due dates.Add your first chore",
+    "choreCount": 0
+  },
+  "exports": {
+    "icsEvents": 2,
+    "icsUtcEvents": 2,
+    "pdfHeader": "%PDF-",
+    "pdfTerminator": true,
+    "csvLines": 3,
+    "jsonChores": 1,
+    "jsonCompletions": 2,
+    "jsonHasNote": true,
+    "jsonHasPhoto": true
+  },
+  "boundaries": {
+    "emptyNameRejected": true,
+    "zeroRejected": true,
+    "overRejected": true,
+    "accepted": true
+  },
+  "due": {
+    "beforeDone": "Due todayDaily sink wipeNo completion yetEvery 1 day · next Sep 6, 2026✓Mark doneAdd note or photoArchive",
+    "afterDone": "Due in 1 dayDaily sink wipeLast done Sep 6, 2026, 4:00 PMEvery 1 day · next Sep 7, 2026✓Mark doneAdd note or photoArchive"
+  },
+  "proof": {
+    "consentError": true,
+    "bytesError": true,
+    "dialogStayedOpen": true,
+    "noteVisible": true,
+    "photoVisible": true
+  },
+  "recovery": {
+    "message": "Backup was not imported.This backup has an invalid chore or completion. Your current calendar was not changed.",
+    "dataUnchanged": true,
+    "persistsAfterReload": true
+  },
+  "archive": {
+    "prompt": "Archive “Daily sink wipe”? Its completion history will remain in exports.",
+    "activeChores": 0,
+    "exportedChores": 1,
+    "exportedCompletions": 2,
+    "archivedFlag": true
+  },
+  "privacy": {
+    "externalRequests": [],
+    "localStorageKeys": [],
+    "sessionStorageKeys": []
+  },
+  "errors": [],
+  "demoLicenseIsolation": {
+    "storedValuesUnchanged": true,
+    "paidStateVisible": 0,
+    "verificationRequests": [],
+    "bannerVisible": true
+  },
+  "siteDataDeletion": {
+    "storedRows": 0,
+    "activeChores": 0
+  }
+}
