@@ -52,6 +52,20 @@ Local browser evidence is in `.factory/evidence-repair-10-local/`:
 - `update.json`: an isolated worker update displays its update action and
   retains the sample banner and four chores.
 
+Fresh HTTPS evidence is in `.factory/evidence-repair-10-live/`:
+
+- `response-identity.json`: the live shell, worker, manifest, 404 artifact,
+  heroes, and icons byte-match this rebuilt `dist/`; required routes return
+  200 and the designed missing route returns its expected 404. The active
+  checkout still returns its hosted 303 redirect.
+- `browser-matrix.json`: the same 14 fresh live desktop/phone route scans pass
+  with zero serious/critical Axe findings, zero console errors, no undersized
+  mobile target, and passing keyboard, privacy, offline, reduced-motion, and
+  reflow checks.
+- `sample-calendar.json` and `verify-url/verify.json`: fresh phone and desktop
+  first reads name the job, audience, and first action before scrolling; one
+  click and reset retain the populated sample label and seven completions.
+
 The plain verb-first catalog description remains in
 `.factory/catalog-description.txt` and is copied to
 `/work/.evidence/catalog-description.txt`.
@@ -59,12 +73,12 @@ The plain verb-first catalog description remains in
 ## Deployment and remaining work
 
 No runtime source or static asset changed in this repair, so the runtime
-implementation remains `da94935`; the follow-on commit contains claims,
-tests, verification evidence, and this handoff. Push the repair commit using
-the normal static-product path, then confirm the HTTPS shell still
-byte-matches the rebuilt `dist/` files and cold-open `/` and `/demo` on desktop
-and phone. No product behavior, billing offer, stored data format, or privacy
-boundary is intentionally changed.
+implementation remains `da94935`. The claims-contract repair commit
+`0dbc219f3f79b47991c9f216ef52ea4dfb04580f` was pushed through the normal
+static-product path. Its rebuilt static output byte-matches the cold HTTPS
+product, including fresh desktop and phone `/` and `/demo` checks. No product
+behavior, billing offer, stored data format, or privacy boundary is
+intentionally changed.
 
 Known product gaps: none observed. This remains a browser-only PWA with no
 product-owned backend, accounts, tenant state, or server-side persistence; the
